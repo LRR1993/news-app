@@ -53,20 +53,32 @@ class MainBar extends React.Component {
     currentTopic: 'Nothing'
   };
 
-  handleLinkClick = event => {
-    event.preventDefault();
-    // console.log(event)
-    this.setState({ currentTopic: event.target.innerText });
+  componentDidMount = () => {
+    const data = localStorage.getItem('dataTopic');
+    if (data) {
+      const topic = JSON.parse(data);
+      this.setState({ currentTopic: topic });
+    }
+  };
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState !== this.state) {
+      this.saveData();
+    }
+  };
+
+  saveData = () => {
+    localStorage.setItem('dataTopic', JSON.stringify(this.state.currentTopic));
   };
 
   handleClick = event => {
-    event.preventDefault();
-    console.log(event);
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
-    this.setState({ anchorEl: null });
+  handleClose = event => {
+    this.setState({
+      anchorEl: null,
+      currentTopic: event.nativeEvent.target.outerText
+    });
   };
 
   toggleDrawer = () => {
@@ -74,9 +86,9 @@ class MainBar extends React.Component {
   };
 
   render() {
-    // console.log('Mainbar state:', this.state);
+    console.log('Mainbar state:', this.state);
     const { classes, user, loggedIn, logout, topics } = this.props;
-    const { open, anchorEl } = this.state;
+    const { open, anchorEl, currentTopic } = this.state;
     return (
       <div>
         <AppBar position="fixed">
@@ -125,16 +137,18 @@ class MainBar extends React.Component {
                 open={Boolean(anchorEl)}
                 onClose={this.handleClose}
               >
-                <MenuItem className={classes.button} onClick={this.handleClose}>
-                  <Link href='/' underline="none">{'Nothing'}</Link>
+                <MenuItem className={classes.button}>
+                  <Link href="/" underline="none">
+                    {'Nothing'}
+                  </Link>
                 </MenuItem>
                 {topics.map(topic => (
-                  <MenuItem onChange={this.handleLinkClick}
+                  <MenuItem
                     key={topic.slug}
                     className={classes.button}
                     onClick={this.handleClose}
                   >
-                    <Link underline="none" href={`/${topic.slug}`}>
+                    <Link href={`/articles/${topic.slug}`} underline="none">
                       {topic.slug}
                     </Link>
                   </MenuItem>
@@ -192,10 +206,10 @@ class MainBar extends React.Component {
 }
 
 MainBar.propTypes = {
-  // classes: PropTypes.object.isRequired,
-  // user: PropTypes.object.isRequired,
-  // loggedIn: PropTypes.bool.isRequired,
-  // logout: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(MainBar);
