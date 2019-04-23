@@ -20,10 +20,11 @@ class Articles extends Component {
   };
   render() {
     const { articles } = this.state;
+    console.log(this.state)
     return (
       <Grid container spacing={8}>
         {articles.map(article => (
-          <Card />
+          <Card key={article.article_id} article={article}/>
         ))}
       </Grid>
     );

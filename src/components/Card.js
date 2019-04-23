@@ -21,7 +21,7 @@ const faker = require('faker');
 
 const styles = theme => ({
   card: {
-    maxWidth: 400
+    maxWidth: 475
   },
   media: {
     height: 0,
@@ -38,14 +38,14 @@ const styles = theme => ({
   learnMore: { fontFamily: theme.typography.fontFamilySecondary, marginLeft: 'auto' }
 });
 
-function MainCard({ classes}) {
-    return (
+function MainCard({ classes, article}) {
+  return (
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardHeader
               avatar={
                 <Avatar aria-label="avatar" className={classes.avatar}>
-                  R
+              {article.topic.slice(0,1).toUpperCase()}
                 </Avatar>
               }
               action={
@@ -53,7 +53,7 @@ function MainCard({ classes}) {
                   <MoreVertIcon />
                 </IconButton>
               }
-              title={faker.name.title()}
+          title={article.title}
               subheader={faker.date.month()}
             />
             <CardMedia
