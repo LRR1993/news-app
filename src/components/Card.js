@@ -9,7 +9,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid } from '@material-ui/core';
 import ThumbUp from '@material-ui/icons/ThumbUp';
@@ -39,12 +38,8 @@ const styles = theme => ({
   learnMore: { fontFamily: theme.typography.fontFamilySecondary, marginLeft: 'auto' }
 });
 
-class MainCard extends React.Component {
-  render() {
-    const { classes } = this.props;
-
+function MainCard({ classes}) {
     return (
-      <Grid container spacing={8}>
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardHeader
@@ -70,7 +65,7 @@ class MainCard extends React.Component {
               <Typography component="p">{faker.lorem.sentences()}</Typography>
             </CardContent>
             <CardActions className={classes.actions} disableActionSpacing>
-              <IconButton aria-label="favorite">
+              <IconButton aria-label="favorite" disabled>
                 <Badge
                   className={classes.margin}
                   badgeContent={10}
@@ -95,10 +90,9 @@ class MainCard extends React.Component {
             </CardActions>
           </Card>
         </Grid>
-      </Grid>
     );
   }
-}
+
 
 MainCard.propTypes = {
   classes: PropTypes.object.isRequired

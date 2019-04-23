@@ -58,7 +58,6 @@ class MainBar extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(window.location.href);
     const data = localStorage.getItem('dataTopic');
     // if (
     //   window.location.href !== 'http://localhost:3000/articles/cooking' ||
@@ -98,7 +97,6 @@ class MainBar extends React.Component {
   };
 
   render() {
-    console.log('localstorage', localStorage);
     const { classes, user, loggedIn, logout, topics } = this.props;
     const { open, anchorEl } = this.state;
     return (
