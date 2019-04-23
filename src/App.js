@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Router } from '@reach/router';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 import MainBar from './views/MainBar';
 import Drawer from './components/Drawer';
+import Card from './components/Card';
 
 const axios = require('axios');
 
@@ -32,6 +34,7 @@ class App extends Component {
     );
     return returned.data.users[5]; // remeber to change when logged in page updated
   };
+  
   logout = () => {
     this.setState(state => ({ loggedIn: !state.loggedIn, user: {} }));
   };
@@ -43,12 +46,15 @@ class App extends Component {
 
   render() {
     const { user, loggedIn, topics } = this.state;
-    // console.log('app state:', this.state);
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <MainBar user={user} loggedIn={loggedIn} logout={this.logout} topics={topics} />
         <Drawer />
+        <Router>
+          <Card path="/articles"/>
+        </Router>
+        
       </MuiThemeProvider>
     );
   }
