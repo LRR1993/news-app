@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Badge from '@material-ui/core/Badge';
 
+const { dateConverter } = require('../utils/utils');
 const faker = require('faker');
 
 const styles = theme => ({
@@ -54,21 +55,21 @@ function MainCard({ classes, article}) {
                 </IconButton>
               }
           title={article.title}
-              subheader={faker.date.month()}
+          subheader={dateConverter(article.created_at)}
             />
             <CardMedia
               className={classes.media}
               image={faker.image.image()}
               title="image"
             />
-            <CardContent>
-              <Typography component="p">{faker.lorem.sentences()}</Typography>
+        <CardContent>
+              <Typography component="p">{article.body}</Typography>
             </CardContent>
             <CardActions className={classes.actions} disableActionSpacing>
               <IconButton aria-label="favorite" disabled>
                 <Badge
                   className={classes.margin}
-                  badgeContent={10}
+                  badgeContent={article.votes}
                   color="secondary"
                 >
                   <FavoriteIcon />
