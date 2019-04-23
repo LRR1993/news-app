@@ -100,9 +100,9 @@ function MenuDrawer({ classes, toggleDrawer, open, loggedIn, logout,user }) {
 
 MenuDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  loggedIn: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  // loggedIn: PropTypes.bool.isRequired,
+  // logout: PropTypes.func.isRequired,
+  // user: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(MenuDrawer);

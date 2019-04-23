@@ -9,18 +9,31 @@ const axios = require('axios');
 
 class App extends Component {
   state = {
-    loggedIn: true,
-    user: {}
+    loggedIn: false,
+    user: {},
+    topics: [
+      {
+        "slug": "coding",
+        "description": "Code is love, code is life"
+      },
+      {
+        "slug": "football",
+        "description": "FOOTIE!"
+      },
+      {
+        "slug": "cooking",
+        "description": "Hey good looking, what you got cooking?"
+      }
+    ]
   };
   fetchuser = async () => {
     const returned = await axios.get(
       `http://nc-news-letisha.herokuapp.com/api/users`
     );
-    return returned.data.users[5];
+    return returned.data.users[5]; // remeber to change when logged in page updated
   };
   logout = () => {
-    this.setState(state => ({ loggedIn: !state.loggedIn }));
-    this.setState(state => ({ user: {} }));
+    this.setState(state => ({ loggedIn: !state.loggedIn, user: {} }));
   };
 
   componentDidMount = async () => {
@@ -29,12 +42,12 @@ class App extends Component {
   };
 
   render() {
-    const { user, loggedIn } = this.state;
-    console.log('state:', this.state);
+    const { user, loggedIn, topics } = this.state;
+    // console.log('app state:', this.state);
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <MainBar user={user} loggedIn={loggedIn} logout={this.logout} />
+        <MainBar user={user} loggedIn={loggedIn} logout={this.logout} topics={topics} />
         <Drawer />
       </MuiThemeProvider>
     );
