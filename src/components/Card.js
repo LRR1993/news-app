@@ -70,7 +70,7 @@ function MainCard({ classes, article, disabled, learnMore }) {
           <Typography component="p">{article.body}</Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <Vote vote={article.votes}/>
+          <Vote votes={article.votes} id={article.article_id} />
           {!disabled && (
             <Link
               to={`/articles/${article.article_id}`}

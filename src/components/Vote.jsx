@@ -15,27 +15,34 @@ class Vote extends Component {
 
   vote = inc_votes => {
     const { id } = this.props;
-    updateVote.vote(inc_votes, id).catch(err => console.log(err));
+    updateVote(inc_votes, id)
+      // .then(returned => console.log(returned))
+      .catch(err => console.log(err));
     this.setState(state => ({ voteChange: state.voteChange + inc_votes }));
   };
 
   render() {
-    const { article_id, comment_id, votes } = this.props;
+    const { votes } = this.props;
+    const { voteChange}=this.state
     return (
       <div>
-        <IconButton aria-label="favorite" disabled>
-          <Badge
-            // className={classes.margin}
-            badgeContent={votes}
-            color="secondary"
-          >
+        <IconButton aria-label="favorite" disabled={true}>
+          <Badge badgeContent={Number(votes) + this.state.voteChange} color="secondary">
             <FavoriteIcon />
           </Badge>
         </IconButton>
-        <IconButton aria-label="up">
+        <IconButton
+          aria-label="up"
+          onClick={() => this.vote(1)}
+          disabled={voteChange === 1 ? true : false}
+        >
           <ThumbUp />
         </IconButton>
-        <IconButton aria-label="down">
+        <IconButton
+          aria-label="down"
+          onClick={() => this.vote(-1)}
+          disabled={voteChange === -1 ? true : false}
+        >
           <ThumbDown />
         </IconButton>
       </div>
@@ -44,4 +51,4 @@ class Vote extends Component {
 }
 
 export default withStyles(styles)(Vote);
-//disabled={voteChange===1}
+
