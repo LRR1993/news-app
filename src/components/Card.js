@@ -40,7 +40,7 @@ const styles = theme => ({
     fontFamily: theme.typography.fontFamilySecondary,
     marginLeft: 'auto',
     textDecoration: 'none'
-  }
+  }, body: { fontFamily: theme.typography.fontFamilySecondary}
 });
 
 function MainCard({ classes, article, disabled, learnMore }) {
@@ -67,7 +67,7 @@ function MainCard({ classes, article, disabled, learnMore }) {
           title="image"
         />
         <CardContent>
-          <Typography component="p">{article.body}</Typography>
+          <Typography className={classes.body} component="p">{article.body}</Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Vote votes={article.votes} id={article.article_id} />

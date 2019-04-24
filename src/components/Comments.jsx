@@ -46,9 +46,9 @@ function Comments({ classes, comments }) {
   return (
     <List className={classes.root}>
       <CardContent>
-        <Grid
+        <Grid 
           container
-          spacing={2}
+          spacing={8}
           direction="row"
           justify="center"
           alignItems="center"

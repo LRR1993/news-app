@@ -16,63 +16,98 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Vote from './Vote';
+import { Grid } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
     width: '100%',
-    padding: `${theme.spacing.unit/10}px`
+    padding: `${theme.spacing.unit / 10}px`
   },
   heading: {
     backgroundColor: theme.palette.secondary.dark
   },
   secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    
+    fontSize: theme.typography.pxToRem(15)
   },
-  secondaryText:{color: theme.palette.text.secondary,},
+  secondaryText: {
+    color: theme.palette.text.secondary,
+    fontFamily: theme.typography.fontFamilySecondary
+  },
+  author: {
+    color: theme.palette.text.secondary,
+    fontFamily: theme.typography.fontFamilySecondary
+  },
   icon: {
     verticalAlign: 'bottom',
     height: 20,
-    width: 20,
+    width: 20
   },
   details: {
-    alignItems: 'center',
+    alignItems: 'center'
   },
   column: {
-    flexGrow: 1, padding: `${theme.spacing.unit * 1.5}px`, paddingBottom: 0
+    flexGrow: 1,
+    padding: `${theme.spacing.unit * 1.5}px`,
+    paddingBottom: 0,
+    paddingTop: 0, user: { verticalAlign: 'baseline'}
   },
   link: {
     color: theme.palette.primary.main,
     textDecoration: 'none',
     '&:hover': {
-      textDecoration: 'underline',
+      textDecoration: 'underline'
     }
-  }, fab: {
-    paddingTop: 0
   },
+  fab: {
+    display: 'flex',
+    paddingTop: 0,
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  user: { height: '100px',width:'80px' }
 });
 
-function MainExpansionPanel({ comment, classes}) {
+function MainExpansionPanel({ comment, classes }) {
   return (
     <div className={classes.root}>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <div className={classes.column}>
-            <Avatar alt="author" className={classes.heading}>
-              {comment.author.slice(0,1).toUpperCase()}
-            </Avatar>
+          <div className={classes.column.user}>
+            <Grid
+              className={classes.user}
+              container
+              spacing={8}
+              direction="column"
+              justify="center"
+              alignItems="center"
+              alignContent="center"
+              margin="auto"
+            >
+              <Avatar alt="author" className={classes.heading}>
+                {comment.author.slice(0, 1).toUpperCase()}
+              </Avatar>
+              <Typography className={classes.author}>
+                {comment.author}
+              </Typography>
+            </Grid>
           </div>
           <div className={classes.column}>
-            <Typography className={classes.secondaryHeading}>Comment:</Typography>
-            <Typography className={classes.secondaryText}>{comment.body}</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Comment:
+            </Typography>
+            <Typography className={classes.secondaryText}>
+              {comment.body}
+            </Typography>
           </div>
         </ExpansionPanelSummary>
         {/* <Divider /> */}
-        <ExpansionPanelActions className={classes.fab} >
-          <Fab  size="medium"color="secondary" aria-label="Edit" className={classes.fab}>
+        <ExpansionPanelActions className={classes.fab}>
+          <Vote />
+          <Fab size="medium" color="secondary" aria-label="Edit">
             <Edit />
           </Fab>
-          <Fab  size="medium" aria-label="Delete" className={classes.fab}>
+          <Fab size="medium" aria-label="Delete">
             <DeleteIcon />
           </Fab>
         </ExpansionPanelActions>
@@ -82,9 +117,7 @@ function MainExpansionPanel({ comment, classes}) {
 }
 
 MainExpansionPanel.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(MainExpansionPanel);
-
-

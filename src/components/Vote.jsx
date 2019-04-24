@@ -15,19 +15,20 @@ class Vote extends Component {
 
   vote = inc_votes => {
     const { id } = this.props;
-    updateVote(inc_votes, id)
-      // .then(returned => console.log(returned))
-      .catch(err => console.log(err));
+    updateVote(inc_votes, id).catch(err => console.log(err)); //add error handling here
     this.setState(state => ({ voteChange: state.voteChange + inc_votes }));
   };
 
   render() {
     const { votes } = this.props;
-    const { voteChange}=this.state
+    const { voteChange } = this.state;
     return (
       <div>
         <IconButton aria-label="favorite" disabled={true}>
-          <Badge badgeContent={Number(votes) + this.state.voteChange} color="secondary">
+          <Badge
+            badgeContent={votes + voteChange}
+            color="secondary"
+          >
             <FavoriteIcon />
           </Badge>
         </IconButton>
@@ -51,4 +52,3 @@ class Vote extends Component {
 }
 
 export default withStyles(styles)(Vote);
-
