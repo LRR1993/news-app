@@ -21,10 +21,15 @@ export const fetchTopic = async () => {
 
 export const fetchArticle = async articleId => {
   const {
-    data: { article }, data
+    data: { article }
   } = await axios.get(`${BASE_URL}articles/${articleId}`);
-  console.log(data)
   return article;
+};
+export const fetchComments = async articleId => {
+  const {
+    data: { comments }
+  } = await axios.get(`${BASE_URL}articles/${articleId}/comments`);
+  return comments;
 };
 
 export const fetchArticles = async () => {
