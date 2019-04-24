@@ -12,6 +12,10 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Edit from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = theme => ({
   root: {
@@ -35,25 +39,23 @@ const styles = theme => ({
     alignItems: 'center',
   },
   column: {
-    flexGrow: 1, padding: `${theme.spacing.unit*1.5}px`
-  },
-  helper: {
-    borderLeft: `2px solid ${theme.palette.divider}`,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    flexGrow: 1, padding: `${theme.spacing.unit * 1.5}px`, paddingBottom: 0
   },
   link: {
     color: theme.palette.primary.main,
     textDecoration: 'none',
     '&:hover': {
       textDecoration: 'underline',
-    },
+    }
+  }, fab: {
+    paddingTop: 0
   },
 });
 
 function MainExpansionPanel({ comment, classes}) {
   return (
     <div className={classes.root}>
-      <ExpansionPanel >
+      <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <div className={classes.column}>
             <Avatar alt="author" className={classes.heading}>
@@ -65,27 +67,14 @@ function MainExpansionPanel({ comment, classes}) {
             <Typography className={classes.secondaryText}>{comment.body}</Typography>
           </div>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.details}>
-          <div className={classes.column} />
-          <div className={classes.column}>
-            <Chip label="Barbados" className={classes.chip} onDelete={() => { }} />
-          </div>
-          <div className={classNames(classes.column, classes.helper)}>
-            <Typography variant="caption">
-              Select your destination of choice
-              <br />
-              <a href="#sub-labels-and-columns" className={classes.link}>
-                Learn more
-              </a>
-            </Typography>
-          </div>
-        </ExpansionPanelDetails>
-        <Divider />
-        <ExpansionPanelActions>
-          <Button size="small">Cancel</Button>
-          <Button size="small" color="primary">
-            Save
-          </Button>
+        {/* <Divider /> */}
+        <ExpansionPanelActions className={classes.fab} >
+          <Fab  size="medium"color="secondary" aria-label="Edit" className={classes.fab}>
+            <Edit />
+          </Fab>
+          <Fab  size="medium" aria-label="Delete" className={classes.fab}>
+            <DeleteIcon />
+          </Fab>
         </ExpansionPanelActions>
       </ExpansionPanel>
     </div>

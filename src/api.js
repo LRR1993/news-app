@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const BASE_URL = `http://nc-news-letisha.herokuapp.com/api/`;
 
-export const vote = async (inc_votes, id) => {
-  const { data } = await axios.patch(`${BASE_URL}`, {});
+export const updateVote = async(inc_votes, id) => {
+  const { data } = await axios.patch(`${BASE_URL}articles/${id}`, {inc_votes});
 };
 export const fetchUser = async () => {
   const {

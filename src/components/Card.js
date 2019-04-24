@@ -11,13 +11,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid } from '@material-ui/core';
-import ThumbUp from '@material-ui/icons/ThumbUp';
-import ThumbDown from '@material-ui/icons/ThumbDown';
-import Button from '@material-ui/core/Button';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Badge from '@material-ui/core/Badge';
-import { Link } from '@reach/router';
 
+import Button from '@material-ui/core/Button';
+
+import { Link } from '@reach/router';
+import Vote from './Vote';
 
 const { dateConverter } = require('../utils/utils');
 const faker = require('faker');
@@ -40,7 +38,8 @@ const styles = theme => ({
   },
   learnMore: {
     fontFamily: theme.typography.fontFamilySecondary,
-    marginLeft: 'auto', textDecoration: 'none'
+    marginLeft: 'auto',
+    textDecoration: 'none'
   }
 });
 
@@ -71,23 +70,10 @@ function MainCard({ classes, article, disabled, learnMore }) {
           <Typography component="p">{article.body}</Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="favorite" disabled>
-            <Badge
-              className={classes.margin}
-              badgeContent={article.votes}
-              color="secondary"
-            >
-              <FavoriteIcon />
-            </Badge>
-          </IconButton>
-          <IconButton aria-label="up">
-            <ThumbUp />
-          </IconButton>
-          <IconButton aria-label="down">
-            <ThumbDown />
-          </IconButton>
+          <Vote vote={article.votes}/>
           {!disabled && (
-            <Link to={`/articles/${article.article_id}`}
+            <Link
+              to={`/articles/${article.article_id}`}
               className={classes.learnMore}
             >
               <Button
