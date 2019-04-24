@@ -62,3 +62,7 @@ export const deleteComment = async (id) => {
   await axios.delete(`${BASE_URL}/comments/${id}`)
 }
 
+export const deleteArticle = async (id) => {
+  await axios.delete(`${BASE_URL}/articles/${id}`)
+}
+

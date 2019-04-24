@@ -10,6 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Grid } from '@material-ui/core';
 
 import Button from '@material-ui/core/Button';
@@ -18,6 +19,7 @@ import { Link } from '@reach/router';
 import Vote from './Vote';
 
 import { dateConverter } from '../utils/utils';
+import { deleteArticle } from '../api';
 const faker = require('faker');
 
 const styles = theme => ({
@@ -40,7 +42,8 @@ const styles = theme => ({
     fontFamily: theme.typography.fontFamilySecondary,
     marginLeft: 'auto',
     textDecoration: 'none'
-  }, body: { fontFamily: theme.typography.fontFamilySecondary}
+  },
+  body: { fontFamily: theme.typography.fontFamilySecondary }
 });
 
 function MainCard({ classes, article, disabled, learnMore }) {
@@ -67,11 +70,13 @@ function MainCard({ classes, article, disabled, learnMore }) {
           title="image"
         />
         <CardContent>
-          <Typography className={classes.body} component="p">{article.body}</Typography>
+          <Typography className={classes.body} component="p">
+            {article.body}
+          </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Vote votes={article.votes} id={article.article_id} />
-          {!disabled && (
+          {!disabled ? (
             <Link
               to={`/articles/${article.article_id}`}
               className={classes.learnMore}
@@ -85,6 +90,10 @@ function MainCard({ classes, article, disabled, learnMore }) {
                 Learn More
               </Button>
             </Link>
+          ) : (
+              <IconButton aria-label="Delete" className={classes.learnMore} onClick={() => deleteArticle(article.article_id)}>
+                <DeleteIcon />
+              </IconButton>
           )}
         </CardActions>
       </Card>

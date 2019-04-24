@@ -121,7 +121,7 @@ function MainExpansionPanel({ comment, classes }) {
           <div className={classes.edit}>
             <Fab
               className={classes.edit.item}
-              size="medium"
+              size="small"
               color="secondary"
               aria-label="Edit"
             >
@@ -129,7 +129,7 @@ function MainExpansionPanel({ comment, classes }) {
             </Fab>
             <Fab
               className={classes.edit.item}
-              size="medium"
+              size="small"
               aria-label="Delete"
               onClick={() => deleteComment(comment.comment_id)}
             >
