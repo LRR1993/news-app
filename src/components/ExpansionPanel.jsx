@@ -19,6 +19,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Vote from './Vote';
 import { Grid } from '@material-ui/core';
 
+import { dateConverter } from '../utils/utils';
+import { deleteComment } from '../api';
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -50,7 +53,8 @@ const styles = theme => ({
     flexGrow: 1,
     padding: `${theme.spacing.unit * 1.5}px`,
     paddingBottom: 0,
-    paddingTop: 0, user: { verticalAlign: 'baseline'}
+    paddingTop: 0,
+    user: { verticalAlign: 'baseline' }
   },
   link: {
     color: theme.palette.primary.main,
@@ -65,7 +69,14 @@ const styles = theme => ({
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
-  user: { height: '100px',width:'80px' }
+  user: { height: '100px', width: '80px' },
+  edit: {
+    display: 'flex',
+    marginLeft: 'auto',
+    justifyContent: 'space-evenly',
+    width: '140px',
+    item: { flexBasis: '50%' }
+  }
 });
 
 function MainExpansionPanel({ comment, classes }) {
@@ -94,22 +105,37 @@ function MainExpansionPanel({ comment, classes }) {
           </div>
           <div className={classes.column}>
             <Typography className={classes.secondaryHeading}>
-              Comment:
+              Created: {dateConverter(comment.created_at)}
             </Typography>
             <Typography className={classes.secondaryText}>
               {comment.body}
             </Typography>
           </div>
         </ExpansionPanelSummary>
-        {/* <Divider /> */}
         <ExpansionPanelActions className={classes.fab}>
-          <Vote />
-          <Fab size="medium" color="secondary" aria-label="Edit">
-            <Edit />
-          </Fab>
-          <Fab size="medium" aria-label="Delete">
-            <DeleteIcon />
-          </Fab>
+          <Vote
+            votes={comment.votes}
+            id={comment.comment_id}
+            comments={'comments'}
+          />
+          <div className={classes.edit}>
+            <Fab
+              className={classes.edit.item}
+              size="medium"
+              color="secondary"
+              aria-label="Edit"
+            >
+              <Edit />
+            </Fab>
+            <Fab
+              className={classes.edit.item}
+              size="medium"
+              aria-label="Delete"
+              onClick={() => deleteComment(comment.comment_id)}
+            >
+              <DeleteIcon />
+            </Fab>
+          </div>
         </ExpansionPanelActions>
       </ExpansionPanel>
     </div>

@@ -46,7 +46,7 @@ function Comments({ classes, comments }) {
   return (
     <List className={classes.root}>
       <CardContent>
-        <Grid 
+        <Grid
           container
           spacing={8}
           direction="row"
@@ -69,7 +69,6 @@ function Comments({ classes, comments }) {
             <AddIcon />
           </Fab>
         </Grid>
-
         {comments.map(comment => (
           <CommentExpansionPanel key={comment.comment_id} comment={comment} />
         ))}

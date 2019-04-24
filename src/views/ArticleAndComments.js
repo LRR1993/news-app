@@ -11,7 +11,7 @@ const styles = theme => ({
   layout: {
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
-    alignItems: 'flex-end'
+    alignItems: 'center'
   },
   loading: {
     height: 300,
@@ -30,7 +30,7 @@ class ArticleAndComments extends Component {
   componentDidMount = async () => {
     const article = await fetchArticle(this.props.article_id);
     const comments = await fetchComments(this.props.article_id);
-    this.setState({ article, comments, loading: true });
+    this.setState({ article, comments, loading: false });
   };
   render() {
     const { article, loading, comments } = this.state;
@@ -39,8 +39,8 @@ class ArticleAndComments extends Component {
       <div>
         {loading ? (
           <Grid
+          container
             className={classes.loading}
-            container
             spacing={24}
             direction="row"
             justify="center"
@@ -48,10 +48,10 @@ class ArticleAndComments extends Component {
             alignContent="flex-end"
           >
             <Grid item>
-              <Typography variant="h4" color="#00756c'">Loading</Typography>
+              <Typography variant="h4" color="primary">Loading</Typography>
             </Grid>
             <Grid item>
-              <PushSpinner size={100} color="#ff77a6" loading={loading} />
+              <PushSpinner size={100} color="#686769" loading={loading} />
             </Grid>
           </Grid>
         ) : (

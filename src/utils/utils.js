@@ -1,4 +1,4 @@
-exports.dateConverter = dateIso => {
+export const dateConverter = dateIso => {
   const date = new Date(dateIso)
   const day = date.getDate();
   const month = date.toLocaleString('en-GB', { month: 'long' })

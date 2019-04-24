@@ -17,7 +17,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from '@reach/router';
 import Vote from './Vote';
 
-const { dateConverter } = require('../utils/utils');
+import { dateConverter } from '../utils/utils';
 const faker = require('faker');
 
 const styles = theme => ({
