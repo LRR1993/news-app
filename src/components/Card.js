@@ -16,6 +16,7 @@ import ThumbDown from '@material-ui/icons/ThumbDown';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Badge from '@material-ui/core/Badge';
+import Link from '@material-ui/core/Link';
 
 const { dateConverter } = require('../utils/utils');
 const faker = require('faker');
@@ -31,69 +32,81 @@ const styles = theme => ({
   cardFont: { fontFamily: theme.typography.fontFamilySecondary },
   actions: {
     display: 'flex',
-    flexGow: 4,
+    flexGow: 4
   },
   avatar: {
     backgroundColor: theme.palette.secondary.light
   },
-  learnMore: { fontFamily: theme.typography.fontFamilySecondary, marginLeft: 'auto' }
+  learnMore: {
+    fontFamily: theme.typography.fontFamilySecondary,
+    marginLeft: 'auto'
+  }
 });
 
-function MainCard({ classes, article}) {
+function MainCard({ classes, article, disabled, learnMore }) {
   return (
-        <Grid item xs={12}>
-          <Card className={classes.card}>
-            <CardHeader
-              avatar={
-                <Avatar aria-label="avatar" className={classes.avatar}>
-              {article.topic.slice(0,1).toUpperCase()}
-                </Avatar>
-              }
-              action={
-                <IconButton>
-                  <MoreVertIcon />
-                </IconButton>
-              }
+    <Grid item>
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="avatar" className={classes.avatar}>
+              {article.topic.slice(0, 1).toUpperCase()}
+            </Avatar>
+          }
+          action={
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+          }
           title={article.title}
           subheader={dateConverter(article.created_at)}
-            />
-            <CardMedia
-              className={classes.media}
-              image={faker.image.image()}
-              title="image"
-            />
+        />
+        <CardMedia
+          className={classes.media}
+          image={faker.image.image()}
+          title="image"
+        />
         <CardContent>
-              <Typography component="p">{article.body}</Typography>
-            </CardContent>
-            <CardActions className={classes.actions} disableActionSpacing>
-              <IconButton aria-label="favorite" disabled>
-                <Badge
-                  className={classes.margin}
-                  badgeContent={article.votes}
-                  color="secondary"
-                >
-                  <FavoriteIcon />
-                </Badge>
-              </IconButton>
-              <IconButton aria-label="up">
-                <ThumbUp />
-              </IconButton>
-              <IconButton aria-label="down">
-                <ThumbDown />
-              </IconButton>
+          <Typography component="p">{article.body}</Typography>
+        </CardContent>
+        <CardActions className={classes.actions} disableActionSpacing>
+          <IconButton aria-label="favorite" disabled>
+            <Badge
+              className={classes.margin}
+              badgeContent={article.votes}
+              color="secondary"
+            >
+              <FavoriteIcon />
+            </Badge>
+          </IconButton>
+          <IconButton aria-label="up">
+            <ThumbUp />
+          </IconButton>
+          <IconButton aria-label="down">
+            <ThumbDown />
+          </IconButton>
+          {!disabled && (
+            <Link
+              variant="h6"
+              underline="none"
+              className={classes.rightLink}
+              href="/articles/1"
+            >
               <Button
+                onClick={learnMore}
                 size="small"
                 color="secondary"
                 className={classes.learnMore}
               >
                 Learn More
               </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-    );
-  }
-
+            </Link>
+          )}
+        </CardActions>
+      </Card>
+    </Grid>
+  );
+}
 
 MainCard.propTypes = {
   classes: PropTypes.object.isRequired

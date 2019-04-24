@@ -6,6 +6,8 @@ import theme from './theme';
 import MainBar from './views/MainBar';
 import Drawer from './components/Drawer';
 import Articles from './views/Articles';
+import { Grid } from '@material-ui/core';
+import ArticleAndComments from './views/ArticleAndComments';
 
 const axios = require('axios');
 
@@ -26,7 +28,7 @@ class App extends Component {
     const returned = await axios.get(
       `https://nc-news-letisha.herokuapp.com/api/topics`
     );
-    return returned.data.topics; 
+    return returned.data.topics;
   };
 
   logout = () => {
@@ -40,20 +42,50 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state)
     const { user, loggedIn, topics } = this.state;
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <MainBar user={user} loggedIn={loggedIn} logout={this.logout} topics={topics} />
+        <MainBar
+          user={user}
+          loggedIn={loggedIn}
+          logout={this.logout}
+          topics={topics}
+        />
         <Drawer />
         <Router>
-          <Articles path="/articles"/>
+          <Articles path="/articles" />
+          <ArticleAndComments path='/articles/:article_id'/>
         </Router>
-        
       </MuiThemeProvider>
     );
   }
 }
 
 export default App;
+
+{
+  /* <Grid container style={{ backgroundColor: 'green' }}>
+  <Grid container>
+    <Grid
+      item
+      xs={12}
+      style={{ backgroundColor: 'blue', height: '250px' }}
+    />
+  </Grid>
+  <Grid container>
+    <Grid
+      item
+      xs={12}
+      style={{ backgroundColor: 'grey', height: '250px' }}
+    />
+  </Grid>
+  <Grid container>
+    <Grid
+      item
+      xs={12}
+      style={{ backgroundColor: 'orange', height: '50px' }}
+    />
+  </Grid>
+</Grid> */
+}

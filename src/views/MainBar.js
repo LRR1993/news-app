@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
 import Toolbar from '../components/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,10 +13,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import { Grid } from '@material-ui/core';
+import { Link } from '@reach/router';
 
 const styles = theme => ({
   title: {
-    fontSize: 26
+    fontSize: 26,
+    fontFamily: theme.typography.fontFamily, color: theme.palette.common.white, textDecoration: 'none'
   },
   toolbar: {
     justifyContent: 'space-between'
@@ -25,7 +27,7 @@ const styles = theme => ({
     flex: 1
   },
   leftLinkActive: {
-    color: theme.palette.common.white
+    color: theme.palette.common.white, textDecoration: 'none'
   },
   right: {
     flex: 1,
@@ -35,15 +37,18 @@ const styles = theme => ({
   rightLink: {
     fontSize: 16,
     color: theme.palette.common.white,
-    marginLeft: theme.spacing.unit * 3
+    marginLeft: theme.spacing.unit * 3,
+    fontFamily: theme.typography.fontFamily, textDecoration: 'none'
   },
   linkSecondary: {
-    color: theme.palette.secondary.main
+    color: theme.palette.secondary.main,
+    fontFamily: theme.typography.fontFamily, textDecoration: 'none'
   },
   button: {
+    color: theme.palette.secondary.dark,
     margin: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    fontFamily: theme.typography.fontFamilySecondary
+    fontFamily: theme.typography.fontFamilySecondary, textDecoration: 'none'
   },
   grid: {
     height: 70
@@ -59,13 +64,6 @@ class MainBar extends React.Component {
 
   componentDidMount = () => {
     const data = localStorage.getItem('dataTopic');
-    // if (
-    //   window.location.href !== 'http://localhost:3000/articles/cooking' ||
-    //   window.location.href !== 'http://localhost:3000/articles/football' ||
-    //   window.location.href !== 'http://localhost:3000/articles/coding'
-    // ) {
-    //   this.setState({ currentTopic: 'nothing' });
-    // } else {
     if (data) {
       const topic = JSON.parse(data);
       this.setState({ currentTopic: topic });
@@ -102,7 +100,7 @@ class MainBar extends React.Component {
     return (
       <div>
         <Grid container className={classes.grid}>
-          <Grid item xs={12} >
+          <Grid item xs={12}>
             <AppBar position="fixed">
               <Toolbar className={classes.toolbar}>
                 <IconButton
@@ -114,20 +112,16 @@ class MainBar extends React.Component {
                   <MenuIcon />
                 </IconButton>
                 <Link
-                  variant="h6"
-                  underline="none"
+                  to="/articles"
                   className={classes.rightLink}
-                  href="/articles"
                 >
                   {'Articles'}
                 </Link>
                 <div className={classes.left} />
                 <Link
-                  variant="h6"
-                  underline="none"
-                  color="inherit"
+                  to="/"
+
                   className={classes.title}
-                  href="/"
                 >
                   {'Mostly About...'}
                 </Link>
@@ -153,7 +147,7 @@ class MainBar extends React.Component {
                       className={classes.button}
                       onClick={this.handleClose}
                     >
-                      <Link href="/" underline="none">
+                      <Link to="/" className={classes.button}>
                         {'nothing'}
                       </Link>
                     </MenuItem>
@@ -163,9 +157,7 @@ class MainBar extends React.Component {
                         className={classes.button}
                         onClick={this.handleClose}
                       >
-                        <Link href={`/articles/${topic.slug}`} underline="none">
-                          {topic.slug}
-                        </Link>
+                        <Link to={`/articles/${topic.slug}`} className={classes.button}>{topic.slug}</Link>
                       </MenuItem>
                     ))}
                   </Menu>
@@ -173,24 +165,24 @@ class MainBar extends React.Component {
                 <div className={classes.right}>
                   {!loggedIn ? (
                     <Link
+                      to="/sign-in"
                       color="inherit"
                       variant="h6"
                       underline="none"
                       className={classes.rightLink}
-                      href="/sign-in"
                     >
                       {'Sign In'}
                     </Link>
                   ) : null}
                   {!loggedIn ? (
                     <Link
+                      to="/sign-up"
                       variant="h6"
                       underline="none"
                       className={classNames(
                         classes.rightLink,
                         classes.linkSecondary
                       )}
-                      href="/sign-up"
                     >
                       {'Sign Up'}
                     </Link>
