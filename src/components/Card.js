@@ -16,7 +16,8 @@ import ThumbDown from '@material-ui/icons/ThumbDown';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Badge from '@material-ui/core/Badge';
-import Link from '@material-ui/core/Link';
+import { Link } from '@reach/router';
+
 
 const { dateConverter } = require('../utils/utils');
 const faker = require('faker');
@@ -39,7 +40,7 @@ const styles = theme => ({
   },
   learnMore: {
     fontFamily: theme.typography.fontFamilySecondary,
-    marginLeft: 'auto'
+    marginLeft: 'auto', textDecoration: 'none'
   }
 });
 
@@ -86,11 +87,8 @@ function MainCard({ classes, article, disabled, learnMore }) {
             <ThumbDown />
           </IconButton>
           {!disabled && (
-            <Link
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="/articles/1"
+            <Link to={`/articles/${article.article_id}`}
+              className={classes.learnMore}
             >
               <Button
                 onClick={learnMore}

@@ -17,8 +17,6 @@ class Articles extends Component {
   state = {
     articles: []
   };
-  learnMore = () => {};
-
   componentDidMount = async () => {
     const articles = await fetchArticles();
     this.setState({ articles });
@@ -34,16 +32,20 @@ class Articles extends Component {
 
   render() {
     const { articles } = this.state;
-    const { classes, topic } = this.props;
+    const { classes, currentTopic } = this.props;
     return (
       <Grid container className={classes.layout} spacing={16}>
-        {articles.map(article => (
-          <Card
-            key={article.article_id}
-            article={article}
-            learnMore={this.learnMore}
-          />
-        ))}
+        {articles.map(article =>
+          currentTopic === article.topic ||
+          currentTopic === 'everything' 
+           ? (
+            <Card
+              key={article.article_id}
+              article={article}
+              learnMore={this.learnMore}
+            />
+          ) : null
+        )}
       </Grid>
     );
   }

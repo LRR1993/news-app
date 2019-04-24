@@ -18,7 +18,6 @@ class App extends Component {
     topics: [],
     currentTopic: 'nothing',
     anchorEl: null,
-    urlArticleId: null
   };
 
   logout = () => {
@@ -42,6 +41,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state);
     const {
       user,
       loggedIn,
@@ -53,9 +53,9 @@ class App extends Component {
     const ArticlesRoutes = () => (
       <div>
         <Router>
-          <Articles path="/" />
+          <Articles path="/" currentTopic={currentTopic}/>
           <ArticleAndComments path="/:article_id" />
-          <Articles path="/topic/:topic" />
+          <Articles path="/topic/:topic" currentTopic={currentTopic}/>
         </Router>
       </div>
     );

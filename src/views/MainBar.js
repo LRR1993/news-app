@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-// import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
 import Toolbar from '../components/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -65,23 +64,6 @@ class MainBar extends React.Component {
   state = {
     open: false
   };
-
-  // componentDidMount = () => {
-  //   const data = localStorage.getItem('dataTopic');
-  //   if (data) {
-  //     const topic = JSON.parse(data);
-  //     this.setState({ currentTopic: topic });
-  //   }
-  // };
-
-  // componentDidUpdate = (prevProps, prevState) => {
-  //   if (prevState !== this.state) {
-  //     this.saveData();
-  //   }
-  // };
-  // saveData = () => {
-  //   localStorage.setItem('dataTopic', JSON.stringify(this.state.currentTopic));
-  // };
 
   toggleDrawer = () => {
     this.setState(state => ({ open: !state.open }));
@@ -231,9 +213,13 @@ MainBar.propTypes = {
   logout: PropTypes.func.isRequired,
   topics: PropTypes.array.isRequired,
   currentTopic: PropTypes.string.isRequired,
-  anchorEl: PropTypes.bool.isRequired,
+  anchorEl: PropTypes.object,
   handleMenuClick: PropTypes.func.isRequired,
   handleMenuClose: PropTypes.func.isRequired
+};
+
+MainBar.defaultProps = {
+  anchorEl: null
 };
 
 export default withStyles(styles)(MainBar);
