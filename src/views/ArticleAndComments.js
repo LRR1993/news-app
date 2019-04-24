@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import Card from '../components/Card';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-
-
-const axios = require('axios');
+import { fetchArticle } from '../api'
 
 const styles = theme => ({
   layout: {
-    backgroundColor: 'blue',
+    backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'center'
   }
@@ -31,27 +29,18 @@ class ArticleAndComments extends Component {
     articleId: +this.props.article_id
   };
 
-  fetchArticle = async () => {
-    const returned = await axios.get(
-      `https://nc-news-letisha.herokuapp.com/api/articles/${
-        this.state.articleId
-      }`
-    );
-    return returned.data.article;
-  };
   componentDidMount = async () => {
-    const article = await this.fetchArticle();
+    const article = await fetchArticle(this.articleId);
     this.setState({ article });
   };
   render() {
-    console.log(this.state);
     const { article } = this.state;
     const { classes } = this.props;
     return (
       <div>
-        <Grid container className={classes.layout} spacing={16}>
+        {<Grid container className={classes.layout} spacing={16}>
           <Card article={article} disabled='disabled'/>
-        </Grid>
+        </Grid>}
       </div>
     );
   }

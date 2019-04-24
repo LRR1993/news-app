@@ -6,43 +6,60 @@ import theme from './theme';
 import MainBar from './views/MainBar';
 import Drawer from './components/Drawer';
 import Articles from './views/Articles';
-import { Grid } from '@material-ui/core';
 import ArticleAndComments from './views/ArticleAndComments';
-
-const axios = require('axios');
+import SignIn from './views/SignIn';
+import SignUp from './views/SignUp';
+import { fetchUser, fetchTopic} from './api'
 
 class App extends Component {
   state = {
     loggedIn: false,
     user: {},
-    topics: []
-  };
-  fetchUser = async () => {
-    const returned = await axios.get(
-      `http://nc-news-letisha.herokuapp.com/api/users`
-    );
-    return returned.data.users[5]; // remeber to change when logged in page updated
-  };
-
-  fetchTopic = async () => {
-    const returned = await axios.get(
-      `https://nc-news-letisha.herokuapp.com/api/topics`
-    );
-    return returned.data.topics;
+    topics: [],
+    currentTopic: 'nothing',
+    anchorEl: null,
+    urlArticleId: null
   };
 
   logout = () => {
     this.setState(state => ({ loggedIn: !state.loggedIn, user: {} }));
   };
 
+  handleMenuClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleMenuClose = event => {
+    this.setState({
+      anchorEl: null,
+      currentTopic: event.nativeEvent.target.outerText
+    });
+  };
   componentDidMount = async () => {
-    const user = await this.fetchUser();
-    const topics = await this.fetchTopic();
+    const user = await fetchUser();
+    const topics = await fetchTopic();
     this.setState({ user, topics });
   };
 
   render() {
-    const { user, loggedIn, topics } = this.state;
+    const {
+      user,
+      loggedIn,
+      topics,
+      currentTopic,
+      anchorEl,
+    } = this.state;
+
+    const ArticlesRoutes = () => (
+      <div>
+        <Router>
+          <Articles path="/" />
+          <ArticleAndComments path="/:article_id" />
+          <Articles path="/topic/:topic" />
+        </Router>
+      </div>
+    );
+
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
@@ -51,11 +68,16 @@ class App extends Component {
           loggedIn={loggedIn}
           logout={this.logout}
           topics={topics}
+          currentTopic={currentTopic}
+          anchorEl={anchorEl}
+          handleMenuClick={this.handleMenuClick}
+          handleMenuClose={this.handleMenuClose}
         />
         <Drawer />
         <Router>
-          <Articles path="/articles" />
-          <ArticleAndComments path='/articles/:article_id'/>
+          <ArticlesRoutes path="/articles/*" />
+          <SignIn path="/signin" />
+          <SignUp path="/signup" />
         </Router>
       </MuiThemeProvider>
     );
@@ -64,28 +86,3 @@ class App extends Component {
 
 export default App;
 
-{
-  /* <Grid container style={{ backgroundColor: 'green' }}>
-  <Grid container>
-    <Grid
-      item
-      xs={12}
-      style={{ backgroundColor: 'blue', height: '250px' }}
-    />
-  </Grid>
-  <Grid container>
-    <Grid
-      item
-      xs={12}
-      style={{ backgroundColor: 'grey', height: '250px' }}
-    />
-  </Grid>
-  <Grid container>
-    <Grid
-      item
-      xs={12}
-      style={{ backgroundColor: 'orange', height: '50px' }}
-    />
-  </Grid>
-</Grid> */
-}

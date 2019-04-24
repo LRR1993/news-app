@@ -18,7 +18,9 @@ import { Link } from '@reach/router';
 const styles = theme => ({
   title: {
     fontSize: 26,
-    fontFamily: theme.typography.fontFamily, color: theme.palette.common.white, textDecoration: 'none'
+    fontFamily: theme.typography.fontFamily,
+    color: theme.palette.common.white,
+    textDecoration: 'none'
   },
   toolbar: {
     justifyContent: 'space-between'
@@ -27,7 +29,8 @@ const styles = theme => ({
     flex: 1
   },
   leftLinkActive: {
-    color: theme.palette.common.white, textDecoration: 'none'
+    color: theme.palette.common.white,
+    textDecoration: 'none'
   },
   right: {
     flex: 1,
@@ -38,17 +41,20 @@ const styles = theme => ({
     fontSize: 16,
     color: theme.palette.common.white,
     marginLeft: theme.spacing.unit * 3,
-    fontFamily: theme.typography.fontFamily, textDecoration: 'none'
+    fontFamily: theme.typography.fontFamily,
+    textDecoration: 'none'
   },
   linkSecondary: {
     color: theme.palette.secondary.main,
-    fontFamily: theme.typography.fontFamily, textDecoration: 'none'
+    fontFamily: theme.typography.fontFamily,
+    textDecoration: 'none'
   },
   button: {
     color: theme.palette.secondary.dark,
     margin: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    fontFamily: theme.typography.fontFamilySecondary, textDecoration: 'none'
+    fontFamily: theme.typography.fontFamilySecondary,
+    textDecoration: 'none'
   },
   grid: {
     height: 70
@@ -57,46 +63,44 @@ const styles = theme => ({
 
 class MainBar extends React.Component {
   state = {
-    open: false,
-    anchorEl: null,
-    currentTopic: 'nothing'
+    open: false
   };
 
-  componentDidMount = () => {
-    const data = localStorage.getItem('dataTopic');
-    if (data) {
-      const topic = JSON.parse(data);
-      this.setState({ currentTopic: topic });
-    }
-    // }
-  };
+  // componentDidMount = () => {
+  //   const data = localStorage.getItem('dataTopic');
+  //   if (data) {
+  //     const topic = JSON.parse(data);
+  //     this.setState({ currentTopic: topic });
+  //   }
+  // };
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevState !== this.state) {
-      this.saveData();
-    }
-  };
-  saveData = () => {
-    localStorage.setItem('dataTopic', JSON.stringify(this.state.currentTopic));
-  };
+  // componentDidUpdate = (prevProps, prevState) => {
+  //   if (prevState !== this.state) {
+  //     this.saveData();
+  //   }
+  // };
+  // saveData = () => {
+  //   localStorage.setItem('dataTopic', JSON.stringify(this.state.currentTopic));
+  // };
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = event => {
-    this.setState({
-      anchorEl: null,
-      currentTopic: event.nativeEvent.target.outerText
-    });
-  };
   toggleDrawer = () => {
     this.setState(state => ({ open: !state.open }));
   };
 
   render() {
-    const { classes, user, loggedIn, logout, topics } = this.props;
-    const { open, anchorEl } = this.state;
+    const {
+      classes,
+      user,
+      loggedIn,
+      logout,
+      topics,
+      currentTopic,
+      anchorEl,
+      handleMenuClick,
+      handleMenuClose
+    } = this.props;
+    const { open } = this.state;
+
     return (
       <div>
         <Grid container className={classes.grid}>
@@ -111,53 +115,59 @@ class MainBar extends React.Component {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Link
-                  to="/articles"
-                  className={classes.rightLink}
-                >
+                <Link to="/articles" className={classes.rightLink}>
                   {'Articles'}
                 </Link>
                 <div className={classes.left} />
-                <Link
-                  to="/"
-
-                  className={classes.title}
-                >
+                <Link to="/" className={classes.title}>
                   {'Mostly About...'}
                 </Link>
                 <div>
                   <Fab
                     aria-owns={anchorEl ? 'simple-menu' : undefined}
                     aria-haspopup="true"
-                    onClick={this.handleClick}
+                    onClick={handleMenuClick}
                     color="secondary"
                     variant="extended"
                     size="small"
                     className={classes.button}
                   >
-                    {this.state.currentTopic}
+                    {currentTopic}
                   </Fab>
                   <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
-                    onClose={this.handleClose}
+                    onClose={handleMenuClose}
                   >
                     <MenuItem
                       className={classes.button}
-                      onClick={this.handleClose}
+                      onClick={handleMenuClose}
                     >
                       <Link to="/" className={classes.button}>
                         {'nothing'}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem
+                      className={classes.button}
+                      onClick={handleMenuClose}
+                    >
+                      <Link to="/articles" className={classes.button}>
+                        {'everything'}
                       </Link>
                     </MenuItem>
                     {topics.map(topic => (
                       <MenuItem
                         key={topic.slug}
                         className={classes.button}
-                        onClick={this.handleClose}
+                        onClick={handleMenuClose}
                       >
-                        <Link to={`/articles/${topic.slug}`} className={classes.button}>{topic.slug}</Link>
+                        <Link
+                          to={`/articles/topic/${topic.slug}`}
+                          className={classes.button}
+                        >
+                          {topic.slug}
+                        </Link>
                       </MenuItem>
                     ))}
                   </Menu>
@@ -218,7 +228,12 @@ MainBar.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  topics: PropTypes.array.isRequired,
+  currentTopic: PropTypes.string.isRequired,
+  anchorEl: PropTypes.bool.isRequired,
+  handleMenuClick: PropTypes.func.isRequired,
+  handleMenuClose: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(MainBar);
