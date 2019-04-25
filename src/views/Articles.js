@@ -34,7 +34,7 @@ class Articles extends Component {
   render() {
     const { articles } = this.state;
     const { classes, topic, location: { pathname} } = this.props;
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <Grid container className={classes.layout} spacing={16}>
         {articles.map(article =>

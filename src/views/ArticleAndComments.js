@@ -7,6 +7,7 @@ import { fetchArticle, fetchComments } from '../api';
 import Comments from '../components/Comments';
 import { PushSpinner } from 'react-spinners-kit';
 import { navigate } from '@reach/router';
+import Loading from '../components/Loading';
 
 const styles = theme => ({
   layout: {
@@ -64,26 +65,8 @@ class ArticleAndComments extends Component {
     const { classes } = this.props;
     return (
       <div>
-        {loading ? (
-          <Grid
-            container
-            className={classes.loading}
-            spacing={24}
-            direction="row"
-            justify="center"
-            alignItems="center"
-            alignContent="flex-end"
-          >
-            <Grid item>
-              <Typography variant="h4" color="primary">
-                Loading
-              </Typography>
-            </Grid>
-            <Grid item>
-              <PushSpinner size={100} color="#686769" loading={loading} />
-            </Grid>
-          </Grid>
-        ) : (
+        {loading ? <Loading loading={loading}/>
+         : (
           <Grid container className={classes.layout} spacing={16}>
             <Card
               article={article}

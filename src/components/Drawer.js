@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,6 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Close from '@material-ui/icons/Close';
+import { AuthConsumer } from './Auth';
 
 const styles = theme => ({
   root: {
@@ -34,54 +35,9 @@ const styles = theme => ({
   logo: { textIndent: '-30px' },
 });
 
-function MenuDrawer({ classes, toggleDrawer, open, loggedIn, logout,user }) {
-  const sideList = (
-    <div className={classes.list}>
-      <List>
-        <ListItem alignItems="flex-start">
-          <ListItemIcon className={classes.inline}>
-            <img src={require('../images/favicon-32x32.png')} alt="logo" />
-          </ListItemIcon>
-          <ListItemText className={classes.logo} primary="ostly" />
-          <ListItemIcon className={classes.exit}>
-            <Close />
-          </ListItemIcon>
-        </ListItem>
-        <Divider />
-        <br />
-        {loggedIn ? (
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src={user.avatar_url} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={user.name}
-              secondary={
-                <Typography
-                  component="span"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  {user.username}
-                </Typography>
-              }
-            />
-          </ListItem>
-        ) : null}
-      </List>
-      {loggedIn ? (
-        <List className={classes.bottom}>
-          <ListItem button onClick={logout}>
-            <ListItemIcon>
-              <ExitToApp />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
-        </List>
-      ) : null}
-    </div>
-  );
-
+function MenuDrawer({ classes, toggleDrawer, open }) {
+  const { isAuth, login, logout, user} = useContext(AuthConsumer)
+  // console.log(user)
   return (
     <div>
       <Drawer open={open} onClose={toggleDrawer}>
@@ -91,7 +47,50 @@ function MenuDrawer({ classes, toggleDrawer, open, loggedIn, logout,user }) {
           onClick={toggleDrawer}
           onKeyDown={toggleDrawer}
         >
-          {sideList}
+          <div className={classes.list}>
+            <List>
+              <ListItem alignItems="flex-start">
+                <ListItemIcon className={classes.inline}>
+                  <img src={require('../images/favicon-32x32.png')} alt="logo" />
+                </ListItemIcon>
+                <ListItemText className={classes.logo} primary="ostly" />
+                <ListItemIcon className={classes.exit}>
+                  <Close />
+                </ListItemIcon>
+              </ListItem>
+              <Divider />
+              <br />
+              {isAuth ? (
+                <ListItem alignItems="flex-start">
+                  <ListItemAvatar>
+                    <Avatar alt="Remy Sharp" src={user.avatar_url} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={user.name}
+                    secondary={
+                      <Typography
+                        component="span"
+                        className={classes.inline}
+                        color="textPrimary"
+                      >
+                        {user.username}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ) : null}
+            </List>
+            {isAuth ? (
+              <List className={classes.bottom}>
+                <ListItem button onClick={logout}>
+                  <ListItemIcon>
+                    <ExitToApp />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItem>
+              </List>
+            ) : null}
+          </div>
         </div>
       </Drawer>
     </div>

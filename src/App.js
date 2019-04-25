@@ -9,28 +9,21 @@ import Articles from './views/Articles';
 import ArticleAndComments from './views/ArticleAndComments';
 import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
-import { fetchUser, fetchTopic } from './api';
+import { fetchTopic } from './api';
 import { AuthProvider } from './components/Auth';
 
 class App extends Component {
   state = {
-    loggedIn: false,
-    user: {},
     topics: []
   };
 
-  logout = () => {
-    this.setState(state => ({ loggedIn: !state.loggedIn, user: {} }));
-  };
-
   componentDidMount = async () => {
-    const user = await fetchUser();
     const topics = await fetchTopic();
-    this.setState({ user, topics });
+    this.setState({ topics });
   };
 
   render() {
-    const { user, loggedIn, topics } = this.state;
+    const { topics } = this.state;
 
     const ArticlesRoutes = () => (
       <div>
@@ -44,12 +37,9 @@ class App extends Component {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <AuthProvider>
           <CssBaseline />
+        <AuthProvider>
           <MainBar
-            user={user}
-            loggedIn={loggedIn}
-            logout={this.logout}
             topics={topics}
           />
           <Drawer />
