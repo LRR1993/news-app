@@ -21,6 +21,7 @@ import { Grid } from '@material-ui/core';
 
 import { dateConverter } from '../utils/utils';
 import { deleteComment } from '../api';
+import SnackBar from './SnackBar';
 
 const styles = theme => ({
   root: {
@@ -79,7 +80,7 @@ const styles = theme => ({
   }
 });
 
-function MainExpansionPanel({ comment, classes }) {
+function MainExpansionPanel({ comment, classes, handleDelete, snackbarClose, snackbar }) {
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -127,14 +128,7 @@ function MainExpansionPanel({ comment, classes }) {
             >
               <Edit />
             </Fab>
-            <Fab
-              className={classes.edit.item}
-              size="small"
-              aria-label="Delete"
-              onClick={() => deleteComment(comment.comment_id)}
-            >
-              <DeleteIcon />
-            </Fab>
+            <SnackBar data={comment} id={comment.comment_id} handleDelete={handleDelete} api={deleteComment} snackbarClose={snackbarClose} snackbar={snackbar}/>
           </div>
         </ExpansionPanelActions>
       </ExpansionPanel>
@@ -143,7 +137,10 @@ function MainExpansionPanel({ comment, classes }) {
 }
 
 MainExpansionPanel.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  snackbar: PropTypes.bool.isRequired
+  
 };
 
 export default withStyles(styles)(MainExpansionPanel);

@@ -42,7 +42,8 @@ const styles = theme => ({
   }
 });
 
-function Comments({ classes, comments }) {
+function Comments({ classes, comments, handleDelete, snackbar, snackbarClose }) {
+  // console.log('snackbar?', snackbar)
   return (
     <List className={classes.root}>
       <CardContent>
@@ -70,7 +71,7 @@ function Comments({ classes, comments }) {
           </Fab>
         </Grid>
         {comments.map(comment => (
-          <CommentExpansionPanel key={comment.comment_id} comment={comment} />
+          <CommentExpansionPanel key={comment.comment_id} comment={comment} handleDelete={handleDelete} snackbar={snackbar} snackbarClose={snackbarClose} />
         ))}
       </CardContent>
     </List>

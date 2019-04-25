@@ -24,7 +24,30 @@ class ArticleAndComments extends Component {
   state = {
     article: {},
     loading: true,
-    comments: []
+    comments: [],
+    snackbar: false
+  };
+
+  snackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ snackbar: false });
+  };
+  snackbarOpen = () => {
+    this.setState({ snackbar: true });
+  };
+
+  handleDelete = id => {
+    const updatedComments = this.state.comments.filter(
+      comment => comment.comment_id !== id
+    );
+    this.setState({ comments: updatedComments });
+    this.snackbarOpen()
+  };
+
+  handleArticleDelete = () => {
+    this.setState({ article: {} });
   };
 
   componentDidMount = async () => {
@@ -33,13 +56,14 @@ class ArticleAndComments extends Component {
     this.setState({ article, comments, loading: false });
   };
   render() {
-    const { article, loading, comments } = this.state;
+    console.log('state', this.state)
+    const { article, loading, comments, snackbar } = this.state;
     const { classes } = this.props;
     return (
       <div>
         {loading ? (
           <Grid
-          container
+            container
             className={classes.loading}
             spacing={24}
             direction="row"
@@ -48,7 +72,9 @@ class ArticleAndComments extends Component {
             alignContent="flex-end"
           >
             <Grid item>
-              <Typography variant="h4" color="primary">Loading</Typography>
+              <Typography variant="h4" color="primary">
+                Loading
+              </Typography>
             </Grid>
             <Grid item>
               <PushSpinner size={100} color="#686769" loading={loading} />
@@ -56,8 +82,17 @@ class ArticleAndComments extends Component {
           </Grid>
         ) : (
           <Grid container className={classes.layout} spacing={16}>
-            <Card article={article} disabled="disabled" />
-            <Comments comments={comments} />
+            <Card
+              article={article}
+              handleArticleDelete={this.handleArticleDelete}
+              disabled="disabled"
+            />
+            <Comments
+              comments={comments}
+              handleDelete={this.handleDelete}
+              snackbar={snackbar}
+              snackbarClose={this.snackbarClose}
+            />
           </Grid>
         )}
       </div>

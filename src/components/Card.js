@@ -20,6 +20,7 @@ import Vote from './Vote';
 
 import { dateConverter } from '../utils/utils';
 import { deleteArticle } from '../api';
+import SnackBar from './SnackBar';
 const faker = require('faker');
 
 const styles = theme => ({
@@ -46,7 +47,7 @@ const styles = theme => ({
   body: { fontFamily: theme.typography.fontFamilySecondary }
 });
 
-function MainCard({ classes, article, disabled, learnMore }) {
+function MainCard({ classes, article, disabled, learnMore, handleArticleDelete }) {
   return (
     <Grid item>
       <Card className={classes.card}>
@@ -91,9 +92,7 @@ function MainCard({ classes, article, disabled, learnMore }) {
               </Button>
             </Link>
           ) : (
-              <IconButton aria-label="Delete" className={classes.learnMore} onClick={() => deleteArticle(article.article_id)}>
-                <DeleteIcon />
-              </IconButton>
+              <SnackBar handleDelete={handleArticleDelete} article={article}/>
           )}
         </CardActions>
       </Card>
