@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import CommentExpansionPanel from './ExpansionPanel';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { AuthConsumer } from './Auth';
+import { AuthConsumer } from '../context';
 
 const styles = theme => ({
   root: {

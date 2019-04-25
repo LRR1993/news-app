@@ -18,7 +18,7 @@ import Edit from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Vote from './Vote';
 import { Grid } from '@material-ui/core';
-import { AuthConsumer } from './Auth';
+import { AuthConsumer } from '../context';
 import { dateConverter } from '../utils/utils';
 import { deleteComment } from '../api';
 import SnackBar from './SnackBar';

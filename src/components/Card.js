@@ -21,7 +21,7 @@ import Vote from './Vote';
 import { dateConverter } from '../utils/utils';
 import { deleteArticle } from '../api';
 import SnackBar from './SnackBar';
-import { AuthConsumer } from './Auth';
+import { AuthConsumer } from '../context'
 const faker = require('faker');
 
 const styles = theme => ({

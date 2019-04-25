@@ -10,7 +10,7 @@ import ArticleAndComments from './views/ArticleAndComments';
 import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
 import { fetchTopic } from './api';
-import { AuthProvider } from './components/Auth';
+import AuthProvider from './components/Auth';
 
 class App extends Component {
   state = {

@@ -5,26 +5,26 @@ import Badge from '@material-ui/core/Badge';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import IconButton from '@material-ui/core/IconButton';
-import { AuthConsumer } from './Auth';
-
+import { AuthConsumer } from '../context';
 import { updateVote } from '../api';
 
 const styles = theme => ({});
 
 class Vote extends Component {
   state = { voteChange: 0 };
-
+  
   vote = inc_votes => {
     const { id, comments } = this.props;
     updateVote(inc_votes, id, comments).catch(err => console.log(err)); //add error handling here
     this.setState(state => ({ voteChange: state.voteChange + inc_votes }));
   };
-  static contextType = AuthConsumer
+
+  static contextType = AuthConsumer;
 
   render() {
     const { votes } = this.props;
     const { voteChange } = this.state;
-    let { isAuth } = this.context
+    let { isAuth } = this.context;
     return (
       <div>
         <IconButton aria-label="favorite" disabled={true}>
@@ -32,25 +32,27 @@ class Vote extends Component {
             <FavoriteIcon />
           </Badge>
         </IconButton>
-        {isAuth ? 
+        {isAuth ? (
           <div>
-        <IconButton
-          aria-label="up"
-          onClick={() => this.vote(1)}
-          disabled={voteChange === 1 ? true : false}
-        >
-          <ThumbUp />
-        </IconButton>
-        <IconButton
-          aria-label="down"
-          onClick={() => this.vote(-1)}
-          disabled={voteChange === -1 ? true : false}
-        >
-          <ThumbDown />
-            </IconButton> </div>: null}
+            <IconButton
+              aria-label="up"
+              onClick={() => this.vote(1)}
+              disabled={voteChange === 1 ? true : false}
+            >
+              <ThumbUp />
+            </IconButton>
+            <IconButton
+              aria-label="down"
+              onClick={() => this.vote(-1)}
+              disabled={voteChange === -1 ? true : false}
+            >
+              <ThumbDown />
+            </IconButton>
+          </div>
+        ) : null}
       </div>
     );
   }
 }
-
+// Vote.contextType = AuthConsumer;
 export default withStyles(styles)(Vote);

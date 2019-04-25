@@ -1,12 +1,10 @@
 import React from 'react';
 import { fetchUser } from '../api';
 import Loading from './Loading';
-
-
-const AuthContext = React.createContext();
+import { AuthConsumer } from '../context'
 
 class AuthProvider extends React.Component {
-  state = { isAuth: false, user: {}, loading: true };
+  state = { isAuth: true, user: {}, loading: true };
 
   componentDidMount = async () => {
     const user = await fetchUser();
@@ -25,18 +23,18 @@ class AuthProvider extends React.Component {
     // console.log(this.state)
     const { children } = this.props;
     return (
-      <AuthContext.Provider
+      <AuthConsumer.Provider
         value={{
           isAuth: this.state.isAuth,
           login: this.login,
-          logout: this.logout, user:this.state.user
+          logout: this.logout,
+          user: this.state.user
         }}
       >
-        {this.state.loading ? <Loading  /> : children }
-      </AuthContext.Provider>
+        {this.state.loading ? <Loading /> : children}
+      </AuthConsumer.Provider>
     );
   }
 }
-const AuthConsumer = AuthContext;
 
-export { AuthProvider, AuthConsumer };
+export default AuthProvider;

@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import { Grid } from '@material-ui/core';
 import { Link } from '@reach/router';
-import { AuthConsumer } from '../components/Auth';
+import { AuthConsumer } from '../context';
 
 const styles = theme => ({
   title: {
@@ -82,122 +82,122 @@ class MainBar extends React.Component {
       currentTopic: event.nativeEvent.target.outerText
     });
   };
-  static contextType = AuthConsumer
+  static contextType = AuthConsumer;
 
   render() {
-  const { classes, topics } = this.props;
-  const { open, anchorEl, currentTopic } = this.state;
-  const { isAuth, login, logout, user } =this.context
+    const { classes, topics } = this.props;
+    const { open, anchorEl, currentTopic } = this.state;
+    const { isAuth, logout } = this.context;
+    // console.log(this.context)
+
     return (
-          <div>
-            <Grid container className={classes.grid}>
-              <Grid item xs={12}>
-                <AppBar position="fixed">
-                  <Toolbar className={classes.toolbar}>
-                    <IconButton
-                      className={classes.menuButton}
-                      color="inherit"
-                      aria-label="Menu"
-                      onClick={this.toggleDrawer}
-                    >
-                      <MenuIcon />
-                    </IconButton>
-                    <Link to="/articles" className={classes.rightLink}>
-                      {'Articles'}
+      <div>
+        <Grid container className={classes.grid}>
+          <Grid item xs={12}>
+            <AppBar position="fixed">
+              <Toolbar className={classes.toolbar}>
+                <IconButton
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="Menu"
+                  onClick={this.toggleDrawer}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Link to="/articles" className={classes.rightLink}>
+                  {'Articles'}
+                </Link>
+                <div className={classes.left} />
+                <Link to="/" className={classes.title}>
+                  {'Mostly About...'}
+                </Link>
+                <Fab
+                  aria-owns={anchorEl ? 'simple-menu' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleMenuClick}
+                  color="secondary"
+                  variant="extended"
+                  size="small"
+                  className={classes.button}
+                >
+                  {currentTopic || 'eveything'}
+                </Fab>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={this.handleMenuClose}
+                >
+                  <MenuItem
+                    className={classes.button}
+                    onClick={this.handleMenuClose}
+                  >
+                    <Link to="/articles" className={classes.button}>
+                      {'everything'}
                     </Link>
-                    <div className={classes.left} />
-                    <Link to="/" className={classes.title}>
-                      {'Mostly About...'}
-                    </Link>
-                    <Fab
-                      aria-owns={anchorEl ? 'simple-menu' : undefined}
-                      aria-haspopup="true"
-                      onClick={this.handleMenuClick}
-                      color="secondary"
-                      variant="extended"
-                      size="small"
+                  </MenuItem>
+                  {topics.map(topic => (
+                    <MenuItem
+                      key={topic.slug}
                       className={classes.button}
+                      onClick={this.handleMenuClose}
                     >
-                      {currentTopic || 'eveything'}
-                    </Fab>
-                    <Menu
-                      id="simple-menu"
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={this.handleMenuClose}
-                    >
-                      <MenuItem
+                      <Link
+                        to={`/articles/topic/${topic.slug}`}
                         className={classes.button}
-                        onClick={this.handleMenuClose}
                       >
-                        <Link to="/articles" className={classes.button}>
-                          {'everything'}
-                        </Link>
-                      </MenuItem>
-                      {topics.map(topic => (
-                        <MenuItem
-                          key={topic.slug}
-                          className={classes.button}
-                          onClick={this.handleMenuClose}
-                        >
-                          <Link
-                            to={`/articles/topic/${topic.slug}`}
-                            className={classes.button}
-                          >
-                            {topic.slug}
-                          </Link>
-                        </MenuItem>
-                      ))}
-                    </Menu>
-                    <div />
-                    <div className={classes.right}>
-                      {!isAuth ? (
-                        <Link
-                          to="/sign-in"
-                          color="inherit"
-                          variant="h6"
-                          underline="none"
-                          className={classes.rightLink}
-                        >
-                          {'Sign In'}
-                        </Link>
-                      ) : null}
-                      {!isAuth ? (
-                        <Link
-                          to="/sign-up"
-                          variant="h6"
-                          underline="none"
-                          className={classNames(
-                            classes.rightLink,
-                            classes.linkSecondary
-                          )}
-                        >
-                          {'Sign Up'}
-                        </Link>
-                      ) : (
-                          <IconButton
-                            color="inherit"
-                            aria-label="Logout"
-                            onClick={logout}
-                          >
-                            <ExitToApp />
-                          </IconButton>
-                        )}
-                    </div>
-                  </Toolbar>
-                </AppBar>
-                {this.state.open ? (
-                  <Drawer
-                    open={open}
-                    toggleDrawer={this.toggleDrawer}
-                  />
-                ) : null}
-              </Grid>
-            </Grid>
-          </div>)
+                        {topic.slug}
+                      </Link>
+                    </MenuItem>
+                  ))}
+                </Menu>
+                <div />
+                <div className={classes.right}>
+                  {!isAuth ? (
+                    <Link
+                      to="/sign-in"
+                      color="inherit"
+                      variant="h6"
+                      underline="none"
+                      className={classes.rightLink}
+                    >
+                      {'Sign In'}
+                    </Link>
+                  ) : null}
+                  {!isAuth ? (
+                    <Link
+                      to="/sign-up"
+                      variant="h6"
+                      underline="none"
+                      className={classNames(
+                        classes.rightLink,
+                        classes.linkSecondary
+                      )}
+                    >
+                      {'Sign Up'}
+                    </Link>
+                  ) : (
+                    <IconButton
+                      color="inherit"
+                      aria-label="Logout"
+                      onClick={logout}
+                    >
+                      <ExitToApp />
+                    </IconButton>
+                  )}
+                </div>
+              </Toolbar>
+            </AppBar>
+            {this.state.open ? (
+              <Drawer open={open} toggleDrawer={this.toggleDrawer} />
+            ) : null}
+          </Grid>
+        </Grid>
+      </div>
+    );
   }
 }
-  
+
 MainBar.propTypes = {
   classes: PropTypes.object.isRequired,
   topics: PropTypes.array.isRequired

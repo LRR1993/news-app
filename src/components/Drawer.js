@@ -12,7 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Close from '@material-ui/icons/Close';
-import { AuthConsumer } from './Auth';
+import { AuthConsumer } from '../context';
 
 const styles = theme => ({
   root: {
