@@ -1,30 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Auth extends Component {
-  
-  state = { username: '' };
+const AuthContext = React.createContext();
 
-  handleSubmit = e => {
-    e.preventDefault();
-  };
-  handleChange = e => {
-    const { id, value } = e.target;
-    this.setState({ [id]: value });
-  };
+class AuthProvider extends React.Component {
+  state = { isAuth: false };
+
+  login() {
+    setTimeout(() => this.setState({ isAuth: true }), 1000);
+  }
+  logout() {
+    this.setState({ isAuth: false });
+  }
+
   render() {
-    const { username } = this.state;
-    const { user, children } = this.props;
-
+    const { children } = this.props;
     return (
-    <div>
-      {user? children :<form>
-        <label>Username:</label>
-        <input value={username} onChange={this.handleChange} id={username} />
-        <button type="submit" onsubmit={this.handleSubmit} />
-        </form>}
-      </div>
+      <AuthContext.Provider value={{ isAuth: this.state.isAuth }}>
+        {children}
+      </AuthContext.Provider>
     );
   }
 }
+const AuthConsumer = AuthContext.Consumer;
 
-export default Auth;
+export { AuthProvider, AuthConsumer };

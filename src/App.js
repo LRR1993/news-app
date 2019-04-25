@@ -9,13 +9,14 @@ import Articles from './views/Articles';
 import ArticleAndComments from './views/ArticleAndComments';
 import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
-import { fetchUser, fetchTopic} from './api'
+import { fetchUser, fetchTopic } from './api';
+import { AuthProvider } from './components/Auth';
 
 class App extends Component {
   state = {
     loggedIn: false,
     user: {},
-    topics: [],
+    topics: []
   };
 
   logout = () => {
@@ -29,12 +30,7 @@ class App extends Component {
   };
 
   render() {
-    const {
-      user,
-      loggedIn,
-      topics,
-      anchorEl,
-    } = this.state;
+    const { user, loggedIn, topics } = this.state;
 
     const ArticlesRoutes = () => (
       <div>
@@ -48,23 +44,24 @@ class App extends Component {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <MainBar
-          user={user}
-          loggedIn={loggedIn}
-          logout={this.logout}
-          topics={topics}
-        />
-        <Drawer />
-        <Router>
-          <ArticlesRoutes path="/articles/*" />
-          <SignIn path="/signin" />
-          <SignUp path="/signup" />
-        </Router>
+        <AuthProvider>
+          <CssBaseline />
+          <MainBar
+            user={user}
+            loggedIn={loggedIn}
+            logout={this.logout}
+            topics={topics}
+          />
+          <Drawer />
+          <Router>
+            <ArticlesRoutes path="/articles/*" />
+            <SignIn path="/signin" />
+            <SignUp path="/signup" />
+          </Router>
+        </AuthProvider>
       </MuiThemeProvider>
     );
   }
 }
 
 export default App;
-
