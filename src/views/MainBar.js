@@ -22,10 +22,11 @@ const styles = theme => ({
     textDecoration: 'none'
   },
   toolbar: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-evenly'
   },
   left: {
-    flex: 1
+    flexGrow: 1,
+    justifyContent: 'center'
   },
   leftLinkActive: {
     color: theme.palette.common.white,
@@ -39,7 +40,7 @@ const styles = theme => ({
   rightLink: {
     fontSize: 16,
     color: theme.palette.common.white,
-    marginLeft: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 2,
     fontFamily: theme.typography.fontFamily,
     textDecoration: 'none'
   },
@@ -62,27 +63,28 @@ const styles = theme => ({
 
 class MainBar extends React.Component {
   state = {
-    open: false
+    open: false,
+    anchorEl: null,
+    currentTopic: 'everything'
+  };
+  handleMenuClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
   };
 
   toggleDrawer = () => {
     this.setState(state => ({ open: !state.open }));
   };
 
-  render() {
-    const {
-      classes,
-      user,
-      loggedIn,
-      logout,
-      topics,
-      currentTopic,
-      anchorEl,
-      handleMenuClick,
-      handleMenuClose
-    } = this.props;
-    const { open } = this.state;
+  handleMenuClose = event => {
+    this.setState({
+      anchorEl: null,
+      currentTopic: event.nativeEvent.target.outerText
+    });
+  };
 
+  render() {
+    const { classes, user, loggedIn, logout, topics } = this.props;
+    const { open, anchorEl, currentTopic } = this.state;
     return (
       <div>
         <Grid container className={classes.grid}>
@@ -104,56 +106,47 @@ class MainBar extends React.Component {
                 <Link to="/" className={classes.title}>
                   {'Mostly About...'}
                 </Link>
-                <div>
-                  <Fab
-                    aria-owns={anchorEl ? 'simple-menu' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleMenuClick}
-                    color="secondary"
-                    variant="extended"
-                    size="small"
+                <Fab
+                  aria-owns={anchorEl ? 'simple-menu' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleMenuClick}
+                  color="secondary"
+                  variant="extended"
+                  size="small"
+                  className={classes.button}
+                >
+                  {currentTopic || 'eveything'}
+                </Fab>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={this.handleMenuClose}
+                >
+                  <MenuItem
                     className={classes.button}
+                    onClick={this.handleMenuClose}
                   >
-                    {currentTopic}
-                  </Fab>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleMenuClose}
-                  >
+                    <Link to="/articles" className={classes.button}>
+                      {'everything'}
+                    </Link>
+                  </MenuItem>
+                  {topics.map(topic => (
                     <MenuItem
+                      key={topic.slug}
                       className={classes.button}
-                      onClick={handleMenuClose}
+                      onClick={this.handleMenuClose}
                     >
-                      <Link to="/" className={classes.button}>
-                        {'nothing'}
-                      </Link>
-                    </MenuItem>
-                    <MenuItem
-                      className={classes.button}
-                      onClick={handleMenuClose}
-                    >
-                      <Link to="/articles" className={classes.button}>
-                        {'everything'}
-                      </Link>
-                    </MenuItem>
-                    {topics.map(topic => (
-                      <MenuItem
-                        key={topic.slug}
+                      <Link
+                        to={`/articles/topic/${topic.slug}`}
                         className={classes.button}
-                        onClick={handleMenuClose}
                       >
-                        <Link
-                          to={`/articles/topic/${topic.slug}`}
-                          className={classes.button}
-                        >
-                          {topic.slug}
-                        </Link>
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </div>
+                        {topic.slug}
+                      </Link>
+                    </MenuItem>
+                  ))}
+                </Menu>
+                <div />
                 <div className={classes.right}>
                   {!loggedIn ? (
                     <Link
@@ -211,11 +204,7 @@ MainBar.propTypes = {
   user: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
-  topics: PropTypes.array.isRequired,
-  currentTopic: PropTypes.string.isRequired,
-  anchorEl: PropTypes.object,
-  handleMenuClick: PropTypes.func.isRequired,
-  handleMenuClose: PropTypes.func.isRequired
+  topics: PropTypes.array.isRequired
 };
 
 MainBar.defaultProps = {

@@ -16,24 +16,12 @@ class App extends Component {
     loggedIn: false,
     user: {},
     topics: [],
-    currentTopic: 'nothing',
-    anchorEl: null,
   };
 
   logout = () => {
     this.setState(state => ({ loggedIn: !state.loggedIn, user: {} }));
   };
 
-  handleMenuClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleMenuClose = event => {
-    this.setState({
-      anchorEl: null,
-      currentTopic: event.nativeEvent.target.outerText
-    });
-  };
   componentDidMount = async () => {
     const user = await fetchUser();
     const topics = await fetchTopic();
@@ -45,16 +33,15 @@ class App extends Component {
       user,
       loggedIn,
       topics,
-      currentTopic,
       anchorEl,
     } = this.state;
 
     const ArticlesRoutes = () => (
       <div>
         <Router>
-          <Articles path="/" currentTopic={currentTopic}/>
+          <Articles path="/" />
           <ArticleAndComments path="/:article_id" />
-          <Articles path="/topic/:topic" currentTopic={currentTopic}/>
+          <Articles path="/topic/:topic" />
         </Router>
       </div>
     );
@@ -67,10 +54,6 @@ class App extends Component {
           loggedIn={loggedIn}
           logout={this.logout}
           topics={topics}
-          currentTopic={currentTopic}
-          anchorEl={anchorEl}
-          handleMenuClick={this.handleMenuClick}
-          handleMenuClose={this.handleMenuClose}
         />
         <Drawer />
         <Router>

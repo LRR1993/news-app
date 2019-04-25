@@ -6,21 +6,23 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { Link } from '@reach/router';
-import { deleteArticle } from '../api';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 
 const styles = theme => ({
   close: {
     padding: theme.spacing.unit / 2
-  }
+  }, learnMore: {
+    fontFamily: theme.typography.fontFamilySecondary,
+    marginLeft: 'auto',
+    textDecoration: 'none'
+  },
 });
 
 function DeleteSnackBar({ classes, data, handleDelete, api, id, snackbar=false, snackbarClose }) {
     return (
       <div>
         <Fab
-          className={classes.learnMore}
           size="small"
           aria-label="Delete"
           onClick={() => {

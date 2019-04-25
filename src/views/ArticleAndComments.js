@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { fetchArticle, fetchComments } from '../api';
 import Comments from '../components/Comments';
 import { PushSpinner } from 'react-spinners-kit';
+import { navigate } from '@reach/router';
 
 const styles = theme => ({
   layout: {
@@ -43,11 +44,13 @@ class ArticleAndComments extends Component {
       comment => comment.comment_id !== id
     );
     this.setState({ comments: updatedComments });
-    this.snackbarOpen()
+    this.snackbarOpen();
   };
 
   handleArticleDelete = () => {
-    this.setState({ article: {} });
+    this.snackbarOpen();
+    setTimeout(()=> navigate('/articles', { replace: true }),2000)
+    
   };
 
   componentDidMount = async () => {
@@ -56,7 +59,7 @@ class ArticleAndComments extends Component {
     this.setState({ article, comments, loading: false });
   };
   render() {
-    console.log('state', this.state)
+    // console.log('state', this.state)
     const { article, loading, comments, snackbar } = this.state;
     const { classes } = this.props;
     return (
@@ -85,6 +88,8 @@ class ArticleAndComments extends Component {
             <Card
               article={article}
               handleArticleDelete={this.handleArticleDelete}
+              snackbar={snackbar}
+              snackbarClose={this.snackbarClose}
               disabled="disabled"
             />
             <Comments

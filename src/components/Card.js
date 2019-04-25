@@ -44,10 +44,23 @@ const styles = theme => ({
     marginLeft: 'auto',
     textDecoration: 'none'
   },
-  body: { fontFamily: theme.typography.fontFamilySecondary }
+  body: { fontFamily: theme.typography.fontFamilySecondary },
+  delete: {
+    marginLeft: 'auto',
+    paddingRight: '10px',
+    paddingBottom: '5px'
+  }
 });
 
-function MainCard({ classes, article, disabled, learnMore, handleArticleDelete }) {
+function MainCard({
+  classes,
+  article,
+  disabled,
+  learnMore,
+  handleArticleDelete,
+  snackbar,
+  snackbarClose
+}) {
   return (
     <Grid item>
       <Card className={classes.card}>
@@ -92,7 +105,16 @@ function MainCard({ classes, article, disabled, learnMore, handleArticleDelete }
               </Button>
             </Link>
           ) : (
-              <SnackBar handleDelete={handleArticleDelete} article={article}/>
+            <div className={classes.delete}>
+              <SnackBar
+                data={article}
+                id={article.article_id}
+                handleDelete={handleArticleDelete}
+                api={deleteArticle}
+                snackbarClose={snackbarClose}
+                snackbar={snackbar}
+              />
+            </div>
           )}
         </CardActions>
       </Card>
