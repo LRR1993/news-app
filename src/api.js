@@ -11,7 +11,9 @@ export const updateVote = async (inc_votes, id, comments) => {
   } else {
     const {
       data: { comment }
-    } = await axios.patch(`${BASE_URL}${comments}/${id}`, { inc_votes });
+    } = await axios
+      .patch(`${BASE_URL}${comments}/${id}`, { inc_votes })
+      .catch(err => console.log(err));
     return comment.votes;
   }
 };
@@ -19,50 +21,59 @@ export const updateVote = async (inc_votes, id, comments) => {
 export const fetchUser = async () => {
   const {
     data: { users }
-  } = await axios.get(`${BASE_URL}users`);
+  } = await axios.get(`${BASE_URL}users`).catch(err => console.log(err));
   return users[5]; // remeber to change when logged in page updated
 };
 
 export const fetchTopic = async () => {
   const {
     data: { topics }
-  } = await axios.get(`${BASE_URL}topics`);
+  } = await axios.get(`${BASE_URL}topics`).catch(err => console.log(err));
   return topics;
 };
 
 export const fetchArticle = async articleId => {
   const {
     data: { article }
-  } = await axios.get(`${BASE_URL}articles/${articleId}`);
+  } = await axios
+    .get(`${BASE_URL}articles/${articleId}`)
+    .catch(err => console.log(err));
   return article;
 };
 
 export const fetchComments = async articleId => {
   const {
     data: { comments }
-  } = await axios.get(`${BASE_URL}articles/${articleId}/comments`);
+  } = await axios
+    .get(`${BASE_URL}articles/${articleId}/comments`)
+    .catch(err => console.log(err));
   return comments;
 };
 
 export const fetchArticles = async () => {
   const {
     data: { articles }
-  } = await axios.get(`${BASE_URL}articles`);
+  } = await axios.get(`${BASE_URL}articles`).catch(err => console.log(err));
   return articles;
 };
 
 export const addComment = async (id, body) => {
   const {
     data: { article }
-  } = await axios.post(`${BASE_URL}articles/${id}/comment`, body);
+  } = await axios
+    .post(`${BASE_URL}articles/${id}/comment`, body)
+    .catch(err => console.log(err));
   return article;
 };
 
-export const deleteComment = async (id) => {
-  await axios.delete(`${BASE_URL}/comments/${id}`)
-}
+export const deleteComment = async id => {
+  await axios
+    .delete(`${BASE_URL}/comments/${id}`)
+    .catch(err => console.log(err));
+};
 
-export const deleteArticle = async (id) => {
-  await axios.delete(`${BASE_URL}/articles/${id}`)
-}
-
+export const deleteArticle = async id => {
+  await axios
+    .delete(`${BASE_URL}/articles/${id}`)
+    .catch(err => console.log(err));
+};

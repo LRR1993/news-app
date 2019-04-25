@@ -8,11 +8,17 @@ import IconButton from '@material-ui/core/IconButton';
 import { AuthConsumer } from '../context';
 import { updateVote } from '../api';
 
-const styles = theme => ({});
+const styles = theme => ({
+  left: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'flex-start'
+  }
+});
 
 class Vote extends Component {
   state = { voteChange: 0 };
-  
+
   vote = inc_votes => {
     const { id, comments } = this.props;
     updateVote(inc_votes, id, comments).catch(err => console.log(err)); //add error handling here
@@ -22,33 +28,32 @@ class Vote extends Component {
   static contextType = AuthConsumer;
 
   render() {
-    const { votes } = this.props;
+    const { votes, classes } = this.props;
     const { voteChange } = this.state;
     let { isAuth } = this.context;
     return (
-      <div>
+      <div className={classes.right}>
         <IconButton aria-label="favorite" disabled={true}>
           <Badge badgeContent={votes + voteChange} color="secondary">
             <FavoriteIcon />
           </Badge>
         </IconButton>
         {isAuth ? (
-          <div>
-            <IconButton
-              aria-label="up"
-              onClick={() => this.vote(1)}
-              disabled={voteChange === 1 ? true : false}
-            >
-              <ThumbUp />
-            </IconButton>
-            <IconButton
-              aria-label="down"
-              onClick={() => this.vote(-1)}
-              disabled={voteChange === -1 ? true : false}
-            >
-              <ThumbDown />
-            </IconButton>
-          </div>
+          <IconButton
+            aria-label="up"
+            onClick={() => this.vote(1)}
+            disabled={voteChange === 1 ? true : false}
+          >
+            <ThumbUp />
+          </IconButton>
+        ) : null}
+        {isAuth ? (<IconButton
+          aria-label="down"
+          onClick={() => this.vote(-1)}
+          disabled={voteChange === -1 ? true : false}
+        >
+          <ThumbDown />
+        </IconButton>
         ) : null}
       </div>
     );

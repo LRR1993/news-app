@@ -1,7 +1,7 @@
 import React from 'react';
 import { fetchUser } from '../api';
 import Loading from './Loading';
-import { AuthConsumer } from '../context'
+import { AuthConsumer } from '../context';
 
 class AuthProvider extends React.Component {
   state = { isAuth: true, user: {}, loading: true };
@@ -11,16 +11,16 @@ class AuthProvider extends React.Component {
     this.setState({ user, loading: false });
   };
 
-  login() {
+  logout = () => {
     setTimeout(() => this.setState({ isAuth: true }), 1000);
   }
 
-  logout() {
-    this.setState({ isAuth: false, user: {} });
-  }
+  logout = () => {
+    this.setState({ isAuth: false });
+  };
 
   render() {
-    // console.log(this.state)
+    console.log('auth state:', this.state);
     const { children } = this.props;
     return (
       <AuthConsumer.Provider

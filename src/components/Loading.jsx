@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '../components/Card';
+import Card from './Card';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { fetchArticle, fetchComments } from '../api';
-import Comments from '../components/Comments';
+import Comments from './Comments';
 import { PushSpinner } from 'react-spinners-kit';
 import { navigate } from '@reach/router';
 

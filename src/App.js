@@ -24,17 +24,6 @@ class App extends Component {
 
   render() {
     const { topics } = this.state;
-
-    const ArticlesRoutes = () => (
-      <div>
-        <Router>
-          <Articles path="/" />
-          <ArticleAndComments path="/:article_id" />
-          <Articles path="/topic/:topic" />
-        </Router>
-      </div>
-    );
-
     return (
       <MuiThemeProvider theme={theme}>
           <CssBaseline />
@@ -44,7 +33,9 @@ class App extends Component {
           />
           <Drawer />
           <Router>
-            <ArticlesRoutes path="/articles/*" />
+            <Articles path="/articles" />
+            <ArticleAndComments path="/articles/:article_id" />
+            <Articles path="/articles/topic/:topic" />
             <SignIn path="/signin" />
             <SignUp path="/signup" />
           </Router>
