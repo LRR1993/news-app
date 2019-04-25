@@ -82,7 +82,6 @@ class MainBar extends React.Component {
       currentTopic: event.nativeEvent.target.outerText
     });
   };
-
   static contextType = AuthConsumer
 
   render() {

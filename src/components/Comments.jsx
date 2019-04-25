@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import CommentExpansionPanel from './ExpansionPanel';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { AuthConsumer } from './Auth';
 
 const styles = theme => ({
   root: {
@@ -43,6 +44,7 @@ const styles = theme => ({
 });
 
 function Comments({ classes, comments, handleDelete, snackbar, snackbarClose }) {
+  const { isAuth } = useContext(AuthConsumer)
   // console.log('snackbar?', snackbar)
   return (
     <List className={classes.root}>
@@ -54,21 +56,23 @@ function Comments({ classes, comments, handleDelete, snackbar, snackbarClose }) 
           justify="center"
           alignItems="center"
         >
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-          >
-            Comments
+          {isAuth ? <div>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              Comments
           </Typography>
-          <Fab
-            size="small"
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-          >
-            <AddIcon />
-          </Fab>
+            <Fab
+              size="small"
+              color="primary"
+              aria-label="Add"
+              className={classes.fab}
+            >
+              <AddIcon />
+            </Fab>
+          </div> : null}
         </Grid>
         {comments.map(comment => (
           <CommentExpansionPanel key={comment.comment_id} comment={comment} handleDelete={handleDelete} snackbar={snackbar} snackbarClose={snackbarClose} />

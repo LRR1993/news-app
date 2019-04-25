@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -18,7 +18,7 @@ import Edit from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Vote from './Vote';
 import { Grid } from '@material-ui/core';
-
+import { AuthConsumer } from './Auth';
 import { dateConverter } from '../utils/utils';
 import { deleteComment } from '../api';
 import SnackBar from './SnackBar';
@@ -81,6 +81,7 @@ const styles = theme => ({
 });
 
 function MainExpansionPanel({ comment, classes, handleDelete, snackbarClose, snackbar }) {
+  const { isAuth } = useContext(AuthConsumer)
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -119,17 +120,18 @@ function MainExpansionPanel({ comment, classes, handleDelete, snackbarClose, sna
             id={comment.comment_id}
             comments={'comments'}
           />
-          <div className={classes.edit}>
-            <Fab
-              className={classes.edit.item}
-              size="small"
-              color="secondary"
-              aria-label="Edit"
-            >
-              <Edit />
-            </Fab>
-            <SnackBar data={comment} id={comment.comment_id} handleDelete={handleDelete} api={deleteComment} snackbarClose={snackbarClose} snackbar={snackbar}/>
-          </div>
+          {isAuth ?
+            <div className={classes.edit}>
+              <Fab
+                className={classes.edit.item}
+                size="small"
+                color="secondary"
+                aria-label="Edit"
+              >
+                <Edit />
+              </Fab>
+              <SnackBar data={comment} id={comment.comment_id} handleDelete={handleDelete} api={deleteComment} snackbarClose={snackbarClose} snackbar={snackbar} />
+            </div> : null}
         </ExpansionPanelActions>
       </ExpansionPanel>
     </div>

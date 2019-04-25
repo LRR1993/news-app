@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -21,6 +21,7 @@ import Vote from './Vote';
 import { dateConverter } from '../utils/utils';
 import { deleteArticle } from '../api';
 import SnackBar from './SnackBar';
+import { AuthConsumer } from './Auth';
 const faker = require('faker');
 
 const styles = theme => ({
@@ -61,6 +62,7 @@ function MainCard({
   snackbar,
   snackbarClose
 }) {
+  const { isAuth } = useContext(AuthConsumer)
   return (
     <Grid item>
       <Card className={classes.card}>
@@ -106,14 +108,16 @@ function MainCard({
             </Link>
           ) : (
             <div className={classes.delete}>
-              <SnackBar
-                data={article}
-                id={article.article_id}
-                handleDelete={handleArticleDelete}
-                api={deleteArticle}
-                snackbarClose={snackbarClose}
-                snackbar={snackbar}
-              />
+              {isAuth ? (
+                <SnackBar
+                  data={article}
+                  id={article.article_id}
+                  handleDelete={handleArticleDelete}
+                  api={deleteArticle}
+                  snackbarClose={snackbarClose}
+                  snackbar={snackbar}
+                />
+              ) : null}
             </div>
           )}
         </CardActions>

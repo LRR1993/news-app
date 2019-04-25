@@ -6,7 +6,7 @@ import Loading from './Loading';
 const AuthContext = React.createContext();
 
 class AuthProvider extends React.Component {
-  state = { isAuth: true, user: {}, loading: true };
+  state = { isAuth: false, user: {}, loading: true };
 
   componentDidMount = async () => {
     const user = await fetchUser();
