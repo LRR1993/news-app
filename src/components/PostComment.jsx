@@ -48,15 +48,16 @@ class FormDialog extends React.Component {
     this.setState({ open: true });
   };
 
-  handleClose = () => {
+  handleClose = (values) => {
     this.setState({ open: false });
+    this.props.postComment(values)
   };
 
   static contextType = AuthConsumer;
 
   render() {
     const { user } = this.context;
-    const { classes, postComment, articleId } = this.props;
+    const { classes, articleId } = this.props;
     return (
       <div>
         <Fab
@@ -76,10 +77,7 @@ class FormDialog extends React.Component {
           <DialogTitle id="form-dialog-title">Add Comment</DialogTitle>
           <DialogContent>
             <Form
-              onSubmit={() => {
-                postComment();
-                this.handleClose();
-              }}
+              onSubmit={this.handleClose}
               initialValues={{ username: user.username, id: articleId }}
               validate={validate}
               render={({

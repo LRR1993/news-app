@@ -41,7 +41,8 @@ class ArticleAndComments extends Component {
   postComment = async values => {
     const { id, ...restValues } = values;
     const newComment = await addComment(id, { ...restValues });
-    const updated = [newComment, ...this.state.comments];
+    const { article_id, ...remaining } = newComment
+    const updated = [{...remaining}, ...this.state.comments];
     this.setState({ comments: updated });
   };
 
