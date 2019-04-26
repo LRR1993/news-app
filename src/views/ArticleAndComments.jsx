@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Card from '../components/Card';
-import { Grid, Typography } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
+import { navigate } from '@reach/router';
 import { fetchArticle, fetchComments, addComment } from '../api';
 import Comments from '../components/Comments';
-import { PushSpinner } from 'react-spinners-kit';
-import { navigate } from '@reach/router';
+import Card from '../components/Card';
 import Loading from '../components/Loading';
-import AuthConsumer from '../context';
 
-const styles = theme => ({
+const styles = () => ({
   layout: {
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
@@ -39,34 +37,35 @@ class ArticleAndComments extends Component {
   };
 
   postComment = async values => {
+    const { comments } = this.state;
     const { id, ...restValues } = values;
     const newComment = await addComment(id, { ...restValues });
     const { article_id, ...remaining } = newComment;
-    const updated = [{ ...remaining }, ...this.state.comments];
+    const updated = [{ ...remaining }, ...comments];
     this.setState({ comments: updated });
   };
 
   handleChange = name => async event => {
+    const { sort } = this.state;
+    const { article_id } = this.props;
     this.setState(
       {
         [name]: event.target.value
       },
       async () => {
-        const sort = criteria.filter(item => {
-          return item.value === this.state.sort;
+        const sorted = criteria.filter(item => {
+          return item.value === sort;
         });
-        const [param] = sort;
-        const comments = await fetchComments(
-          this.props.article_id,
-          param.query
-        );
+        const [param] = sorted;
+        const comments = await fetchComments(article_id, param.query);
         this.setState({ comments });
       }
     );
   };
 
   handleDelete = id => {
-    const updatedComments = this.state.comments.filter(
+    const { comments } = this.state;
+    const updatedComments = comments.filter(
       comment => comment.comment_id !== id
     );
     this.setState({ comments: updatedComments });
@@ -77,13 +76,13 @@ class ArticleAndComments extends Component {
   };
 
   componentDidMount = async () => {
-    const article = await fetchArticle(this.props.article_id);
-    const comments = await fetchComments(this.props.article_id);
+    const { article_id } = this.props;
+    const article = await fetchArticle(article_id);
+    const comments = await fetchComments(article_id);
     this.setState({ article, comments, loading: false });
   };
 
   render() {
-    console.log('state', this.state.comments);
     const { article, loading, comments, sort } = this.state;
     const { classes } = this.props;
     return (
@@ -114,7 +113,8 @@ class ArticleAndComments extends Component {
 }
 
 ArticleAndComments.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.shape('object').isRequired,
+  article_id: PropTypes.number.isRequired
 };
 
 export default withStyles(styles)(ArticleAndComments);

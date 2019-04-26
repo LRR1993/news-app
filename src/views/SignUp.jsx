@@ -6,8 +6,6 @@ class SignUp extends Component {
 
   componentDidMount() {}
 
-  componentDidUpdate(prevProps, prevState) {}
-
   render() {
     return <div />;
   }

@@ -1,36 +1,22 @@
 import React, { useContext } from 'react';
-import ReactDOM from 'react-dom';
 import { Form, Field } from 'react-final-form';
-import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
+import { TextField, Checkbox } from 'final-form-material-ui';
 import {
   Typography,
   Paper,
   Grid,
   Button,
-  RadioGroup,
-  FormLabel,
-  MenuItem,
-  FormGroup,
-  FormControl,
   FormControlLabel,
   withStyles
 } from '@material-ui/core';
 
 import { Link } from '@reach/router';
-
-// import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  TimePicker,
-  DatePicker
-} from 'material-ui-pickers';
+import PropTypes from 'prop-types';
 import AuthConsumer from '../context';
 
-const backgroundImage =
-  // 'curvyLines.png';
-  require('../images/curvyLines.png');
+const backgroundImage = require('../images/curvyLines.png');
 
-const styles = theme => ({
+const styles = () => ({
   layout: {
     padding: 16,
     marginTop: '-10px',
@@ -61,7 +47,7 @@ const validate = values => {
 };
 
 function SignIn({ classes }) {
-  const { login, isAuth } = useContext(AuthConsumer);
+  const { login } = useContext(AuthConsumer);
   return (
     <div className={classes.layout}>
       <Form
@@ -69,14 +55,7 @@ function SignIn({ classes }) {
         onSubmit={login}
         initialValues={{ rememberMe: true }}
         validate={validate}
-        render={({
-          handleSubmit,
-          reset,
-          submitting,
-          pristine,
-          submitError,
-          values
-        }) => (
+        render={({ handleSubmit, reset, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <Paper className={classes.paper}>
               <Grid container alignItems="center" spacing={8}>
@@ -164,5 +143,8 @@ function SignIn({ classes }) {
     </div>
   );
 }
+SignIn.propTypes = {
+  classes: PropTypes.shape('object').isRequired
+};
 
 export default withStyles(styles)(SignIn);

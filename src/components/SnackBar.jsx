@@ -72,7 +72,11 @@ function MuiSnackBar({ classes, handleDelete, api, id, message }) {
 }
 
 MuiSnackBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.shape('object').isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  api: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  message: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(MuiSnackBar);

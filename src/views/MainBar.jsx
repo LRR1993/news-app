@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '../components/AppBar';
-import Toolbar from '../components/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Drawer from '../components/Drawer';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { Link } from '@reach/router';
+import Drawer from '../components/Drawer';
+import Toolbar from '../components/Toolbar';
+import AppBar from '../components/AppBar';
 import AuthConsumer from '../context';
 
 const styles = theme => ({
@@ -63,6 +63,8 @@ const styles = theme => ({
 });
 
 class MainBar extends React.Component {
+  static contextType = AuthConsumer;
+
   state = {
     open: false,
     anchorEl: null,
@@ -83,7 +85,6 @@ class MainBar extends React.Component {
       currentTopic: event.nativeEvent.target.outerText
     });
   };
-  static contextType = AuthConsumer;
 
   render() {
     const { classes, topics } = this.props;
@@ -189,7 +190,7 @@ class MainBar extends React.Component {
                 </div>
               </Toolbar>
             </AppBar>
-            {this.state.open ? (
+            {open ? (
               <Drawer open={open} toggleDrawer={this.toggleDrawer} />
             ) : null}
           </Grid>
@@ -200,12 +201,8 @@ class MainBar extends React.Component {
 }
 
 MainBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  topics: PropTypes.array.isRequired
-};
-
-MainBar.defaultProps = {
-  anchorEl: null
+  classes: PropTypes.shape('object').isRequired,
+  topics: PropTypes.arrayOf('string').isRequired
 };
 
 export default withStyles(styles)(MainBar);

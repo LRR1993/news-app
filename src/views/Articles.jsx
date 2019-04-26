@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Card from '../components/Card';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchArticles } from '../api';
 import TextField from '@material-ui/core/TextField';
+import { fetchArticles } from '../api';
+import Card from '../components/Card';
 
-const styles = theme => ({
+const styles = () => ({
   layout: {
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
@@ -26,7 +26,10 @@ const criteria = [
   { value: 'Most Popular', query: { sort_by: 'votes' } },
   { value: 'Least Popular', query: { sort_by: 'votes', order: 'asc' } },
   { value: 'Most Comments', query: { sort_by: 'comment_count' } }, // not in backend
-  { value: 'Least Comments', query: { sort_by: 'comment_count', order: 'desc' } } // not in backend
+  {
+    value: 'Least Comments',
+    query: { sort_by: 'comment_count', order: 'desc' }
+  } // not in backend
 ];
 
 class Articles extends Component {
@@ -40,36 +43,30 @@ class Articles extends Component {
     this.setState({ articles });
   };
 
-  filterTaskList = taskToFilter => {
-    this.setState(state => {
-      return {
-        selectedCategory: taskToFilter
-      };
-    });
-  };
-
   handleChange = name => async event => {
-    this.setState({
-      [name]: event.target.value
-    }, async() => {
-        const sort = criteria.filter(item => {
-          return item.value === this.state.sort;
+    const { sort } = this.state;
+    this.setState(
+      {
+        [name]: event.target.value
+      },
+      async () => {
+        const sorted = criteria.filter(item => {
+          return item.value === sort;
         });
-        const [param] = sort;
+        const [param] = sorted;
         const articles = await fetchArticles(param.query);
-        this.setState({ articles }); 
-    });
-
+        this.setState({ articles });
+      }
+    );
   };
 
   render() {
-    const { articles } = this.state;
+    const { articles, sort } = this.state;
     const {
       classes,
       topic,
       location: { pathname }
     } = this.props;
-    console.log(this.state);
     return (
       <React.Fragment>
         <Grid container className={classes.sort}>
@@ -78,8 +75,8 @@ class Articles extends Component {
             select
             label="Select"
             className={classes.textField}
-            value={this.state.sort}
-            onChange={ this.handleChange('sort')}
+            value={sort}
+            onChange={this.handleChange('sort')}
             SelectProps={{
               native: false,
               MenuProps: {
@@ -113,7 +110,9 @@ class Articles extends Component {
   }
 }
 Articles.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.shape('object').isRequired,
+  topic: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(Articles);

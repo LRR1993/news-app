@@ -1,31 +1,18 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
 import { Form, Field } from 'react-final-form';
-import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
-import {
-  Typography,
-  Paper,
-  Link,
-  Grid,
-  CssBaseline,
-  RadioGroup,
-  FormLabel,
-  MenuItem,
-  FormGroup,
-  FormControl,
-  FormControlLabel
-} from '@material-ui/core';
+import { TextField } from 'final-form-material-ui';
+import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
 import AuthConsumer from '../context';
 
-const styles = theme => ({
+const styles = () => ({
   fab: {
     margin: '10px'
   }
@@ -40,6 +27,8 @@ const validate = values => {
 };
 
 class FormDialog extends React.Component {
+  static contextType = AuthConsumer;
+
   state = {
     open: false
   };
@@ -49,14 +38,13 @@ class FormDialog extends React.Component {
   };
 
   handleClose = values => {
+    const { postComment } = this.props;
     this.setState({ open: false });
-    this.props.postComment(values);
+    postComment(values);
   };
 
-  static contextType = AuthConsumer;
-
   render() {
-    const { user } = this.context;
+    const { user, open } = this.context;
     const { classes, articleId } = this.props;
     return (
       <div>
@@ -70,7 +58,7 @@ class FormDialog extends React.Component {
           <AddIcon />
         </Fab>
         <Dialog
-          open={this.state.open}
+          open={open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
@@ -80,13 +68,7 @@ class FormDialog extends React.Component {
               onSubmit={this.handleClose}
               initialValues={{ username: user.username, id: articleId }}
               validate={validate}
-              render={({
-                handleSubmit,
-                reset,
-                submitting,
-                pristine,
-                values
-              }) => (
+              render={({ handleSubmit, reset, submitting, pristine }) => (
                 <form onSubmit={handleSubmit} noValidate>
                   <Grid container alignItems="flex-start" spacing={8}>
                     <Grid item xs={12}>
@@ -129,5 +111,11 @@ class FormDialog extends React.Component {
     );
   }
 }
+
+FormDialog.propTypes = {
+  classes: PropTypes.shape('object').isRequired,
+  articleId: PropTypes.number.isRequired,
+  postComment: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(FormDialog);

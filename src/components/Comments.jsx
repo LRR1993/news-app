@@ -1,18 +1,16 @@
-import React, { useContext, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import { Card, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CommentExpansionPanel from './ExpansionPanel';
 import TextField from '@material-ui/core/TextField';
+import CommentExpansionPanel from './ExpansionPanel';
 import AuthConsumer from '../context';
 import PostComment from './PostComment';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: 750,
     // maxWidth: 15000,
@@ -50,8 +48,6 @@ class Comments extends Component {
       classes,
       comments,
       handleDelete,
-      snackbar,
-      snackbarClose,
       handleChange,
       sort,
       criteria,
@@ -61,7 +57,6 @@ class Comments extends Component {
 
     const { isAuth } = this.context;
 
-    // console.log('snackbar?', snackbar)
     return (
       <List className={classes.root}>
         <CardContent>
@@ -131,5 +126,16 @@ class Comments extends Component {
     );
   }
 }
+
+Comments.propTypes = {
+  classes: PropTypes.shape('object').isRequired,
+  comments: PropTypes.arrayOf('string').isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  sort: PropTypes.bool.isRequired,
+  criteria: PropTypes.arrayOf('object').isRequired,
+  postComment: PropTypes.func.isRequired,
+  articleId: PropTypes.number.isRequired
+};
 
 export default withStyles(styles)(Comments);

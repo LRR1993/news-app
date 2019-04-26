@@ -10,14 +10,10 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Grid } from '@material-ui/core';
-
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
 import { Link } from '@reach/router';
 import Vote from './Vote';
-
 import dateConverter from '../utils/utils';
 import { deleteArticle } from '../api';
 import SnackBar from './SnackBar';
@@ -129,7 +125,11 @@ function MainCard({
 }
 
 MainCard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.shape('object').isRequired,
+  disabled: PropTypes.bool.isRequired,
+  learnMore: PropTypes.func.isRequired,
+  handleArticleDelete: PropTypes.func.isRequired,
+  article: PropTypes.shape('object').isRequired
 };
 
 export default withStyles(styles)(MainCard);

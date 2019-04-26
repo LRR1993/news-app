@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from './Card';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchArticle, fetchComments } from '../api';
-import Comments from './Comments';
 import { PushSpinner } from 'react-spinners-kit';
-import { navigate } from '@reach/router';
 
-const styles = theme => ({
+const styles = () => ({
   layout: {
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
@@ -21,7 +17,7 @@ const styles = theme => ({
   }
 });
 
-function Loading({ classes, loading}) {
+function Loading({ classes, loading }) {
   return (
     <div>
       <Grid
@@ -36,7 +32,7 @@ function Loading({ classes, loading}) {
         <Grid item>
           <Typography variant="h4" color="primary">
             Loading
-              </Typography>
+          </Typography>
         </Grid>
         <Grid item>
           <PushSpinner size={100} color="#686769" loading={loading} />
@@ -46,4 +42,9 @@ function Loading({ classes, loading}) {
   );
 }
 
-export default withStyles(styles)(Loading)
+Loading.propTypes = {
+  classes: PropTypes.shape('object').isRequired,
+  loading: PropTypes.bool.isRequired
+};
+
+export default withStyles(styles)(Loading);
