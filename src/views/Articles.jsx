@@ -25,8 +25,8 @@ const criteria = [
   { value: 'Older Articles', query: { sort_by: 'created_at', order: 'asc' } },
   { value: 'Most Popular', query: { sort_by: 'votes' } },
   { value: 'Least Popular', query: { sort_by: 'votes', order: 'asc' } },
-  { value: 'Most Comments', query: { sort_by: 'comment_count' } },
-  { value: 'Least Comments', query: { sort_by: 'comment_count', order: 'asc' } }
+  { value: 'Most Comments', query: { sort_by: 'comment_count' } }, // not in backend
+  { value: 'Least Comments', query: { sort_by: 'comment_count', order: 'desc' } } // not in backend
 ];
 
 class Articles extends Component {

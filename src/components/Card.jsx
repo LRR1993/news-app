@@ -89,6 +89,7 @@ function MainCard({
           </Typography>
           <br />
           <Typography component="h6">By: {article.author}</Typography>
+          <Typography component="h6">Comments on Article: {article.comment_count}</Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Vote votes={article.votes} id={article.article_id} />

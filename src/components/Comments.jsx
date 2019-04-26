@@ -8,10 +8,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import { Card, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import CommentExpansionPanel from './ExpansionPanel';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import { AuthConsumer } from '../context';
+import PostComment from './PostComment';
 
 const styles = theme => ({
   root: {
@@ -43,22 +42,24 @@ const styles = theme => ({
   }
 });
 
-
 class Comments extends Component {
- 
   static contextType = AuthConsumer;
-  
+
   render() {
     const {
       classes,
       comments,
       handleDelete,
       snackbar,
-      snackbarClose, handleChange, sort, criteria
+      snackbarClose,
+      handleChange,
+      sort,
+      criteria,
+      postComment, articleId
     } = this.props;
-    
-    const { isAuth } = this.context
-    
+
+    const { isAuth } = this.context;
+
     // console.log('snackbar?', snackbar)
     return (
       <List className={classes.root}>
@@ -73,52 +74,45 @@ class Comments extends Component {
             {isAuth ? (
               <div>
                 <Grid container justify="center" alignItems="center">
-                <Grid item >
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Comments
-                </Typography>
-                </Grid>
-                <Grid item >
-                <Fab
-                  size="small"
-                  color="primary"
-                  aria-label="Add"
-                  className={classes.fab}
-                >
-                  <AddIcon />
-                  </Fab>
-                </Grid>
+                  <Grid item>
+                    <Typography
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                    >
+                      Comments
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <PostComment postComment={postComment} articleId={articleId}/>
+                  </Grid>
                 </Grid>
               </div>
             ) : null}
             <Grid item>
-            <TextField
-              id="sort"
-              select
-              label="Select"
-              className={classes.textField}
-              value={sort}
-              onChange={handleChange('sort')}
-              SelectProps={{
-                native: false,
-                MenuProps: {
-                  className: classes.menu
-                }
-              }}
-              // helperText="sort articles by"
-              margin="normal"
-              variant="outlined"
-            >
-              {criteria.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.value}
-                </option>
-              ))}
-            </TextField>
+              <TextField
+                id="sort"
+                select
+                label="Select"
+                className={classes.textField}
+                value={sort}
+                onChange={handleChange('sort')}
+                SelectProps={{
+                  native: false,
+                  MenuProps: {
+                    className: classes.menu
+                  }
+                }}
+                // helperText="sort articles by"
+                margin="normal"
+                variant="outlined"
+              >
+                {criteria.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.value}
+                  </option>
+                ))}
+              </TextField>
             </Grid>
           </Grid>
           {comments.map(comment => (

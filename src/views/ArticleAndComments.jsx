@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../components/Card';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchArticle, fetchComments } from '../api';
+import { fetchArticle, fetchComments, addComment } from '../api';
 import Comments from '../components/Comments';
 import { PushSpinner } from 'react-spinners-kit';
 import { navigate } from '@reach/router';
@@ -36,6 +36,13 @@ class ArticleAndComments extends Component {
     loading: true,
     comments: [],
     sort: 'Latest Comments'
+  };
+
+  postComment = async values => {
+    const { id, ...restValues } = values;
+    const newComment = await addComment(id, { ...restValues });
+    const updated = [newComment, ...this.state.comments];
+    this.setState({ comments: updated });
   };
 
   handleChange = name => async event => {
@@ -75,7 +82,7 @@ class ArticleAndComments extends Component {
   };
 
   render() {
-    // console.log('state', this.state)
+    console.log('state', this.state.comments);
     const { article, loading, comments, sort } = this.state;
     const { classes } = this.props;
     return (
@@ -95,6 +102,8 @@ class ArticleAndComments extends Component {
               handleChange={this.handleChange}
               sort={sort}
               criteria={criteria}
+              postComment={this.postComment}
+              articleId={article.article_id}
             />
           </Grid>
         )}
