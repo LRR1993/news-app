@@ -21,7 +21,7 @@ import Vote from './Vote';
 import { dateConverter } from '../utils/utils';
 import { deleteArticle } from '../api';
 import SnackBar from './SnackBar';
-import { AuthConsumer } from '../context'
+import { AuthConsumer } from '../context';
 const faker = require('faker');
 
 const styles = theme => ({
@@ -58,9 +58,9 @@ function MainCard({
   article,
   disabled,
   learnMore,
-  handleArticleDelete,
+  handleArticleDelete
 }) {
-  const { isAuth } = useContext(AuthConsumer)
+  const { isAuth, user } = useContext(AuthConsumer);
   return (
     <Grid item>
       <Card className={classes.card}>
@@ -87,6 +87,8 @@ function MainCard({
           <Typography className={classes.body} component="p">
             {article.body}
           </Typography>
+          <br />
+          <Typography component="h6">By: {article.author}</Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Vote votes={article.votes} id={article.article_id} />
@@ -106,14 +108,14 @@ function MainCard({
             </Link>
           ) : (
             <div className={classes.delete}>
-              {isAuth ? (
-                <SnackBar
-                  data={article}
-                  id={article.article_id}
-                  handleDelete={handleArticleDelete}
-                  api={deleteArticle}
-                />
-              ) : null}
+              {isAuth && user.username === article.author &&
+                  <SnackBar
+                    data={article}
+                    id={article.article_id}
+                    handleDelete={handleArticleDelete}
+                    api={deleteArticle}
+                  />
+              }
             </div>
           )}
         </CardActions>

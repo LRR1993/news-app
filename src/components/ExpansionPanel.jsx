@@ -81,7 +81,7 @@ const styles = theme => ({
 });
 
 function MainExpansionPanel({ comment, classes, handleDelete,  }) {
-  const { isAuth } = useContext(AuthConsumer)
+  const { isAuth, user } = useContext(AuthConsumer)
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -120,7 +120,7 @@ function MainExpansionPanel({ comment, classes, handleDelete,  }) {
             id={comment.comment_id}
             comments={'comments'}
           />
-          {isAuth ?
+          {isAuth && user.username === comment.author &&
             <div className={classes.edit}>
               <Fab
                 className={classes.edit.item}
@@ -131,7 +131,7 @@ function MainExpansionPanel({ comment, classes, handleDelete,  }) {
                 <Edit />
               </Fab>
               <SnackBar data={comment} id={comment.comment_id} message="Deleted" handleDelete={handleDelete} api={deleteComment} />
-            </div> : null}
+            </div> }
         </ExpansionPanelActions>
       </ExpansionPanel>
     </div>
