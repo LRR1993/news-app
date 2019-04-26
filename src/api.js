@@ -18,11 +18,12 @@ export const updateVote = async (inc_votes, id, comments) => {
   }
 };
 
-export const fetchUser = async () => {
+export const fetchUser = async username => {
   const {
-    data: { users }
-  } = await axios.get(`${BASE_URL}users`).catch(err => console.log(err));
-  return users;
+    data: { user }
+  } = await axios
+    .get(`${BASE_URL}users/${username}`)
+  return user;
 };
 
 export const fetchTopic = async () => {
@@ -45,14 +46,14 @@ export const fetchComments = async (articleId, query) => {
   const {
     data: { comments }
   } = await axios
-      .get(`${BASE_URL}articles/${articleId}/comments`, {
-        params: query
-      })
+    .get(`${BASE_URL}articles/${articleId}/comments`, {
+      params: query
+    })
     .catch(err => console.log(err));
   return comments;
 };
 
-export const fetchArticles = async (query) => {
+export const fetchArticles = async query => {
   const {
     data: { articles }
   } = await axios

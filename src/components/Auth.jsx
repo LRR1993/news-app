@@ -24,22 +24,20 @@ class AuthProvider extends React.Component {
       const user = JSON.parse(data);
       this.setState({ user, loading: false, isAuth: true });
     } else {
-      const user = await fetchUser();
-      this.setState({ user, loading: false });
+      this.setState({ loading: false});
     }
   };
+
   saveData = () => {
     localStorage.setItem('data', JSON.stringify(this.state.user));
   };
 
-  login = values => {
-    const { user } = this.state;
-    const isUser = user.filter(item => {
-      return item.username === values.username;
-    });
-    if (isUser.length === 1 && values !== null) {
+  login = async values => {
+    const user = await fetchUser(values.username)
+      .catch(err => Promise.resolve(err));
+    if (user.username === values.username) {
       navigate('/articles', { replace: true });
-      this.setState({ isAuth: true, user: isUser[0] });
+      this.setState({ isAuth: true, user });
       // this.snackbarOpen();
       if (values.rememberMe) this.saveData();
     } else return { username: 'Unknown username' };
