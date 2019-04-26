@@ -19,7 +19,7 @@ class AuthProvider extends React.Component {
 
   componentDidMount = async () => {
     const data = localStorage.getItem('data');
-    console.log('localstorage', data);
+    // console.log('localstorage', data);
     if (data) {
       const user = JSON.parse(data);
       this.setState({ user, loading: false, isAuth: true });
@@ -51,7 +51,7 @@ class AuthProvider extends React.Component {
   };
 
   render() {
-    console.log('auth state:', this.state);
+    // console.log('auth state:', this.state);
     const { children } = this.props;
     return (
       <AuthConsumer.Provider

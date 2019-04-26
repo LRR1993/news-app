@@ -22,7 +22,7 @@ export const fetchUser = async () => {
   const {
     data: { users }
   } = await axios.get(`${BASE_URL}users`).catch(err => console.log(err));
-  return users
+  return users;
 };
 
 export const fetchTopic = async () => {
@@ -50,10 +50,15 @@ export const fetchComments = async articleId => {
   return comments;
 };
 
-export const fetchArticles = async () => {
+export const fetchArticles = async (query) => {
   const {
     data: { articles }
-  } = await axios.get(`${BASE_URL}articles`).catch(err => console.log(err));
+  } = await axios
+    .get(`${BASE_URL}articles`, {
+      params: query
+    })
+    .catch(err => console.log(err));
+  console.log(articles);
   return articles;
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import CommentExpansionPanel from './ExpansionPanel';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField';
 import { AuthConsumer } from '../context';
 
 const styles = theme => ({
@@ -42,59 +43,101 @@ const styles = theme => ({
   }
 });
 
-function Comments({
-  classes,
-  comments,
-  handleDelete,
-  snackbar,
-  snackbarClose
-}) {
-  const { isAuth } = useContext(AuthConsumer);
-  // console.log('snackbar?', snackbar)
-  return (
-    <List className={classes.root}>
-      <CardContent>
-        <Grid
-          container
-          spacing={8}
-          direction="row"
-          justify="center"
-          alignItems="center"
-        >
-          {isAuth ? (
-            <div>
-              <Typography
-                className={classes.title}
-                color="textSecondary"
-                gutterBottom
-              >
-                Comments
-              </Typography>
-              <Fab
-                size="small"
-                color="primary"
-                aria-label="Add"
-                className={classes.fab}
-              >
-                <AddIcon />
-              </Fab>
-            </div>
-          ) : null}
-        </Grid>
-        {comments.map(comment => (
-          <CommentExpansionPanel
-            key={comment.comment_id}
-            comment={comment}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </CardContent>
-    </List>
-  );
-}
+const criteria = [
+  { value: 'Latest Comments', query: { sort_by: 'created_at' } },
+  { value: 'Older Comments', query: { sort_by: 'created_at', order: 'asc' } },
+  { value: 'Most Popular', query: { sort_by: 'votes' } },
+  { value: 'Least Popular', query: { sort_by: 'votes', order: 'asc' } },
+];
 
-Comments.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+class Comments extends Component {
+ 
+  static contextType = AuthConsumer;
+  
+  render() {
+    const {
+      classes,
+      comments,
+      handleDelete,
+      snackbar,
+      snackbarClose, handleChange, sort
+    } = this.props;
+    
+    const { isAuth } = this.context
+    
+    // console.log('snackbar?', snackbar)
+    return (
+      <List className={classes.root}>
+        <CardContent>
+          <Grid
+            container
+            spacing={40}
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+            {isAuth ? (
+              <div>
+                <Grid container justify="center" alignItems="center">
+                <Grid item >
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Comments
+                </Typography>
+                </Grid>
+                <Grid item >
+                <Fab
+                  size="small"
+                  color="primary"
+                  aria-label="Add"
+                  className={classes.fab}
+                >
+                  <AddIcon />
+                  </Fab>
+                </Grid>
+                </Grid>
+              </div>
+            ) : null}
+            <Grid item>
+            <TextField
+              id="sort"
+              select
+              label="Select"
+              className={classes.textField}
+              value={sort}
+              onChange={handleChange('sort')}
+              SelectProps={{
+                native: false,
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
+              // helperText="sort articles by"
+              margin="normal"
+              variant="outlined"
+            >
+              {criteria.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.value}
+                </option>
+              ))}
+            </TextField>
+            </Grid>
+          </Grid>
+          {comments.map(comment => (
+            <CommentExpansionPanel
+              key={comment.comment_id}
+              comment={comment}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </CardContent>
+      </List>
+    );
+  }
+}
 
 export default withStyles(styles)(Comments);

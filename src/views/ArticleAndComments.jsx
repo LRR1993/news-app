@@ -27,7 +27,14 @@ class ArticleAndComments extends Component {
   state = {
     article: {},
     loading: true,
-    comments: []
+    comments: [],
+    sort: 'Latest Comments'
+  };
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    });
   };
 
   handleDelete = id => {
@@ -49,7 +56,7 @@ class ArticleAndComments extends Component {
 
   render() {
     // console.log('state', this.state)
-    const { article, loading, comments } = this.state;
+    const { article, loading, comments, sort } = this.state;
     const { classes } = this.props;
     return (
       <div>
@@ -62,10 +69,7 @@ class ArticleAndComments extends Component {
               handleArticleDelete={this.handleArticleDelete}
               disabled="disabled"
             />
-            <Comments
-              comments={comments}
-              handleDelete={this.handleDelete}
-            />
+              <Comments comments={comments} handleDelete={this.handleDelete} handleChange={this.handleChange} sort={sort} />
           </Grid>
         )}
       </div>
