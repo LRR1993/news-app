@@ -36,8 +36,8 @@ class App extends Component {
             <Articles path="/articles" />
             <ArticleAndComments path="/articles/:article_id" />
             <Articles path="/articles/topic/:topic" />
-            <SignIn path="/signin" />
-            <SignUp path="/signup" />
+            <SignIn path="/sign-in" />
+            <SignUp path="/sign-up" />
           </Router>
         </AuthProvider>
       </MuiThemeProvider>

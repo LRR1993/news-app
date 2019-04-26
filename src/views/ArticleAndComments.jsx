@@ -8,6 +8,7 @@ import Comments from '../components/Comments';
 import { PushSpinner } from 'react-spinners-kit';
 import { navigate } from '@reach/router';
 import Loading from '../components/Loading';
+import { AuthConsumer } from '../context';
 
 const styles = theme => ({
   layout: {
@@ -26,18 +27,7 @@ class ArticleAndComments extends Component {
   state = {
     article: {},
     loading: true,
-    comments: [],
-    snackbar: false
-  };
-
-  snackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({ snackbar: false });
-  };
-  snackbarOpen = () => {
-    this.setState({ snackbar: true });
+    comments: []
   };
 
   handleDelete = id => {
@@ -45,13 +35,10 @@ class ArticleAndComments extends Component {
       comment => comment.comment_id !== id
     );
     this.setState({ comments: updatedComments });
-    this.snackbarOpen();
   };
 
   handleArticleDelete = () => {
-    this.snackbarOpen();
-    setTimeout(()=> navigate('/articles', { replace: true }),2000)
-    
+    setTimeout(() => navigate('/articles', { replace: true }), 2000);
   };
 
   componentDidMount = async () => {
@@ -59,27 +46,25 @@ class ArticleAndComments extends Component {
     const comments = await fetchComments(this.props.article_id);
     this.setState({ article, comments, loading: false });
   };
+
   render() {
     // console.log('state', this.state)
-    const { article, loading, comments, snackbar } = this.state;
+    const { article, loading, comments } = this.state;
     const { classes } = this.props;
     return (
       <div>
-        {loading ? <Loading loading={loading}/>
-         : (
+        {loading ? (
+          <Loading loading={loading} />
+        ) : (
           <Grid container className={classes.layout} spacing={16}>
             <Card
               article={article}
               handleArticleDelete={this.handleArticleDelete}
-              snackbar={snackbar}
-              snackbarClose={this.snackbarClose}
               disabled="disabled"
             />
             <Comments
               comments={comments}
               handleDelete={this.handleDelete}
-              snackbar={snackbar}
-              snackbarClose={this.snackbarClose}
             />
           </Grid>
         )}

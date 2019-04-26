@@ -80,7 +80,7 @@ const styles = theme => ({
   }
 });
 
-function MainExpansionPanel({ comment, classes, handleDelete, snackbarClose, snackbar }) {
+function MainExpansionPanel({ comment, classes, handleDelete,  }) {
   const { isAuth } = useContext(AuthConsumer)
   return (
     <div className={classes.root}>
@@ -130,7 +130,7 @@ function MainExpansionPanel({ comment, classes, handleDelete, snackbarClose, sna
               >
                 <Edit />
               </Fab>
-              <SnackBar data={comment} id={comment.comment_id} handleDelete={handleDelete} api={deleteComment} snackbarClose={snackbarClose} snackbar={snackbar} />
+              <SnackBar data={comment} id={comment.comment_id} message="Deleted" handleDelete={handleDelete} api={deleteComment} />
             </div> : null}
         </ExpansionPanelActions>
       </ExpansionPanel>
@@ -141,7 +141,6 @@ function MainExpansionPanel({ comment, classes, handleDelete, snackbarClose, sna
 MainExpansionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  snackbar: PropTypes.bool.isRequired
   
 };
 

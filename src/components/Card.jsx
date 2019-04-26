@@ -59,8 +59,6 @@ function MainCard({
   disabled,
   learnMore,
   handleArticleDelete,
-  snackbar,
-  snackbarClose
 }) {
   const { isAuth } = useContext(AuthConsumer)
   return (
@@ -114,8 +112,6 @@ function MainCard({
                   id={article.article_id}
                   handleDelete={handleArticleDelete}
                   api={deleteArticle}
-                  snackbarClose={snackbarClose}
-                  snackbar={snackbar}
                 />
               ) : null}
             </div>

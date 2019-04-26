@@ -89,7 +89,7 @@ class MainBar extends React.Component {
     const { classes, topics } = this.props;
     const { open, anchorEl, currentTopic } = this.state;
     const { isAuth, logout } = this.context;
-    console.log('main bar context', this.context)
+    // console.log('main bar context', this.context)
 
     return (
       <div>
