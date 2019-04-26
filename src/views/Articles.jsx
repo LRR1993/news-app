@@ -51,13 +51,15 @@ class Articles extends Component {
   handleChange = name => async event => {
     this.setState({
       [name]: event.target.value
+    }, async() => {
+        const sort = criteria.filter(item => {
+          return item.value === this.state.sort;
+        });
+        const [param] = sort;
+        const articles = await fetchArticles(param.query);
+        this.setState({ articles }); 
     });
-    const sort = criteria.filter(item => {
-      return item.value === this.state.sort;
-    });
-    const [param] = sort;
-    const articles = await fetchArticles(param.query);
-    this.setState({ articles });
+
   };
 
   render() {
@@ -77,7 +79,7 @@ class Articles extends Component {
             label="Select"
             className={classes.textField}
             value={this.state.sort}
-            onChange={this.handleChange('sort')}
+            onChange={ this.handleChange('sort')}
             SelectProps={{
               native: false,
               MenuProps: {

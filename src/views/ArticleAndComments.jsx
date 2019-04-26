@@ -39,15 +39,22 @@ class ArticleAndComments extends Component {
   };
 
   handleChange = name => async event => {
-    this.setState({
-      [name]: event.target.value
-    });
-    const sort = criteria.filter(item => {
-      return item.value === this.state.sort;
-    });
-    const [param] = sort;
-    const comments = await fetchComments(this.props.article_id, param.query);
-    this.setState({ comments });
+    this.setState(
+      {
+        [name]: event.target.value
+      },
+      async () => {
+        const sort = criteria.filter(item => {
+          return item.value === this.state.sort;
+        });
+        const [param] = sort;
+        const comments = await fetchComments(
+          this.props.article_id,
+          param.query
+        );
+        this.setState({ comments });
+      }
+    );
   };
 
   handleDelete = id => {
@@ -66,7 +73,6 @@ class ArticleAndComments extends Component {
     const comments = await fetchComments(this.props.article_id);
     this.setState({ article, comments, loading: false });
   };
-
 
   render() {
     // console.log('state', this.state)
@@ -87,7 +93,8 @@ class ArticleAndComments extends Component {
               comments={comments}
               handleDelete={this.handleDelete}
               handleChange={this.handleChange}
-                sort={sort} criteria={criteria}
+              sort={sort}
+              criteria={criteria}
             />
           </Grid>
         )}

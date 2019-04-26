@@ -22,7 +22,7 @@ import { dateConverter } from '../utils/utils';
 import { deleteArticle } from '../api';
 import SnackBar from './SnackBar';
 import { AuthConsumer } from '../context'
-const img = require('../images/favicon-32x32.png');
+const faker = require('faker');
 
 const styles = theme => ({
   card: {
@@ -80,7 +80,7 @@ function MainCard({
         />
         <CardMedia
           className={classes.media}
-          image={img}
+          image={faker.image.image()}
           title="image"
         />
         <CardContent>
