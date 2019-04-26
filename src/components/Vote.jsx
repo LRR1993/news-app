@@ -5,10 +5,11 @@ import Badge from '@material-ui/core/Badge';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import IconButton from '@material-ui/core/IconButton';
+import PropTypes from 'prop-types';
 import AuthConsumer from '../context';
 import { updateVote } from '../api';
 
-const styles = theme => ({
+const styles = () => ({
   left: {
     flex: 1,
     display: 'flex',
@@ -17,23 +18,23 @@ const styles = theme => ({
 });
 
 class Vote extends Component {
+  static contextType = AuthConsumer;
+
   state = { voteChange: 0 };
 
   vote = inc_votes => {
     const { id, comments } = this.props;
-    updateVote(inc_votes, id, comments).catch(err => console.log(err)); //add error handling here
+    updateVote(inc_votes, id, comments);
     this.setState(state => ({ voteChange: state.voteChange + inc_votes }));
   };
-
-  static contextType = AuthConsumer;
 
   render() {
     const { votes, classes } = this.props;
     const { voteChange } = this.state;
-    let { isAuth } = this.context;
+    const { isAuth } = this.context;
     return (
       <div className={classes.right}>
-        <IconButton aria-label="favorite" disabled={true}>
+        <IconButton aria-label="favorite" disabled>
           <Badge badgeContent={votes + voteChange} color="secondary">
             <FavoriteIcon />
           </Badge>
@@ -42,7 +43,7 @@ class Vote extends Component {
           <IconButton
             aria-label="up"
             onClick={() => this.vote(1)}
-            disabled={voteChange === 1 ? true : false}
+            disabled={voteChange === 1}
           >
             <ThumbUp />
           </IconButton>
@@ -51,7 +52,7 @@ class Vote extends Component {
           <IconButton
             aria-label="down"
             onClick={() => this.vote(-1)}
-            disabled={voteChange === -1 ? true : false}
+            disabled={voteChange === -1}
           >
             <ThumbDown />
           </IconButton>
@@ -60,5 +61,10 @@ class Vote extends Component {
     );
   }
 }
-// Vote.contextType = AuthConsumer;
+
+Vote.propTypes = {
+  classes: PropTypes.shape('object').isRequired,
+  votes: PropTypes.number.isRequired
+};
+
 export default withStyles(styles)(Vote);

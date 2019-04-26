@@ -1,8 +1,9 @@
 import React from 'react';
+import { navigate } from '@reach/router';
+import PropTypes from 'prop-types';
 import { fetchUser } from '../api';
 import Loading from './Loading';
 import AuthConsumer from '../context';
-import { navigate } from '@reach/router';
 
 class AuthProvider extends React.Component {
   state = { isAuth: false, user: {}, loading: true, snackbar: false };
@@ -13,13 +14,13 @@ class AuthProvider extends React.Component {
     }
     this.setState({ snackbar: false });
   };
+
   snackbarOpen = () => {
     this.setState({ snackbar: true });
   };
 
   componentDidMount = async () => {
     const data = localStorage.getItem('data');
-    // console.log('localstorage', data);
     if (data) {
       const user = JSON.parse(data);
       this.setState({ user, loading: false, isAuth: true });
@@ -29,7 +30,8 @@ class AuthProvider extends React.Component {
   };
 
   saveData = () => {
-    localStorage.setItem('data', JSON.stringify(this.state.user));
+    const { user } = this.state;
+    localStorage.setItem('data', JSON.stringify(user));
   };
 
   login = async values => {
@@ -50,24 +52,37 @@ class AuthProvider extends React.Component {
   };
 
   render() {
-    // console.log('auth state:', this.state);
     const { children } = this.props;
+    const {
+      user,
+      loading,
+      isAuth,
+      login,
+      logout,
+      snackbar,
+      snackbarClose,
+      snackbarOpen
+    } = this.state;
     return (
       <AuthConsumer.Provider
         value={{
-          isAuth: this.state.isAuth,
-          login: this.login,
-          logout: this.logout,
-          user: this.state.user,
-          snackbar: this.state.snackbar,
-          snackbarClose: this.snackbarClose,
-          snackbarOpen: this.snackbarOpen
+          isAuth,
+          login,
+          logout,
+          user,
+          snackbar,
+          snackbarClose,
+          snackbarOpen
         }}
       >
-        {this.state.loading ? <Loading /> : children}
+        {loading ? <Loading /> : children}
       </AuthConsumer.Provider>
     );
   }
 }
+
+AuthProvider.propTypes = {
+  children: PropTypes.shape('object').isRequired
+};
 
 export default AuthProvider;

@@ -6,9 +6,9 @@ export const styles = theme => ({
   root: {
     height: 40,
     [theme.breakpoints.up('sm')]: {
-      height: 40,
-    },
-  },
+      height: 40
+    }
+  }
 });
 
 function Toolbar(props) {
