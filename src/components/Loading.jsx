@@ -12,7 +12,6 @@ const styles = () => ({
   },
   loading: {
     height: 300,
-    // background: 'blue',
     margin: '10px'
   }
 });
@@ -44,7 +43,11 @@ function Loading({ classes, loading }) {
 
 Loading.propTypes = {
   classes: PropTypes.shape('object').isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.string
+};
+
+Loading.defaultProps = {
+  loading: undefined
 };
 
 export default withStyles(styles)(Loading);

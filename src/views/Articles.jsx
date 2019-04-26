@@ -78,7 +78,7 @@ class Articles extends Component {
             value={sort}
             onChange={this.handleChange('sort')}
             SelectProps={{
-              native: false,
+              // value='test'
               MenuProps: {
                 className: classes.menu
               }
@@ -111,8 +111,12 @@ class Articles extends Component {
 }
 Articles.propTypes = {
   classes: PropTypes.shape('object').isRequired,
-  topic: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired
+  topic: PropTypes.string,
+  location: PropTypes.shape('object').isRequired
+};
+
+Articles.defaultProps = {
+  topic: undefined
 };
 
 export default withStyles(styles)(Articles);

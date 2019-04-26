@@ -82,7 +82,7 @@ class AuthProvider extends React.Component {
 }
 
 AuthProvider.propTypes = {
-  children: PropTypes.shape('object').isRequired
+  children: PropTypes.node.isRequired
 };
 
 export default AuthProvider;

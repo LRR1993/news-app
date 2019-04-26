@@ -201,7 +201,7 @@ class MainBar extends React.Component {
 
 MainBar.propTypes = {
   classes: PropTypes.shape('object').isRequired,
-  topics: PropTypes.arrayOf('string').isRequired
+  topics: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default withStyles(styles)(MainBar);

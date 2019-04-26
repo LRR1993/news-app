@@ -126,10 +126,16 @@ function MainCard({
 
 MainCard.propTypes = {
   classes: PropTypes.shape('object').isRequired,
-  disabled: PropTypes.bool.isRequired,
-  learnMore: PropTypes.func.isRequired,
-  handleArticleDelete: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  learnMore: PropTypes.func,
+  handleArticleDelete: PropTypes.func,
   article: PropTypes.shape('object').isRequired
+};
+
+MainCard.defaultProps = {
+  learnMore: undefined,
+  handleArticleDelete: undefined,
+  disabled: false
 };
 
 export default withStyles(styles)(MainCard);

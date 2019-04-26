@@ -100,8 +100,13 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
 
 MenuDrawer.propTypes = {
   classes: PropTypes.shape('object').isRequired,
-  toggleDrawer: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired
+  toggleDrawer: PropTypes.func,
+  open: PropTypes.bool
+};
+
+MenuDrawer.defaultProps = {
+  toggleDrawer: undefined,
+  open: false
 };
 
 export default withStyles(styles)(MenuDrawer);
