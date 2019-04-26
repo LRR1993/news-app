@@ -40,17 +40,6 @@ class Articles extends Component {
     this.setState({ articles });
   };
 
-  componentDidUpdate = async(prevProps, prevState) => {
-    if (prevState !== this.state) {
-      const sort = criteria.filter(item => {
-        return item.value === this.state.sort;
-      });
-      const [param] = sort
-      const articles = await fetchArticles(param.query);
-      this.setState({ articles });
-    }
-  };
-
   filterTaskList = taskToFilter => {
     this.setState(state => {
       return {
@@ -59,10 +48,16 @@ class Articles extends Component {
     });
   };
 
-  handleChange = name => event => {
+  handleChange = name => async event => {
     this.setState({
       [name]: event.target.value
     });
+    const sort = criteria.filter(item => {
+      return item.value === this.state.sort;
+    });
+    const [param] = sort;
+    const articles = await fetchArticles(param.query);
+    this.setState({ articles });
   };
 
   render() {

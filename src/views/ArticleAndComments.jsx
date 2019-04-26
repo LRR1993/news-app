@@ -38,10 +38,16 @@ class ArticleAndComments extends Component {
     sort: 'Latest Comments'
   };
 
-  handleChange = name => event => {
+  handleChange = name => async event => {
     this.setState({
       [name]: event.target.value
     });
+    const sort = criteria.filter(item => {
+      return item.value === this.state.sort;
+    });
+    const [param] = sort;
+    const comments = await fetchComments(this.props.article_id, param.query);
+    this.setState({ comments });
   };
 
   handleDelete = id => {
@@ -61,16 +67,6 @@ class ArticleAndComments extends Component {
     this.setState({ article, comments, loading: false });
   };
 
-  componentDidUpdate = async (prevProps, prevState) => {
-    if (prevState !== this.state) {
-      const sort = criteria.filter(item => {
-        return item.value === this.state.sort;
-      });
-      const [param] = sort;
-      const comments = await fetchComments(this.props.article_id, param.query);
-      this.setState({ comments });
-    }
-  };
 
   render() {
     // console.log('state', this.state)
