@@ -9,7 +9,7 @@ import { Card, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import CommentExpansionPanel from './ExpansionPanel';
 import TextField from '@material-ui/core/TextField';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 import PostComment from './PostComment';
 
 const styles = theme => ({
@@ -55,7 +55,8 @@ class Comments extends Component {
       handleChange,
       sort,
       criteria,
-      postComment, articleId
+      postComment,
+      articleId
     } = this.props;
 
     const { isAuth } = this.context;
@@ -84,7 +85,10 @@ class Comments extends Component {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <PostComment postComment={postComment} articleId={articleId}/>
+                    <PostComment
+                      postComment={postComment}
+                      articleId={articleId}
+                    />
                   </Grid>
                 </Grid>
               </div>

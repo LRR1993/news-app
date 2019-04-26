@@ -12,7 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Close from '@material-ui/icons/Close';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 
 const styles = theme => ({
   root: {
@@ -32,11 +32,11 @@ const styles = theme => ({
     marginBottom: 1
   },
   exit: { display: 'inline-block', float: 'right' },
-  logo: { textIndent: '-30px' },
+  logo: { textIndent: '-30px' }
 });
 
 function MenuDrawer({ classes, toggleDrawer, open }) {
-  const { isAuth, login, logout, user} = useContext(AuthConsumer)
+  const { isAuth, login, logout, user } = useContext(AuthConsumer);
   // console.log(user)
   return (
     <div>
@@ -51,7 +51,10 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
             <List>
               <ListItem alignItems="flex-start">
                 <ListItemIcon className={classes.inline}>
-                  <img src={require('../images/favicon-32x32.png')} alt="logo" />
+                  <img
+                    src={require('../images/favicon-32x32.png')}
+                    alt="logo"
+                  />
                 </ListItemIcon>
                 <ListItemText className={classes.logo} primary="ostly" />
                 <ListItemIcon className={classes.exit}>
@@ -98,7 +101,7 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
 }
 
 MenuDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
   // loggedIn: PropTypes.bool.isRequired,
   // logout: PropTypes.func.isRequired,
   // user: PropTypes.object.isRequired,

@@ -8,41 +8,41 @@ const rawTheme = createMuiTheme({
     primary: {
       ligth: '#63d7cb',
       main: '#26a69a',
-      dark: '#00756c',
+      dark: '#00756c'
     },
     secondary: {
       light: '#ff77a6',
       main: '#ed4077',
-      dark: '#b5004c',
+      dark: '#b5004c'
     },
     warning: {
       main: '#ffc071',
-      dark: '#ffb25e',
+      dark: '#ffb25e'
     },
     error: {
       xLight: red[50],
       main: red[500],
-      dark: red[700],
+      dark: red[700]
     },
     success: {
       xLight: green[50],
-      dark: green[700],
-    },
+      dark: green[700]
+    }
   },
   typography: {
     fontFamily: "'Leckerli One', cursive",
     fontSize: 14,
-    fontWeightLight: 300, 
-    fontWeightRegular: 400, 
-    fontWeightMedium: 700, 
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 700,
     fontFamilySecondary: "'Open Sans', sans-serif",
-    useNextVariants: true,
-  },
+    useNextVariants: true
+  }
 });
 
 const fontHeader = {
   color: rawTheme.palette.text.primary,
-  fontWeight: rawTheme.typography.fontWeightMedium,
+  fontWeight: rawTheme.typography.fontWeightMedium
   // fontFamily: rawTheme.typography.fontFamilySecondary,
   // textTransform: 'uppercase',
 };
@@ -54,8 +54,8 @@ const theme = {
     background: {
       ...rawTheme.palette.background,
       default: rawTheme.palette.common.white,
-      placeholder: grey[200],
-    },
+      placeholder: grey[200]
+    }
   },
   typography: {
     ...rawTheme.typography,
@@ -64,47 +64,47 @@ const theme = {
       ...rawTheme.typography.h1,
       ...fontHeader,
       letterSpacing: 0,
-      fontSize: 60,
+      fontSize: 60
     },
     h2: {
       ...rawTheme.typography.h2,
       ...fontHeader,
-      fontSize: 48,
+      fontSize: 48
     },
     h3: {
       ...rawTheme.typography.h3,
       ...fontHeader,
-      fontSize: 42,
+      fontSize: 42
     },
     h4: {
       ...rawTheme.typography.h4,
       ...fontHeader,
-      fontSize: 36,
+      fontSize: 36
     },
     h5: {
       ...rawTheme.typography.h5,
       fontSize: 20,
-      fontWeight: rawTheme.typography.fontWeightLight,
+      fontWeight: rawTheme.typography.fontWeightLight
     },
     h6: {
       ...rawTheme.typography.h6,
       ...fontHeader,
-      fontSize: 18,
+      fontSize: 18
     },
     subtitle1: {
       ...rawTheme.typography.subtitle1,
-      fontSize: 18,
+      fontSize: 18
     },
     body1: {
       ...rawTheme.typography.body2,
       fontWeight: rawTheme.typography.fontWeightRegular,
-      fontSize: 16,
+      fontSize: 16
     },
     body2: {
       ...rawTheme.typography.body1,
-      fontSize: 14,
-    },
-  },
+      fontSize: 14
+    }
+  }
 };
 
 export default theme;

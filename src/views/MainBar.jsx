@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import { Grid } from '@material-ui/core';
 import { Link } from '@reach/router';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 
 const styles = theme => ({
   title: {

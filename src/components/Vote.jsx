@@ -5,7 +5,7 @@ import Badge from '@material-ui/core/Badge';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import IconButton from '@material-ui/core/IconButton';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 import { updateVote } from '../api';
 
 const styles = theme => ({
@@ -47,13 +47,14 @@ class Vote extends Component {
             <ThumbUp />
           </IconButton>
         ) : null}
-        {isAuth ? (<IconButton
-          aria-label="down"
-          onClick={() => this.vote(-1)}
-          disabled={voteChange === -1 ? true : false}
-        >
-          <ThumbDown />
-        </IconButton>
+        {isAuth ? (
+          <IconButton
+            aria-label="down"
+            onClick={() => this.vote(-1)}
+            disabled={voteChange === -1 ? true : false}
+          >
+            <ThumbDown />
+          </IconButton>
         ) : null}
       </div>
     );

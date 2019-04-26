@@ -16,10 +16,10 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Edit from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Vote from './Vote';
 import { Grid } from '@material-ui/core';
-import { AuthConsumer } from '../context';
-import { dateConverter } from '../utils/utils';
+import Vote from './Vote';
+import AuthConsumer from '../context';
+import dateConverter from '../utils/utils';
 import { deleteComment } from '../api';
 import SnackBar from './SnackBar';
 
@@ -80,8 +80,8 @@ const styles = theme => ({
   }
 });
 
-function MainExpansionPanel({ comment, classes, handleDelete,  }) {
-  const { isAuth, user } = useContext(AuthConsumer)
+function MainExpansionPanel({ comment, classes, handleDelete }) {
+  const { isAuth, user } = useContext(AuthConsumer);
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -118,9 +118,9 @@ function MainExpansionPanel({ comment, classes, handleDelete,  }) {
           <Vote
             votes={comment.votes}
             id={comment.comment_id}
-            comments={'comments'}
+            comments="comments"
           />
-          {isAuth && user.username === comment.author &&
+          {isAuth && user.username === comment.author && (
             <div className={classes.edit}>
               <Fab
                 className={classes.edit.item}
@@ -130,8 +130,15 @@ function MainExpansionPanel({ comment, classes, handleDelete,  }) {
               >
                 <Edit />
               </Fab>
-              <SnackBar data={comment} id={comment.comment_id} message="Deleted" handleDelete={handleDelete} api={deleteComment} />
-            </div> }
+              <SnackBar
+                data={comment}
+                id={comment.comment_id}
+                message="Deleted"
+                handleDelete={handleDelete}
+                api={deleteComment}
+              />
+            </div>
+          )}
         </ExpansionPanelActions>
       </ExpansionPanel>
     </div>
@@ -140,8 +147,7 @@ function MainExpansionPanel({ comment, classes, handleDelete,  }) {
 
 MainExpansionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  
+  handleDelete: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(MainExpansionPanel);

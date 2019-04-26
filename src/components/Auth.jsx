@@ -1,7 +1,7 @@
 import React from 'react';
 import { fetchUser } from '../api';
 import Loading from './Loading';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 import { navigate } from '@reach/router';
 
 class AuthProvider extends React.Component {
@@ -24,7 +24,7 @@ class AuthProvider extends React.Component {
       const user = JSON.parse(data);
       this.setState({ user, loading: false, isAuth: true });
     } else {
-      this.setState({ loading: false});
+      this.setState({ loading: false });
     }
   };
 
@@ -33,8 +33,9 @@ class AuthProvider extends React.Component {
   };
 
   login = async values => {
-    const user = await fetchUser(values.username)
-      .catch(err => Promise.resolve(err));
+    const user = await fetchUser(values.username).catch(err =>
+      Promise.resolve(err)
+    );
     if (user.username === values.username) {
       navigate('/articles', { replace: true });
       this.setState({ isAuth: true, user });

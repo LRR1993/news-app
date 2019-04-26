@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios';
 
 const BASE_URL = `http://nc-news-letisha.herokuapp.com/api/`;
@@ -8,21 +9,19 @@ export const updateVote = async (inc_votes, id, comments) => {
       data: { article }
     } = await axios.patch(`${BASE_URL}articles/${id}`, { inc_votes });
     return article.votes;
-  } else {
-    const {
-      data: { comment }
-    } = await axios
-      .patch(`${BASE_URL}${comments}/${id}`, { inc_votes })
-      .catch(err => console.log(err));
-    return comment.votes;
   }
+  const {
+    data: { comment }
+  } = await axios
+    .patch(`${BASE_URL}${comments}/${id}`, { inc_votes })
+    .catch(err => console.log(err));
+  return comment.votes;
 };
 
 export const fetchUser = async username => {
   const {
     data: { user }
-  } = await axios
-    .get(`${BASE_URL}users/${username}`)
+  } = await axios.get(`${BASE_URL}users/${username}`);
   return user;
 };
 
@@ -66,13 +65,13 @@ export const fetchArticles = async query => {
 };
 
 export const addComment = async (id, body) => {
-  console.log(id,body)
+  console.log(id, body);
   const {
-    data: { comment },
+    data: { comment }
   } = await axios
     .post(`${BASE_URL}articles/${id}/comments`, body)
     .catch(err => console.log(err));
-    // console.log(data)
+  // console.log(data)
   return comment;
 };
 

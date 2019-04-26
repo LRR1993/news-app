@@ -8,7 +8,7 @@ import Comments from '../components/Comments';
 import { PushSpinner } from 'react-spinners-kit';
 import { navigate } from '@reach/router';
 import Loading from '../components/Loading';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 
 const styles = theme => ({
   layout: {
@@ -41,8 +41,8 @@ class ArticleAndComments extends Component {
   postComment = async values => {
     const { id, ...restValues } = values;
     const newComment = await addComment(id, { ...restValues });
-    const { article_id, ...remaining } = newComment
-    const updated = [{...remaining}, ...this.state.comments];
+    const { article_id, ...remaining } = newComment;
+    const updated = [{ ...remaining }, ...this.state.comments];
     this.setState({ comments: updated });
   };
 

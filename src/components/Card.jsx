@@ -18,10 +18,11 @@ import Button from '@material-ui/core/Button';
 import { Link } from '@reach/router';
 import Vote from './Vote';
 
-import { dateConverter } from '../utils/utils';
+import dateConverter from '../utils/utils';
 import { deleteArticle } from '../api';
 import SnackBar from './SnackBar';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
+
 const faker = require('faker');
 
 const styles = theme => ({
@@ -89,7 +90,9 @@ function MainCard({
           </Typography>
           <br />
           <Typography component="h6">By: {article.author}</Typography>
-          <Typography component="h6">Comments on Article: {article.comment_count}</Typography>
+          <Typography component="h6">
+            Comments on Article: {article.comment_count}
+          </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Vote votes={article.votes} id={article.article_id} />
@@ -109,14 +112,14 @@ function MainCard({
             </Link>
           ) : (
             <div className={classes.delete}>
-              {isAuth && user.username === article.author &&
-                  <SnackBar
-                    data={article}
-                    id={article.article_id}
-                    handleDelete={handleArticleDelete}
-                    api={deleteArticle}
-                  />
-              }
+              {isAuth && user.username === article.author && (
+                <SnackBar
+                  data={article}
+                  id={article.article_id}
+                  handleDelete={handleArticleDelete}
+                  api={deleteArticle}
+                />
+              )}
             </div>
           )}
         </CardActions>

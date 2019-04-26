@@ -5,10 +5,9 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { Link } from '@reach/router';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 
 const styles = theme => ({
   close: {
@@ -21,7 +20,7 @@ const styles = theme => ({
   }
 });
 
-function MuiSnackBar({ classes, data, handleDelete, api, id, message }) {
+function MuiSnackBar({ classes, handleDelete, api, id, message }) {
   const { snackbarClose, snackbar, snackbarOpen } = useContext(AuthConsumer);
   return (
     <div>

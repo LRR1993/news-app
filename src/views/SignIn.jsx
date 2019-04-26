@@ -16,8 +16,6 @@ import {
   withStyles
 } from '@material-ui/core';
 
-import { AuthConsumer } from '../context';
-
 import { Link } from '@reach/router';
 
 // import DateFnsUtils from '@date-io/date-fns';
@@ -26,6 +24,8 @@ import {
   TimePicker,
   DatePicker
 } from 'material-ui-pickers';
+import AuthConsumer from '../context';
+
 const backgroundImage =
   // 'curvyLines.png';
   require('../images/curvyLines.png');
@@ -114,19 +114,19 @@ function SignIn({ classes }) {
                     type="test"
                     label="Username"
                     margin="normal"
+                  />
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      label="Remember Me"
+                      control={
+                        <Field
+                          name="rememberMe"
+                          component={Checkbox}
+                          type="checkbox"
+                        />
+                      }
                     />
-                    <Grid item xs={12}>
-                      <FormControlLabel
-                        label="Remember Me"
-                        control={
-                          <Field
-                            name="rememberMe"
-                            component={Checkbox}
-                            type="checkbox"
-                          />
-                        }
-                      />
-                      </Grid>
+                  </Grid>
                 </Grid>
                 <Grid
                   container

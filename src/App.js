@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import { Router } from '@reach/router';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -26,11 +27,9 @@ class App extends Component {
     const { topics } = this.state;
     return (
       <MuiThemeProvider theme={theme}>
-          <CssBaseline />
+        <CssBaseline />
         <AuthProvider>
-          <MainBar
-            topics={topics}
-          />
+          <MainBar topics={topics} />
           <Drawer />
           <Router>
             <Articles path="/articles" />

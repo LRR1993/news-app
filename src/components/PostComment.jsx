@@ -23,7 +23,7 @@ import {
   FormControl,
   FormControlLabel
 } from '@material-ui/core';
-import { AuthConsumer } from '../context';
+import AuthConsumer from '../context';
 
 const styles = theme => ({
   fab: {
@@ -48,9 +48,9 @@ class FormDialog extends React.Component {
     this.setState({ open: true });
   };
 
-  handleClose = (values) => {
+  handleClose = values => {
     this.setState({ open: false });
-    this.props.postComment(values)
+    this.props.postComment(values);
   };
 
   static contextType = AuthConsumer;
