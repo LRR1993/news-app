@@ -23,6 +23,13 @@ const styles = theme => ({
   }
 });
 
+const criteria = [
+  { value: 'Latest Comments', query: { sort_by: 'created_at' } },
+  { value: 'Older Comments', query: { sort_by: 'created_at', order: 'asc' } },
+  { value: 'Most Popular', query: { sort_by: 'votes' } },
+  { value: 'Least Popular', query: { sort_by: 'votes', order: 'asc' } }
+];
+
 class ArticleAndComments extends Component {
   state = {
     article: {},
@@ -54,6 +61,17 @@ class ArticleAndComments extends Component {
     this.setState({ article, comments, loading: false });
   };
 
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (prevState !== this.state) {
+      const sort = criteria.filter(item => {
+        return item.value === this.state.sort;
+      });
+      const [param] = sort;
+      const comments = await fetchComments(this.props.article_id, param.query);
+      this.setState({ comments });
+    }
+  };
+
   render() {
     // console.log('state', this.state)
     const { article, loading, comments, sort } = this.state;
@@ -69,7 +87,12 @@ class ArticleAndComments extends Component {
               handleArticleDelete={this.handleArticleDelete}
               disabled="disabled"
             />
-              <Comments comments={comments} handleDelete={this.handleDelete} handleChange={this.handleChange} sort={sort} />
+            <Comments
+              comments={comments}
+              handleDelete={this.handleDelete}
+              handleChange={this.handleChange}
+                sort={sort} criteria={criteria}
+            />
           </Grid>
         )}
       </div>

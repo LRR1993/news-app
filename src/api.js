@@ -41,11 +41,13 @@ export const fetchArticle = async articleId => {
   return article;
 };
 
-export const fetchComments = async articleId => {
+export const fetchComments = async (articleId, query) => {
   const {
     data: { comments }
   } = await axios
-    .get(`${BASE_URL}articles/${articleId}/comments`)
+      .get(`${BASE_URL}articles/${articleId}/comments`, {
+        params: query
+      })
     .catch(err => console.log(err));
   return comments;
 };
@@ -58,7 +60,7 @@ export const fetchArticles = async (query) => {
       params: query
     })
     .catch(err => console.log(err));
-  console.log(articles);
+  // console.log(articles);
   return articles;
 };
 

@@ -43,12 +43,6 @@ const styles = theme => ({
   }
 });
 
-const criteria = [
-  { value: 'Latest Comments', query: { sort_by: 'created_at' } },
-  { value: 'Older Comments', query: { sort_by: 'created_at', order: 'asc' } },
-  { value: 'Most Popular', query: { sort_by: 'votes' } },
-  { value: 'Least Popular', query: { sort_by: 'votes', order: 'asc' } },
-];
 
 class Comments extends Component {
  
@@ -60,7 +54,7 @@ class Comments extends Component {
       comments,
       handleDelete,
       snackbar,
-      snackbarClose, handleChange, sort
+      snackbarClose, handleChange, sort, criteria
     } = this.props;
     
     const { isAuth } = this.context
