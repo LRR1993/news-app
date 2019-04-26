@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 const validate = values => {
-  console.log(values);
+  // console.log(values);
   const errors = {};
   if (!values.username) {
     errors.username = 'Required';
@@ -67,6 +67,7 @@ function SignIn({ classes }) {
       <Form
         className={classes.layout}
         onSubmit={login}
+        initialValues={{ rememberMe: true }}
         validate={validate}
         render={({
           handleSubmit,
@@ -113,9 +114,20 @@ function SignIn({ classes }) {
                     type="test"
                     label="Username"
                     margin="normal"
-                  />
+                    />
+                    <Grid item xs={12}>
+                      <FormControlLabel
+                        label="Remember Me"
+                        control={
+                          <Field
+                            name="rememberMe"
+                            component={Checkbox}
+                            type="checkbox"
+                          />
+                        }
+                      />
+                      </Grid>
                 </Grid>
-                {submitError && <div className="error">{submitError}</div>}
                 <Grid
                   container
                   spacing={24}

@@ -18,30 +18,40 @@ class AuthProvider extends React.Component {
   };
 
   componentDidMount = async () => {
-    const user = await fetchUser();
-    this.setState({ user, loading: false });
+    const data = localStorage.getItem('data');
+    console.log('localstorage', data);
+    if (data) {
+      const user = JSON.parse(data);
+      this.setState({ user, loading: false, isAuth: true });
+    } else {
+      const user = await fetchUser();
+      this.setState({ user, loading: false });
+    }
+  };
+  saveData = () => {
+    localStorage.setItem('data', JSON.stringify(this.state.user));
   };
 
-  login = async values => {
-    console.log(this.state.user);
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await sleep(300);
-    const isUser = this.state.user.filter(
-      user => user.username === values.username
-    );
-    if (isUser.length === 1) {
-      navigate('/articles', { replace: true })
-      this.setState({ isAuth: true })
-      this.snackbarOpen()
-    } else return { username: "Unknown username" }
+  login = values => {
+    const { user } = this.state;
+    const isUser = user.filter(item => {
+      return item.username === values.username;
+    });
+    if (isUser.length === 1 && values !== null) {
+      navigate('/articles', { replace: true });
+      this.setState({ isAuth: true, user: isUser[0] });
+      // this.snackbarOpen();
+      if (values.rememberMe) this.saveData();
+    } else return { username: 'Unknown username' };
   };
 
   logout = () => {
     this.setState({ isAuth: false });
+    localStorage.clear();
   };
 
   render() {
-    // console.log('auth state:', this.state);
+    console.log('auth state:', this.state);
     const { children } = this.props;
     return (
       <AuthConsumer.Provider
