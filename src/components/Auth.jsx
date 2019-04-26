@@ -2,9 +2,10 @@ import React from 'react';
 import { fetchUser } from '../api';
 import Loading from './Loading';
 import { AuthConsumer } from '../context';
+import { navigate } from '@reach/router';
 
 class AuthProvider extends React.Component {
-  state = { isAuth: true, user: {}, loading: true, snackbar: false };
+  state = { isAuth: false, user: {}, loading: true, snackbar: false };
 
   snackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -21,8 +22,18 @@ class AuthProvider extends React.Component {
     this.setState({ user, loading: false });
   };
 
-  logout = () => {
-    setTimeout(() => this.setState({ isAuth: true }), 1000);
+  login = async values => {
+    console.log(this.state.user);
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    await sleep(300);
+    const isUser = this.state.user.filter(
+      user => user.username === values.username
+    );
+    if (isUser.length === 1) {
+      navigate('/articles', { replace: true })
+      this.setState({ isAuth: true })
+      this.snackbarOpen()
+    } else return { username: "Unknown username" }
   };
 
   logout = () => {

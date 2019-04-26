@@ -22,7 +22,7 @@ export const fetchUser = async () => {
   const {
     data: { users }
   } = await axios.get(`${BASE_URL}users`).catch(err => console.log(err));
-  return users[5]; // remeber to change when logged in page updated
+  return users
 };
 
 export const fetchTopic = async () => {

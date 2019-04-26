@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { Form, Field } from 'react-final-form';
 import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
@@ -16,6 +16,8 @@ import {
   withStyles
 } from '@material-ui/core';
 
+import { AuthConsumer } from '../context';
+
 import { Link } from '@reach/router';
 
 // import DateFnsUtils from '@date-io/date-fns';
@@ -26,10 +28,9 @@ import {
 } from 'material-ui-pickers';
 const backgroundImage =
   // 'curvyLines.png';
-require('../images/curvyLines.png');
+  require('../images/curvyLines.png');
 
 const styles = theme => ({
-  
   layout: {
     padding: 16,
     marginTop: '-10px',
@@ -43,66 +44,15 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
-  paper: { padding: 16, minHeight: '500px', paddingTop: 50, maxWidth: 600, },
+  paper: { padding: 16, minHeight: '500px', paddingTop: 50, maxWidth: 600 },
   title: { height: 75 },
   input: {
-    padding: 50,
+    padding: 50
   }
 });
 
-// function DatePickerWrapper(props) {
-//   const {
-//     input: { name, onChange, value, ...restInput },
-//     meta,
-//     ...rest
-//   } = props;
-//   const showError =
-//     ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
-//     meta.touched;
-
-//   return (
-//     <DatePicker
-//       {...rest}
-//       name={name}
-//       helperText={showError ? meta.error || meta.submitError : undefined}
-//       error={showError}
-//       inputProps={restInput}
-//       onChange={onChange}
-//       value={value === '' ? null : value}
-//     />
-//   );
-// }
-
-// function TimePickerWrapper(props) {
-//   const {
-//     input: { name, onChange, value, ...restInput },
-//     meta,
-//     ...rest
-//   } = props;
-//   const showError =
-//     ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
-//     meta.touched;
-
-//   return (
-//     <TimePicker
-//       {...rest}
-//       name={name}
-//       helperText={showError ? meta.error || meta.submitError : undefined}
-//       error={showError}
-//       inputProps={restInput}
-//       onChange={onChange}
-//       value={value === '' ? null : value}
-//     />
-//   );
-// }
-
-const onSubmit = async values => {
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-  await sleep(300);
-  window.alert(JSON.stringify(values, 0, 2));
-};
-
 const validate = values => {
+  console.log(values);
   const errors = {};
   if (!values.username) {
     errors.username = 'Required';
@@ -111,14 +61,22 @@ const validate = values => {
 };
 
 function SignIn({ classes }) {
+  const { login, isAuth } = useContext(AuthConsumer);
   return (
     <div className={classes.layout}>
-      <Form className={classes.layout}
-        onSubmit={onSubmit}
-        initialValues={{ employed: true, stooge: 'larry' }}
+      <Form
+        className={classes.layout}
+        onSubmit={login}
         validate={validate}
-        render={({ handleSubmit, reset, submitting, pristine, values }) => (
-          <form onSubmit={handleSubmit} noValidate>
+        render={({
+          handleSubmit,
+          reset,
+          submitting,
+          pristine,
+          submitError,
+          values
+        }) => (
+          <form onSubmit={handleSubmit}>
             <Paper className={classes.paper}>
               <Grid container alignItems="center" spacing={8}>
                 <Grid container alignItems="center" className={classes.title}>
@@ -143,20 +101,21 @@ function SignIn({ classes }) {
                     </Typography>
                   </Grid>
                 </Grid>
+
                 <Grid container className={classes.input}>
                   <Field
-                    id='standard-dense'
+                    id="standard-dense"
                     name="username"
-                    variant='outlined'
+                    variant="outlined"
                     fullWidth
                     required
                     component={TextField}
                     type="test"
                     label="Username"
-                    autoComplete="username"
-                    margin='normal'
+                    margin="normal"
                   />
                 </Grid>
+                {submitError && <div className="error">{submitError}</div>}
                 <Grid
                   container
                   spacing={24}
@@ -164,28 +123,27 @@ function SignIn({ classes }) {
                   justify="center"
                   alignItems="center"
                 >
-                
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={reset}
-                    disabled={submitting || pristine}
-                  >
-                    {'Reset'}
-                  </Button>
+                  <Grid item style={{ marginTop: 16 }}>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      onClick={reset}
+                      disabled={submitting || pristine}
+                    >
+                      {'Reset'}
+                    </Button>
+                  </Grid>
+                  <Grid item style={{ marginTop: 16 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={submitting}
+                    >
+                      {'Submit'}
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    {'Submit'}
-                  </Button>
-                </Grid>
-              </Grid>
               </Grid>
             </Paper>
           </form>
