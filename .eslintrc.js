@@ -23,9 +23,10 @@ module.exports = {
     sourceType: 'module'
   },
   parser: 'babel-eslint',
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', 'react-hooks'],
   rules: {
     strict: 0,
+    'react-hooks/rules-of-hooks': 'error',
     camelcase: 0,
     'prettier/prettier': [
       'error',

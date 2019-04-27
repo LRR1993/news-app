@@ -57,8 +57,6 @@ class AuthProvider extends React.Component {
       user,
       loading,
       isAuth,
-      login,
-      logout,
       snackbar,
       snackbarClose,
       snackbarOpen
@@ -67,8 +65,8 @@ class AuthProvider extends React.Component {
       <AuthConsumer.Provider
         value={{
           isAuth,
-          login,
-          logout,
+          login: this.login,
+          logout: this.logout,
           user,
           snackbar,
           snackbarClose,

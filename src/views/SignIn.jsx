@@ -38,7 +38,6 @@ const styles = () => ({
 });
 
 const validate = values => {
-  // console.log(values);
   const errors = {};
   if (!values.username) {
     errors.username = 'Required';

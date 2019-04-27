@@ -65,7 +65,6 @@ export const fetchArticles = async query => {
 };
 
 export const addComment = async (id, body) => {
-  console.log(id, body);
   const {
     data: { comment }
   } = await axios
@@ -73,6 +72,17 @@ export const addComment = async (id, body) => {
     .catch(err => console.log(err));
   // console.log(data)
   return comment;
+};
+
+export const addArticle = async body => {
+  const {
+    data: { article },
+    data
+  } = await axios
+    .post(`${BASE_URL}articles/`, body)
+    .catch(err => console.log(err));
+  console.log(data);
+  return article;
 };
 
 export const deleteComment = async id => {

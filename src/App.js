@@ -32,7 +32,7 @@ class App extends Component {
           <MainBar topics={topics} />
           <Drawer />
           <Router>
-            <Articles path="/articles" />
+            <Articles path="/articles" topics={topics} />
             <ArticleAndComments path="/articles/:article_id" />
             <Articles path="/articles/topic/:topic" />
             <SignIn path="/sign-in" />

@@ -10,7 +10,19 @@ import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
 import { Form, Field } from 'react-final-form';
 import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
-import { Grid } from '@material-ui/core';
+import {
+  Typography,
+  Paper,
+  Link,
+  Grid,
+  CssBaseline,
+  RadioGroup,
+  FormLabel,
+  MenuItem,
+  FormGroup,
+  FormControl,
+  FormControlLabel
+} from '@material-ui/core';
 import AuthConsumer from '../context';
 
 const styles = () => ({
@@ -21,6 +33,12 @@ const styles = () => ({
 
 const validate = values => {
   const errors = {};
+  if (!values.title) {
+    errors.title = 'Required';
+  }
+  if (!values.topic) {
+    errors.topic = 'Required';
+  }
   if (!values.body) {
     errors.body = 'Required';
   }
@@ -34,11 +52,11 @@ class FormDialog extends React.Component {
     const { user } = this.context;
     const {
       classes,
-      articleId,
-      commentDialog,
-      handleCommentClose,
-      handleCommentOpen,
-      postComment
+      handleArticleClose,
+      handleArticleOpen,
+      ArticleDialog,
+      postArticle,
+      topics
     } = this.props;
     return (
       <div>
@@ -47,20 +65,20 @@ class FormDialog extends React.Component {
           color="primary"
           aria-label="Add"
           className={classes.fab}
-          onClick={handleCommentOpen}
+          onClick={handleArticleOpen}
         >
           <AddIcon />
         </Fab>
         <Dialog
-          open={commentDialog}
-          onClose={handleCommentClose}
+          open={ArticleDialog}
+          onClose={handleArticleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Add Comment</DialogTitle>
+          <DialogTitle id="form-dialog-title">Add Article</DialogTitle>
           <DialogContent>
             <Form
-              onSubmit={postComment}
-              initialValues={{ username: user.username, id: articleId }}
+              onSubmit={postArticle}
+              initialValues={{ author: user.username }}
               validate={validate}
               render={({
                 handleSubmit,
@@ -73,12 +91,38 @@ class FormDialog extends React.Component {
                   <Grid container alignItems="flex-start" spacing={8}>
                     <Grid item xs={12}>
                       <Field
-                        required
                         fullWidth
+                        required
+                        name="title"
+                        component={TextField}
+                        type="text"
+                        label="Title"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        fullWidth
+                        required
+                        name="topic"
+                        component={Select}
+                        label="Select a Topic"
+                        formControlProps={{ fullWidth: true }}
+                      >
+                        {topics.map(topic => (
+                          <MenuItem key={topic.slug} value={topic.slug}>
+                            {topic.slug}
+                          </MenuItem>
+                        ))}
+                      </Field>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        fullWidth
+                        required
                         name="body"
                         component={TextField}
-                        multiline
-                        label="Comment"
+                        type="text"
+                        label="Add content here"
                       />
                     </Grid>
                     <Grid item style={{ marginTop: 16 }}>

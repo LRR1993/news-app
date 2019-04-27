@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
+import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { PushSpinner } from 'react-spinners-kit';
 import { navigate } from '@reach/router';
 import { fetchArticle, fetchComments, addComment } from '../api';
 import Comments from '../components/Comments';
 import Card from '../components/Card';
 import Loading from '../components/Loading';
+import { AuthConsumer } from '../context';
 
-const styles = () => ({
+const styles = theme => ({
   layout: {
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
@@ -33,39 +35,53 @@ class ArticleAndComments extends Component {
     article: {},
     loading: true,
     comments: [],
-    sort: 'Latest Comments'
+    sort: 'Latest Comments',
+    commentDialog: false
+  };
+
+  handleCommentOpen = () => {
+    this.setState({ commentDialog: true });
+  };
+
+  handleCommentClose = () => {
+    this.setState({ commentDialog: false });
   };
 
   postComment = async values => {
-    const { comments } = this.state;
     const { id, ...restValues } = values;
     const newComment = await addComment(id, { ...restValues });
     const { article_id, ...remaining } = newComment;
-    const updated = [{ ...remaining }, ...comments];
-    this.setState({ comments: updated });
+    const updated = [{ ...remaining }, ...this.state.comments];
+    this.setState({ comments: updated }, async () => {
+      const article = await fetchArticle(this.props.article_id);
+      this.setState({
+        article
+      });
+    });
+    this.handleCommentClose();
   };
 
   handleChange = name => async event => {
-    const { sort } = this.state;
-    const { article_id } = this.props;
     this.setState(
       {
         [name]: event.target.value
       },
       async () => {
-        const sorted = criteria.filter(item => {
-          return item.value === sort;
+        const sort = criteria.filter(item => {
+          return item.value === this.state.sort;
         });
-        const [param] = sorted;
-        const comments = await fetchComments(article_id, param.query);
+        const [param] = sort;
+        const comments = await fetchComments(
+          this.props.article_id,
+          param.query
+        );
         this.setState({ comments });
       }
     );
   };
 
   handleDelete = id => {
-    const { comments } = this.state;
-    const updatedComments = comments.filter(
+    const updatedComments = this.state.comments.filter(
       comment => comment.comment_id !== id
     );
     this.setState({ comments: updatedComments });
@@ -76,15 +92,15 @@ class ArticleAndComments extends Component {
   };
 
   componentDidMount = async () => {
-    const { article_id } = this.props;
-    const article = await fetchArticle(article_id);
-    const comments = await fetchComments(article_id);
+    const article = await fetchArticle(this.props.article_id);
+    const comments = await fetchComments(this.props.article_id);
     this.setState({ article, comments, loading: false });
   };
 
   render() {
-    const { article, loading, comments, sort } = this.state;
+    const { article, loading, comments, sort, commentDialog } = this.state;
     const { classes } = this.props;
+    console.log(this.state);
     return (
       <div>
         {loading ? (
@@ -104,6 +120,9 @@ class ArticleAndComments extends Component {
               criteria={criteria}
               postComment={this.postComment}
               articleId={article.article_id}
+              commentDialog={commentDialog}
+              handleCommentOpen={this.handleCommentOpen}
+              handleCommentClose={this.handleCommentClose}
             />
           </Grid>
         )}
@@ -113,8 +132,7 @@ class ArticleAndComments extends Component {
 }
 
 ArticleAndComments.propTypes = {
-  classes: PropTypes.shape('object').isRequired,
-  article_id: PropTypes.number.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ArticleAndComments);

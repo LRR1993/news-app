@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { fetchArticles } from '../api';
+import { fetchArticles, addArticle } from '../api';
 import Card from '../components/Card';
+import PostArticle from '../components/PostArticle';
 
 const styles = () => ({
   layout: {
@@ -25,17 +26,15 @@ const criteria = [
   { value: 'Older Articles', query: { sort_by: 'created_at', order: 'asc' } },
   { value: 'Most Popular', query: { sort_by: 'votes' } },
   { value: 'Least Popular', query: { sort_by: 'votes', order: 'asc' } },
-  { value: 'Most Comments', query: { sort_by: 'comment_count' } }, // not in backend
-  {
-    value: 'Least Comments',
-    query: { sort_by: 'comment_count', order: 'desc' }
-  } // not in backend
+  { value: 'Most Comments', query: { sort_by: 'comment_count' } },
+  { value: 'Least Comments', query: { sort_by: 'comment_count', order: 'asc' } }
 ];
 
 class Articles extends Component {
   state = {
     articles: [],
-    sort: 'Latest Articles'
+    sort: 'Latest Articles',
+    ArticleDialog: false
   };
 
   componentDidMount = async () => {
@@ -43,17 +42,34 @@ class Articles extends Component {
     this.setState({ articles });
   };
 
+  handleArticleOpen = () => {
+    this.setState({ ArticleDialog: true });
+    // console.log('clicked')
+  };
+
+  handleArticleClose = () => {
+    this.setState({ ArticleDialog: false });
+  };
+
+  postArticle = async values => {
+    console.log('form', values);
+    const newArticle = await addArticle(values);
+    console.log('new article', newArticle);
+    const updated = [newArticle, ...this.state.articles];
+    this.setState({ articles: updated });
+    this.handleArticleClose();
+  };
+
   handleChange = name => async event => {
-    const { sort } = this.state;
     this.setState(
       {
         [name]: event.target.value
       },
       async () => {
-        const sorted = criteria.filter(item => {
-          return item.value === sort;
+        const sort = criteria.filter(item => {
+          return item.value === this.state.sort;
         });
-        const [param] = sorted;
+        const [param] = sort;
         const articles = await fetchArticles(param.query);
         this.setState({ articles });
       }
@@ -61,24 +77,33 @@ class Articles extends Component {
   };
 
   render() {
-    const { articles, sort } = this.state;
+    const { articles, ArticleDialog } = this.state;
     const {
       classes,
       topic,
+      topics,
       location: { pathname }
     } = this.props;
+    console.log(this.state.articles);
     return (
       <React.Fragment>
         <Grid container className={classes.sort}>
+          <PostArticle
+            postArticle={this.postArticle}
+            handleArticleOpen={this.handleArticleOpen}
+            handleArticleClose={this.handleArticleClose}
+            ArticleDialog={ArticleDialog}
+            topics={topics}
+          />
           <TextField
             id="sort"
             select
             label="Select"
             className={classes.textField}
-            value={sort}
+            value={this.state.sort}
             onChange={this.handleChange('sort')}
             SelectProps={{
-              // value='test'
+              native: false,
               MenuProps: {
                 className: classes.menu
               }
@@ -110,13 +135,7 @@ class Articles extends Component {
   }
 }
 Articles.propTypes = {
-  classes: PropTypes.shape('object').isRequired,
-  topic: PropTypes.string,
-  location: PropTypes.shape('object').isRequired
-};
-
-Articles.defaultProps = {
-  topic: undefined
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Articles);

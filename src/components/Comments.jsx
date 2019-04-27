@@ -52,7 +52,10 @@ class Comments extends Component {
       sort,
       criteria,
       postComment,
-      articleId
+      articleId,
+      commentDialog,
+      handleCommentOpen,
+      handleCommentClose
     } = this.props;
 
     const { isAuth } = this.context;
@@ -83,6 +86,9 @@ class Comments extends Component {
                     <PostComment
                       postComment={postComment}
                       articleId={articleId}
+                      commentDialog={commentDialog}
+                      handleCommentOpen={handleCommentOpen}
+                      handleCommentClose={handleCommentClose}
                     />
                   </Grid>
                 </Grid>
