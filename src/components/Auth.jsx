@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 import PropTypes from 'prop-types';
-import { fetchUser } from '../api';
+import { fetchUser, addUser } from '../api';
 import Loading from './Loading';
 import AuthConsumer from '../context';
 
@@ -34,6 +34,13 @@ class AuthProvider extends React.Component {
     localStorage.setItem('data', JSON.stringify(user));
   };
 
+  postUser = async values => {
+    const { logMeIn, ...entertedUser } = values;
+    const newUser = await addUser(entertedUser);
+    if (logMeIn) setTimeout(() => this.login(newUser), 1000);
+    else setTimeout(() => navigate('/sign-in', { replace: true }), 1000);
+  };
+
   login = async values => {
     const user = await fetchUser(values.username).catch(err =>
       Promise.resolve(err)
@@ -63,7 +70,8 @@ class AuthProvider extends React.Component {
           user,
           snackbar,
           snackbarClose: this.snackbarClose,
-          snackbarOpen: this.snackbarOpen
+          snackbarOpen: this.snackbarOpen,
+          postUser: this.postUser
         }}
       >
         {loading ? <Loading /> : children}

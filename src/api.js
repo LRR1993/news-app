@@ -25,6 +25,13 @@ export const fetchUser = async username => {
   return user;
 };
 
+export const addUser = async newUser => {
+  const {
+    data: { user }
+  } = await axios.post(`${BASE_URL}users/`, newUser);
+  return user;
+};
+
 export const fetchTopic = async () => {
   const {
     data: { topics }

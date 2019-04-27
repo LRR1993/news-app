@@ -5,7 +5,6 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 import MainBar from './views/MainBar';
-import Drawer from './components/Drawer';
 import Articles from './views/Articles';
 import ArticleAndComments from './views/ArticleAndComments';
 import SignIn from './views/SignIn';
@@ -29,11 +28,10 @@ class App extends Component {
   };
 
   postTopic = async values => {
-    console.log(values);
+    const { topics } = this.state;
     const newTopic = await addTopic(values);
-    const updated = [newTopic, ...this.state.topics];
-    this.setState({ topics: updated });
-    this.handleTopicClose();
+    const updated = [newTopic, ...topics];
+    this.setState({ topics: updated }, () => this.handleTopicClose());
   };
 
   componentDidMount = async () => {
