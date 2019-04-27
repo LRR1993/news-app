@@ -64,6 +64,18 @@ export const fetchArticles = async query => {
   return articles;
 };
 
+export const addTopic = async body => {
+  console.log('body', body);
+  const {
+    data: { topic },
+    data
+  } = await axios
+    .post(`${BASE_URL}topics`, body)
+    .catch(err => console.log(err));
+  console.log(data);
+  return topic;
+};
+
 export const addComment = async (id, body) => {
   const {
     data: { comment }

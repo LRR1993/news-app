@@ -10,12 +10,30 @@ import Articles from './views/Articles';
 import ArticleAndComments from './views/ArticleAndComments';
 import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
-import { fetchTopic } from './api';
+import { fetchTopic, addTopic } from './api';
 import AuthProvider from './components/Auth';
 
 class App extends Component {
   state = {
-    topics: []
+    topics: [],
+    topicDialog: false
+  };
+
+  handleTopicClose = () => {
+    this.setState({ topicDialog: false });
+  };
+
+  handleTopicOpen = () => {
+    // console.log('clicked');
+    this.setState({ topicDialog: true });
+  };
+
+  postTopic = async values => {
+    console.log(values);
+    const newTopic = await addTopic(values);
+    const updated = [newTopic, ...this.state.topics];
+    this.setState({ topics: updated });
+    this.handleTopicClose();
   };
 
   componentDidMount = async () => {
@@ -24,17 +42,30 @@ class App extends Component {
   };
 
   render() {
-    const { topics } = this.state;
+    const { topics, topicDialog } = this.state;
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <AuthProvider>
           <MainBar topics={topics} />
-          <Drawer />
           <Router>
-            <Articles path="/articles" topics={topics} />
+            <Articles
+              path="/articles"
+              topics={topics}
+              topicDialog={topicDialog}
+              handleTopicClose={this.handleTopicClose}
+              handleTopicOpen={this.handleTopicOpen}
+              postTopic={this.postTopic}
+            />
             <ArticleAndComments path="/articles/:article_id" />
-            <Articles path="/articles/topic/:topic" />
+            <Articles
+              topics={topics}
+              topicDialog={topicDialog}
+              handleTopicClose={this.handleTopicClose}
+              handleTopicOpen={this.handleTopicOpen}
+              postTopic={this.postTopic}
+              path="/articles/topic/:topic"
+            />
             <SignIn path="/sign-in" />
             <SignUp path="/sign-up" />
           </Router>

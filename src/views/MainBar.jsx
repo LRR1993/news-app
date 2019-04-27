@@ -87,7 +87,14 @@ class MainBar extends React.Component {
   };
 
   render() {
-    const { classes, topics } = this.props;
+    const {
+      classes,
+      topics,
+      topicDialog,
+      handleTopicOpen,
+      handleTopicClose,
+      postTopic
+    } = this.props;
     const { open, anchorEl, currentTopic } = this.state;
     const { isAuth, logout } = this.context;
 
@@ -189,9 +196,16 @@ class MainBar extends React.Component {
                 </div>
               </Toolbar>
             </AppBar>
-            {open ? (
-              <Drawer open={open} toggleDrawer={this.toggleDrawer} />
-            ) : null}
+            {open && (
+              <Drawer
+                open={open}
+                toggleDrawer={this.toggleDrawer}
+                topicDialog={topicDialog}
+                handleTopicOpen={handleTopicOpen}
+                handleTopicClose={handleTopicClose}
+                postTopic={postTopic}
+              />
+            )}
           </Grid>
         </Grid>
       </div>

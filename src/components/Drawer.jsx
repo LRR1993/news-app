@@ -11,7 +11,8 @@ import ExitToApp from '@material-ui/icons/ExitToApp';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Close from '@material-ui/icons/Close';
+// import Close from '@material-ui/icons/Close';
+import { Grid } from '@material-ui/core';
 import AuthConsumer from '../context';
 import * as image from '../images/favicon-32x32.png';
 
@@ -33,15 +34,15 @@ const styles = theme => ({
     marginBottom: 1
   },
   exit: { display: 'inline-block', float: 'right' },
-  logo: { textIndent: '-30px' }
+  logo: { textIndent: '-30px' },
+  content: { marginLeft: '50px' }
 });
 
 function MenuDrawer({ classes, toggleDrawer, open }) {
   const { isAuth, logout, user } = useContext(AuthConsumer);
-  // console.log(user)
   return (
     <div>
-      <Drawer open={open} onClose={toggleDrawer}>
+      <Drawer open={open}>
         <div
           tabIndex={0}
           role="button"
@@ -55,33 +56,37 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
                   <img src={image} alt="logo" />
                 </ListItemIcon>
                 <ListItemText className={classes.logo} primary="ostly" />
-                <ListItemIcon className={classes.exit}>
+                {/* <ListItemIcon className={classes.exit}>
                   <Close />
-                </ListItemIcon>
+                </ListItemIcon> */}
               </ListItem>
               <Divider />
               <br />
-              {isAuth ? (
-                <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src={user.avatar_url} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={user.name}
-                    secondary={
-                      <Typography
-                        component="span"
-                        className={classes.inline}
-                        color="textPrimary"
-                      >
-                        {user.username}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ) : null}
+              {isAuth && (
+                <React.Fragment>
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="Remy Sharp" src={user.avatar_url} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={user.name}
+                      secondary={
+                        <Typography
+                          component="span"
+                          className={classes.inline}
+                          color="textPrimary"
+                        >
+                          {user.username}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" />
+                  <br />
+                </React.Fragment>
+              )}
             </List>
-            {isAuth ? (
+            {isAuth && (
               <List className={classes.bottom}>
                 <ListItem button onClick={logout}>
                   <ListItemIcon>
@@ -90,7 +95,7 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
                   <ListItemText primary="Logout" />
                 </ListItem>
               </List>
-            ) : null}
+            )}
           </div>
         </div>
       </Drawer>
@@ -98,15 +103,15 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
   );
 }
 
-MenuDrawer.propTypes = {
-  classes: PropTypes.shape('object').isRequired,
-  toggleDrawer: PropTypes.func,
-  open: PropTypes.bool
-};
+// MenuDrawer.propTypes = {
+//   classes: PropTypes.shape('object').isRequired,
+//   toggleDrawer: PropTypes.func,
+//   open: PropTypes.bool
+// };
 
-MenuDrawer.defaultProps = {
-  toggleDrawer: undefined,
-  open: false
-};
+// MenuDrawer.defaultProps = {
+//   toggleDrawer: undefined,
+//   open: false
+// };
 
 export default withStyles(styles)(MenuDrawer);

@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import { fetchArticles, addArticle } from '../api';
 import Card from '../components/Card';
 import PostArticle from '../components/PostArticle';
+import AuthConsumer from '../context';
+import PostTopic from '../components/PostTopic';
 
 const styles = () => ({
   layout: {
@@ -31,6 +33,8 @@ const criteria = [
 ];
 
 class Articles extends Component {
+  static contextType = AuthConsumer;
+
   state = {
     articles: [],
     sort: 'Latest Articles',
@@ -52,9 +56,7 @@ class Articles extends Component {
   };
 
   postArticle = async values => {
-    console.log('form', values);
     const newArticle = await addArticle(values);
-    console.log('new article', newArticle);
     const updated = [newArticle, ...this.state.articles];
     this.setState({ articles: updated });
     this.handleArticleClose();
@@ -82,9 +84,14 @@ class Articles extends Component {
       classes,
       topic,
       topics,
-      location: { pathname }
+      location: { pathname },
+      topicDialog,
+      handleTopicOpen,
+      handleTopicClose,
+      postTopic
     } = this.props;
-    console.log(this.state.articles);
+    const { isAuth } = this.context;
+    // console.log(this.state.articles);
     return (
       <React.Fragment>
         <Grid
@@ -94,13 +101,6 @@ class Articles extends Component {
           alignItems="center"
           className={classes.sort}
         >
-          <PostArticle
-            postArticle={this.postArticle}
-            handleArticleOpen={this.handleArticleOpen}
-            handleArticleClose={this.handleArticleClose}
-            ArticleDialog={ArticleDialog}
-            topics={topics}
-          />
           <TextField
             id="sort"
             select
@@ -124,6 +124,23 @@ class Articles extends Component {
               </option>
             ))}
           </TextField>
+          {isAuth && (
+            <Grid item>
+              <PostTopic
+                topicDialog={topicDialog}
+                handleTopicOpen={handleTopicOpen}
+                handleTopicClose={handleTopicClose}
+                postTopic={postTopic}
+              />
+              <PostArticle
+                postArticle={this.postArticle}
+                handleArticleOpen={this.handleArticleOpen}
+                handleArticleClose={this.handleArticleClose}
+                ArticleDialog={ArticleDialog}
+                topics={topics}
+              />
+            </Grid>
+          )}
         </Grid>
         <Grid container className={classes.layout} spacing={16}>
           {articles.map(article =>
