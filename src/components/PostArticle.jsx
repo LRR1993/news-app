@@ -60,15 +60,18 @@ class FormDialog extends React.Component {
     } = this.props;
     return (
       <div>
-        <Fab
-          size="small"
-          color="primary"
-          aria-label="Add"
-          className={classes.fab}
-          onClick={handleArticleOpen}
-        >
-          <AddIcon />
-        </Fab>
+        <Grid container justify="center" alignItems="center">
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            onClick={handleArticleOpen}
+          >
+            <AddIcon />
+          </Fab>
+          <Typography>Add Article</Typography>
+        </Grid>
         <Dialog
           open={ArticleDialog}
           onClose={handleArticleClose}

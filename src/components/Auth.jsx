@@ -53,14 +53,7 @@ class AuthProvider extends React.Component {
 
   render() {
     const { children } = this.props;
-    const {
-      user,
-      loading,
-      isAuth,
-      snackbar,
-      snackbarClose,
-      snackbarOpen
-    } = this.state;
+    const { user, loading, isAuth, snackbar } = this.state;
     return (
       <AuthConsumer.Provider
         value={{
@@ -69,8 +62,8 @@ class AuthProvider extends React.Component {
           logout: this.logout,
           user,
           snackbar,
-          snackbarClose,
-          snackbarOpen
+          snackbarClose: this.snackbarClose,
+          snackbarOpen: this.snackbarOpen
         }}
       >
         {loading ? <Loading /> : children}

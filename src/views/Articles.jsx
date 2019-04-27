@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { fetchArticles, addArticle } from '../api';
@@ -17,7 +17,7 @@ const styles = () => ({
     backgroundColor: '#f5f5f5',
     height: '125px',
     paddingRight: '75px',
-    justifyContent: 'flex-end'
+    paddingLeft: '75px'
   }
 });
 
@@ -87,7 +87,13 @@ class Articles extends Component {
     console.log(this.state.articles);
     return (
       <React.Fragment>
-        <Grid container className={classes.sort}>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+          className={classes.sort}
+        >
           <PostArticle
             postArticle={this.postArticle}
             handleArticleOpen={this.handleArticleOpen}
