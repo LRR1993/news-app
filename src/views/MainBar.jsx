@@ -20,7 +20,10 @@ const styles = theme => ({
     fontSize: 26,
     fontFamily: theme.typography.fontFamily,
     color: theme.palette.common.white,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    '&:hover': {
+      color: theme.palette.secondary.light
+    }
   },
   toolbar: {
     justifyContent: 'space-evenly'
@@ -43,7 +46,10 @@ const styles = theme => ({
     color: theme.palette.common.white,
     marginLeft: theme.spacing.unit * 2,
     fontFamily: theme.typography.fontFamily,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    '&:hover': {
+      color: theme.palette.secondary.light
+    }
   },
   linkSecondary: {
     color: theme.palette.secondary.main,

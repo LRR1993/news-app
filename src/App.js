@@ -14,6 +14,7 @@ import AuthProvider from './components/Auth';
 import ErrorBoundary from './components/ErrorBoundary';
 import ErrorHandler from './components/ErrorHandler';
 import HomePage from './views/HomePage';
+import AppFooter from './components/AppFooter';
 
 class App extends Component {
   state = {
@@ -73,6 +74,7 @@ class App extends Component {
               <SignUp path="/sign-up" />
               <ErrorHandler path="/error" default />
             </Router>
+            <AppFooter />
           </AuthProvider>
         </ErrorBoundary>
       </MuiThemeProvider>
