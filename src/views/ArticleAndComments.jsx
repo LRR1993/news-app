@@ -92,15 +92,33 @@ class ArticleAndComments extends Component {
   };
 
   componentDidMount = async () => {
-    const article = await fetchArticle(this.props.article_id);
-    const comments = await fetchComments(this.props.article_id);
+    const { article_id } = this.props;
+    const article = await fetchArticle(article_id).catch(err => {
+      navigate('/error', {
+        replace: true,
+        state: {
+          code: err.code,
+          message: err.message,
+          from: `/articles/${article_id}`
+        }
+      });
+    });
+    const comments = await fetchComments(article_id).catch(err => {
+      navigate('/error', {
+        replace: true,
+        state: {
+          code: err.code,
+          message: err.message,
+          from: `/articles/${article_id}`
+        }
+      });
+    });
     this.setState({ article, comments, loading: false });
   };
 
   render() {
     const { article, loading, comments, sort, commentDialog } = this.state;
     const { classes } = this.props;
-    console.log(this.state);
     return (
       <div>
         {loading ? (

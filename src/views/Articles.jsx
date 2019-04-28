@@ -8,6 +8,7 @@ import Card from '../components/Card';
 import PostArticle from '../components/PostArticle';
 import AuthConsumer from '../context';
 import PostTopic from '../components/PostTopic';
+import { navigate } from '@reach/router';
 
 const styles = () => ({
   layout: {
@@ -42,7 +43,16 @@ class Articles extends Component {
   };
 
   componentDidMount = async () => {
-    const articles = await fetchArticles();
+    const articles = await fetchArticles().catch(err => {
+      navigate('/error', {
+        replace: true,
+        state: {
+          code: err.code,
+          message: err.message,
+          from: '/articles'
+        }
+      });
+    });
     this.setState({ articles });
   };
 

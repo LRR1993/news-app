@@ -11,6 +11,9 @@ import SignIn from './views/SignIn';
 import SignUp from './views/SignUp';
 import { fetchTopic, addTopic } from './api';
 import AuthProvider from './components/Auth';
+import ErrorBoundary from './components/ErrorBoundary';
+import ErrorHandler from './components/ErrorHandler';
+import HomePage from './views/HomePage';
 
 class App extends Component {
   state = {
@@ -44,30 +47,34 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <AuthProvider>
-          <MainBar topics={topics} />
-          <Router>
-            <Articles
-              path="/articles"
-              topics={topics}
-              topicDialog={topicDialog}
-              handleTopicClose={this.handleTopicClose}
-              handleTopicOpen={this.handleTopicOpen}
-              postTopic={this.postTopic}
-            />
-            <ArticleAndComments path="/articles/:article_id" />
-            <Articles
-              topics={topics}
-              topicDialog={topicDialog}
-              handleTopicClose={this.handleTopicClose}
-              handleTopicOpen={this.handleTopicOpen}
-              postTopic={this.postTopic}
-              path="/articles/topic/:topic"
-            />
-            <SignIn path="/sign-in" />
-            <SignUp path="/sign-up" />
-          </Router>
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <MainBar topics={topics} />
+            <Router>
+              <HomePage path="/" />
+              <Articles
+                path="/articles"
+                topics={topics}
+                topicDialog={topicDialog}
+                handleTopicClose={this.handleTopicClose}
+                handleTopicOpen={this.handleTopicOpen}
+                postTopic={this.postTopic}
+              />
+              <ArticleAndComments path="/articles/:article_id" />
+              <Articles
+                topics={topics}
+                topicDialog={topicDialog}
+                handleTopicClose={this.handleTopicClose}
+                handleTopicOpen={this.handleTopicOpen}
+                postTopic={this.postTopic}
+                path="/articles/topic/:topic"
+              />
+              <SignIn path="/sign-in" />
+              <SignUp path="/sign-up" />
+              <ErrorHandler path="/error" default />
+            </Router>
+          </AuthProvider>
+        </ErrorBoundary>
       </MuiThemeProvider>
     );
   }

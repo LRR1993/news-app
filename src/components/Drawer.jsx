@@ -11,7 +11,7 @@ import ExitToApp from '@material-ui/icons/ExitToApp';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-// import Close from '@material-ui/icons/Close';
+import Close from '@material-ui/icons/Close';
 import { Grid } from '@material-ui/core';
 import AuthConsumer from '../context';
 import * as image from '../images/favicon-32x32.png';
@@ -42,7 +42,7 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
   const { isAuth, logout, user } = useContext(AuthConsumer);
   return (
     <div>
-      <Drawer open={open}>
+      <Drawer open={open} toggleDrawer={toggleDrawer}>
         <div
           tabIndex={0}
           role="button"
@@ -56,9 +56,9 @@ function MenuDrawer({ classes, toggleDrawer, open }) {
                   <img src={image} alt="logo" />
                 </ListItemIcon>
                 <ListItemText className={classes.logo} primary="ostly" />
-                {/* <ListItemIcon className={classes.exit}>
+                <ListItemIcon className={classes.exit}>
                   <Close />
-                </ListItemIcon> */}
+                </ListItemIcon>
               </ListItem>
               <Divider />
               <br />

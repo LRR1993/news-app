@@ -12,9 +12,7 @@ export const updateVote = async (inc_votes, id, comments) => {
   }
   const {
     data: { comment }
-  } = await axios
-    .patch(`${BASE_URL}${comments}/${id}`, { inc_votes })
-    .catch(err => console.log(err));
+  } = await axios.patch(`${BASE_URL}${comments}/${id}`, { inc_votes });
   return comment.votes;
 };
 
@@ -35,83 +33,60 @@ export const addUser = async newUser => {
 export const fetchTopic = async () => {
   const {
     data: { topics }
-  } = await axios.get(`${BASE_URL}topics`).catch(err => console.log(err));
+  } = await axios.get(`${BASE_URL}topics`);
   return topics;
 };
 
 export const fetchArticle = async articleId => {
   const {
     data: { article }
-  } = await axios
-    .get(`${BASE_URL}articles/${articleId}`)
-    .catch(err => console.log(err));
+  } = await axios.get(`${BASE_URL}articles/${articleId}`);
   return article;
 };
 
 export const fetchComments = async (articleId, query) => {
   const {
     data: { comments }
-  } = await axios
-    .get(`${BASE_URL}articles/${articleId}/comments`, {
-      params: query
-    })
-    .catch(err => console.log(err));
+  } = await axios.get(`${BASE_URL}articles/${articleId}/comments`, {
+    params: query
+  });
   return comments;
 };
 
 export const fetchArticles = async query => {
   const {
     data: { articles }
-  } = await axios
-    .get(`${BASE_URL}articles`, {
-      params: query
-    })
-    .catch(err => console.log(err));
-  // console.log(articles);
+  } = await axios.get(`${BASE_URL}articles`, {
+    params: query
+  });
   return articles;
 };
 
 export const addTopic = async body => {
-  console.log('body', body);
   const {
-    data: { topic },
-    data
-  } = await axios
-    .post(`${BASE_URL}topics`, body)
-    .catch(err => console.log(err));
-  console.log(data);
+    data: { topic }
+  } = await axios.post(`${BASE_URL}topics`, body);
   return topic;
 };
 
 export const addComment = async (id, body) => {
   const {
     data: { comment }
-  } = await axios
-    .post(`${BASE_URL}articles/${id}/comments`, body)
-    .catch(err => console.log(err));
-  // console.log(data)
+  } = await axios.post(`${BASE_URL}articles/${id}/comments`, body);
   return comment;
 };
 
 export const addArticle = async body => {
   const {
-    data: { article },
-    data
-  } = await axios
-    .post(`${BASE_URL}articles/`, body)
-    .catch(err => console.log(err));
-  console.log(data);
+    data: { article }
+  } = await axios.post(`${BASE_URL}articles/`, body);
   return article;
 };
 
 export const deleteComment = async id => {
-  await axios
-    .delete(`${BASE_URL}/comments/${id}`)
-    .catch(err => console.log(err));
+  await axios.delete(`${BASE_URL}/comments/${id}`);
 };
 
 export const deleteArticle = async id => {
-  await axios
-    .delete(`${BASE_URL}/articles/${id}`)
-    .catch(err => console.log(err));
+  await axios.delete(`${BASE_URL}/articles/${id}`);
 };
