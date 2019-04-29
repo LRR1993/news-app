@@ -126,7 +126,6 @@ function MainExpansionPanel({ comment, classes, handleDelete }) {
               <SnackBar
                 data={comment}
                 id={comment.comment_id}
-                message="Deleted"
                 handleDelete={handleDelete}
                 api={deleteComment}
               />

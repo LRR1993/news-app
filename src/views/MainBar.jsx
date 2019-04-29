@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import { Link } from '@reach/router';
+import Typography from '@material-ui/core/Typography';
 import Drawer from '../components/Drawer';
 import Toolbar from '../components/Toolbar';
 import AppBar from '../components/AppBar';
@@ -64,7 +65,7 @@ const styles = theme => ({
     textDecoration: 'none'
   },
   grid: {
-    height: 70
+    height: 60
   }
 });
 
@@ -102,7 +103,7 @@ class MainBar extends React.Component {
       postTopic
     } = this.props;
     const { open, anchorEl, currentTopic } = this.state;
-    const { isAuth, logout } = this.context;
+    const { isAuth, logout, user } = this.context;
 
     return (
       <div>
@@ -191,13 +192,18 @@ class MainBar extends React.Component {
                       {'Sign Up'}
                     </Link>
                   ) : (
-                    <IconButton
-                      color="inherit"
-                      aria-label="Logout"
-                      onClick={logout}
-                    >
-                      <ExitToApp />
-                    </IconButton>
+                    <React.Fragment>
+                      <Typography color="inherit">
+                        Hi, {user.username}
+                      </Typography>
+                      {/* <IconButton
+                        color="inherit"
+                        aria-label="Logout"
+                        onClick={logout}
+                      >
+                        <ExitToApp />
+                      </IconButton> */}
+                    </React.Fragment>
                   )}
                 </div>
               </Toolbar>

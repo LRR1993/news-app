@@ -20,7 +20,7 @@ const styles = theme => ({
   }
 });
 
-function MuiSnackBar({ classes, handleDelete, api, id, message }) {
+function MuiSnackBar({ classes, handleDelete, api, id }) {
   const { snackbarClose, snackbar, snackbarOpen } = useContext(AuthConsumer);
   return (
     <div>
@@ -46,7 +46,7 @@ function MuiSnackBar({ classes, handleDelete, api, id, message }) {
         ContentProps={{
           'aria-describedby': 'message-id'
         }}
-        message={<span id="message-id"> {message} </span>}
+        message={<span id="message-id"> {'Successfully Deleted'} </span>}
         action={[
           <Button
             key="undo"

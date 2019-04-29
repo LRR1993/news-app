@@ -53,8 +53,8 @@ const theme = {
     ...rawTheme.palette,
     background: {
       ...rawTheme.palette.background,
-      default: rawTheme.palette.common.white,
-      placeholder: grey[200]
+      default: grey[200],
+      placeholder: rawTheme.palette.common.white
     }
   },
   typography: {

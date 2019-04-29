@@ -3,21 +3,20 @@ import PropTypes from 'prop-types';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { navigate } from '@reach/router';
 import { fetchArticles, addArticle } from '../api';
 import Card from '../components/Card';
 import PostArticle from '../components/PostArticle';
 import AuthConsumer from '../context';
 import PostTopic from '../components/PostTopic';
-import { navigate } from '@reach/router';
 
 const styles = () => ({
   layout: {
-    backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'flex-start'
+    // marginBottom: theme.spacing.unit * 8
   },
   sort: {
-    backgroundColor: '#f5f5f5',
     height: '125px',
     paddingRight: '75px',
     paddingLeft: '75px'

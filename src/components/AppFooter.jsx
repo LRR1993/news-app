@@ -11,7 +11,8 @@ const styles = theme => ({
   root: {
     display: 'flex',
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
+    marginTop: theme.spacing.unit * 2
   },
   layoutBody: {
     color: theme.palette.common.white,
@@ -100,7 +101,7 @@ function AppFooter(props) {
                   href="https://github.com/LRR1993/news-app/tree/master/src/components"
                   className={classes.icon}
                 >
-                  <i class="fab fa-github fa-5x" />
+                  <i className="fab fa-github fa-5x" />
                   {/* <img
                     src="/static/themes/onepirate/appFooterFacebook.png"
                     alt="GitHub"

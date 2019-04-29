@@ -10,15 +10,13 @@ import Card from '../components/Card';
 import Loading from '../components/Loading';
 import { AuthConsumer } from '../context';
 
-const styles = theme => ({
+const styles = () => ({
   layout: {
-    backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'center'
   },
   loading: {
     height: 300,
-    // background: 'blue',
     margin: '10px'
   }
 });
