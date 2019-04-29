@@ -1,28 +1,14 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
 import { Form, Field } from 'react-final-form';
-import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
-import {
-  Typography,
-  Paper,
-  Link,
-  Grid,
-  CssBaseline,
-  RadioGroup,
-  FormLabel,
-  MenuItem,
-  FormGroup,
-  FormControl,
-  FormControlLabel
-} from '@material-ui/core';
+import { TextField, Select } from 'final-form-material-ui';
+import { Typography, Grid, MenuItem } from '@material-ui/core';
 import AuthConsumer from '../context';
 
 const styles = () => ({
@@ -83,13 +69,7 @@ class FormDialog extends React.Component {
               onSubmit={postArticle}
               initialValues={{ author: user.username }}
               validate={validate}
-              render={({
-                handleSubmit,
-                reset,
-                submitting,
-                pristine,
-                values
-              }) => (
+              render={({ handleSubmit, reset, submitting, pristine }) => (
                 <form onSubmit={handleSubmit} noValidate>
                   <Grid container alignItems="flex-start" spacing={8}>
                     <Grid item xs={12}>

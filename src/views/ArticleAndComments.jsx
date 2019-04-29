@@ -1,14 +1,13 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { PushSpinner } from 'react-spinners-kit';
 import { navigate } from '@reach/router';
 import { fetchArticle, fetchComments, addComment } from '../api';
 import Comments from '../components/Comments';
 import Card from '../components/Card';
 import Loading from '../components/Loading';
-import { AuthConsumer } from '../context';
 
 const styles = () => ({
   layout: {
@@ -46,10 +45,11 @@ class ArticleAndComments extends Component {
   };
 
   postComment = async values => {
+    const { comments } = this.state;
     const { id, ...restValues } = values;
     const newComment = await addComment(id, { ...restValues });
     const { article_id, ...remaining } = newComment;
-    const updated = [{ ...remaining }, ...this.state.comments];
+    const updated = [{ ...remaining }, ...comments];
     this.setState({ comments: updated }, async () => {
       const article = await fetchArticle(this.props.article_id);
       this.setState({
@@ -60,6 +60,7 @@ class ArticleAndComments extends Component {
   };
 
   handleChange = name => async event => {
+    const { article_id } = this.props;
     this.setState(
       {
         [name]: event.target.value
@@ -69,17 +70,15 @@ class ArticleAndComments extends Component {
           return item.value === this.state.sort;
         });
         const [param] = sort;
-        const comments = await fetchComments(
-          this.props.article_id,
-          param.query
-        );
+        const comments = await fetchComments(article_id, param.query);
         this.setState({ comments });
       }
     );
   };
 
   handleDelete = id => {
-    const updatedComments = this.state.comments.filter(
+    const { comments } = this.state;
+    const updatedComments = comments.filter(
       comment => comment.comment_id !== id
     );
     this.setState({ comments: updatedComments });

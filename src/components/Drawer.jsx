@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -202,16 +201,5 @@ class MenuDrawer extends React.Component {
     );
   }
 }
-
-// MenuDrawer.propTypes = {
-//   classes: PropTypes.shape('object').isRequired,
-//   toggleDrawer: PropTypes.func,
-//   open: PropTypes.bool
-// };
-
-// MenuDrawer.defaultProps = {
-//   toggleDrawer: undefined,
-//   open: false
-// };
 
 export default withStyles(styles)(MenuDrawer);

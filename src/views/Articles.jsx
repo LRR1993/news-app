@@ -1,6 +1,8 @@
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { navigate } from '@reach/router';
@@ -14,7 +16,6 @@ const styles = () => ({
   layout: {
     justifyContent: 'center',
     alignItems: 'flex-start'
-    // marginBottom: theme.spacing.unit * 8
   },
   sort: {
     height: '125px',
@@ -57,7 +58,6 @@ class Articles extends Component {
 
   handleArticleOpen = () => {
     this.setState({ ArticleDialog: true });
-    // console.log('clicked')
   };
 
   handleArticleClose = () => {

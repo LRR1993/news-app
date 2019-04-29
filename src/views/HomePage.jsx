@@ -65,7 +65,6 @@ const styles = theme => ({
     backgroundSize: 'cover'
   },
   feature: {
-    // backgroundColor: theme.palette.background.placeholder,
     backgroundColor: '#fff9fc',
     backgroundImage: `url(${backgroundImage})`,
     width: '100%',

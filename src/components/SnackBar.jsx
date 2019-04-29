@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -70,13 +69,5 @@ function MuiSnackBar({ classes, handleDelete, api, id }) {
     </div>
   );
 }
-
-MuiSnackBar.propTypes = {
-  classes: PropTypes.shape('object').isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  api: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired,
-  message: PropTypes.string.isRequired
-};
 
 export default withStyles(styles)(MuiSnackBar);

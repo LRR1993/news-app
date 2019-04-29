@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ExitToApp from '@material-ui/icons/ExitToApp';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
@@ -103,7 +102,7 @@ class MainBar extends React.Component {
       postTopic
     } = this.props;
     const { open, anchorEl, currentTopic } = this.state;
-    const { isAuth, logout, user } = this.context;
+    const { isAuth, user } = this.context;
 
     return (
       <div>

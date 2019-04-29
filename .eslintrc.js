@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     'airbnb',
     'prettier',
+    'eslint:recommended',
     'plugin:prettier/recommended',
     'plugin:react/recommended',
     'prettier/react'
@@ -27,6 +28,8 @@ module.exports = {
   rules: {
     strict: 0,
     'react-hooks/rules-of-hooks': 'error',
+    'react/forbid-prop-types': 1,
+    'global-require': 1,
     camelcase: 0,
     'prettier/prettier': [
       'error',

@@ -10,7 +10,6 @@ import {
   withStyles
 } from '@material-ui/core';
 
-import { Link } from '@reach/router';
 import PropTypes from 'prop-types';
 import { fetchUser } from '../api';
 import AuthConsumer from '../context';
@@ -67,7 +66,7 @@ function SignUp({ classes }) {
         onSubmit={postUser}
         initialValues={{ logMeIn: true }}
         validate={validate}
-        render={({ handleSubmit, reset, submitting, pristine, values }) => (
+        render={({ handleSubmit, reset, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
             <Paper className={classes.paper}>
               <Grid container alignItems="center" spacing={40}>

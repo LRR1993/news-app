@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { PushSpinner } from 'react-spinners-kit';
@@ -40,14 +39,5 @@ function Loading({ classes, loading }) {
     </div>
   );
 }
-
-Loading.propTypes = {
-  classes: PropTypes.shape('object').isRequired,
-  loading: PropTypes.string
-};
-
-Loading.defaultProps = {
-  loading: undefined
-};
 
 export default withStyles(styles)(Loading);

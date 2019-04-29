@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -123,19 +122,5 @@ function MainCard({
     </Grid>
   );
 }
-
-MainCard.propTypes = {
-  classes: PropTypes.shape('object').isRequired,
-  disabled: PropTypes.bool,
-  learnMore: PropTypes.func,
-  handleArticleDelete: PropTypes.func,
-  article: PropTypes.shape('object').isRequired
-};
-
-MainCard.defaultProps = {
-  learnMore: undefined,
-  handleArticleDelete: undefined,
-  disabled: false
-};
 
 export default withStyles(styles)(MainCard);
