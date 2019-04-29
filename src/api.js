@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 
-const BASE_URL = `http://nc-news-letisha.herokuapp.com/api/`;
+const BASE_URL = `https://nc-news-letisha.herokuapp.com/api/`;
 
 export const updateVote = async (inc_votes, id, comments) => {
   if (!comments) {
